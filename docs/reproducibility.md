@@ -1,6 +1,6 @@
 # Reproducibility and artifact contracts
 
-This document describes the executable method in this release. The [step-by-step guide](pipeline.md) provides the full `prepare → rollout → label → extract → merge → score → select` sequence, with separate extraction and merge passes for corpus examples and validation anchors. Historical checkpoints, frozen generations, and paper result artifacts are not bundled.
+This document describes the executable method in this release. It complements Section 3 and Appendix A of the [paper](https://arxiv.org/abs/2606.18307). The [step-by-step guide](pipeline.md) provides the full `prepare → rollout → label → extract → merge → score → select` sequence, with separate extraction and merge passes for corpus examples and validation anchors. The paper's checkpoints, rollouts and result artifacts are not bundled. Throughout, "historical" refers to the original code and artifacts behind the paper's reported numbers.
 
 ## Freeze the experimental inputs
 
@@ -59,7 +59,7 @@ The projector orders parameters lexicographically and treats them as one coordin
 | `configs/olmo3.json` | `allenai/Olmo-3-7B-Instruct-SFT` | 32 | 0.6 / 0.95 / -1 |
 | `configs/olmo2_1b.json` | `allenai/OLMo-2-0425-1B-SFT` | 16 | 1.0 / 1.0 / 40 |
 
-Both use a 2,048-token generation budget, 4,096-token context, all model parameters, 16,384 projection dimensions, stable fitting, and a 10% selection fraction. These are executable method configurations; they do not supply historical model or result artifacts.
+Both use a 2,048-token generation budget, 4,096-token context, all model parameters, 16,384 projection dimensions, stable fitting, and a 10% selection fraction. `olmo3.json` uses the rollout count, sampling temperature, projection dimension and selection fraction of the paper's Olmo3 run (Table 7 and Appendix A.1). `olmo2_1b.json` targets a smaller model that the paper does not evaluate.
 
 For example, after `prepare`, `rollout`, and `label` have created `corpus.jsonl` and `anchors.jsonl` under the run root, execute both extraction passes and their merges:
 
@@ -173,4 +173,4 @@ python scripts/continue_sft.py --model ./models/my-sft-checkpoint \
 
 This checks a different training budget and is not the default continuation experiment. Real training requires a new output directory and records the dataset hash, command, settings, trainer version, return code, and nominal token budget in `training_manifest.json`, with stdout/stderr in `train.log` and weights under `checkpoints/`. The wrapper loads `scripts/swift_template.py` as an external plugin. Its `drift_chat` template calls the same `assistant_labels` function as attribution, preserving the checkpoint’s full chat template and supervising all assistant responses plus their actual end markers. Right truncation matches corpus attribution; samples with no surviving assistant targets fail. The plugin supports text-only causal SFT, including native packing and dynamic padding. A successful wrapper exit establishes process completion, not held-out model quality.
 
-The package's CPU demo, unit tests, artifact checks, and feature extraction establish code behavior. Evaluating a trained checkpoint on held-out benchmarks is a separate empirical stage with its own dataset versions, prompts, sampling repeats, and evaluators. No generated demo output is a paper result, and this release does not claim that every historical benchmark number has been independently reproduced.
+The CPU demo, unit tests and artifact checks establish code behavior. Evaluating a trained checkpoint on held-out benchmarks is a separate stage with its own dataset versions, prompts, sampling repeats and evaluators. Appendix A.1 of the paper lists the evaluation configurations behind its reported numbers.

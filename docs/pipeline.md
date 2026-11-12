@@ -1,10 +1,10 @@
 # Step-by-step DRIFT pipeline
 
-Run the commands below from the repository root. See the [project homepage](../README.md) for the quick start.
+Run the commands below from the repository root. The [README](../README.md) has the quick start, and Section 3 of the [paper](https://arxiv.org/abs/2606.18307) describes the method.
 
 DRIFT uses on-policy responses to select examples from an existing supervised fine-tuning corpus. Begin with a checkpoint that has completed its SFT schedule, sample and verify validation responses, score the original corpus using projected gradients, and continue SFT on the selected subset.
 
-This repository implements the method and its data pipeline. It does not include the historical checkpoints, frozen rollouts, or private experiment artifacts needed to reproduce every reported paper number. The included examples are small fixtures, not benchmark results.
+This repository implements the method and its data pipeline. The paper's checkpoints, rollouts and selected subsets are not bundled, so the commands below run the method on your own inputs. The included examples are small fixtures, not benchmark results. Below, "historical" refers to the original code and artifacts behind the paper's reported numbers.
 
 ## Install and check the CPU implementation
 
@@ -180,7 +180,7 @@ For task `k`, query `q`, and its `N_q` rollouts, each anchor receives weight `re
 
 ## Models, GPUs, and reproducibility
 
-The implementation supports Transformers causal language models with a fast tokenizer and an explicit chat template that preserves assistant content and supplies a special-token terminator. Anchors additionally require their rendered prompt prefix to match generation. No particular model family or hard-coded special-token ID is required. The public configurations use `allenai/Olmo-3-7B-Instruct-SFT` and `allenai/OLMo-2-0425-1B-SFT`; these specify method settings, not a claim of reproduced benchmark scores.
+The implementation supports Transformers causal language models with a fast tokenizer and an explicit chat template that preserves assistant content and supplies a special-token terminator. Anchors additionally require their rendered prompt prefix to match generation. No particular model family or hard-coded special-token ID is required. The public configurations use `allenai/Olmo-3-7B-Instruct-SFT`, with the attribution settings of the paper's Olmo3 run, and `allenai/OLMo-2-0425-1B-SFT`, a smaller model that the paper does not evaluate.
 
 Generation and feature extraction use independently launched model replicas with `--rank` and `--world-size`; there is no fixed GPU count. All ranks of a dataset must be supplied to `merge`. Corpus and anchor extraction may use different rank counts, but their checkpoint, tokenizer, masking, parameter subset, and projection fingerprints must match. See the [multi-GPU commands and artifact contract](reproducibility.md).
 
