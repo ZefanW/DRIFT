@@ -2,8 +2,16 @@ cff-version: 1.2.0
 message: "If you use DRIFT, please cite the paper below."
 title: "DRIFT: Data Selection for LLM Instruction Tuning via On-Policy Attribution"
 type: software
+abstract: "Code, selected data and evaluation records for DRIFT, a data selection method for LLM instruction tuning based on on-policy influence functions."
 repository-code: "https://github.com/ZefanW/DRIFT"
-url: "https://github.com/ZefanW/DRIFT"
+url: "https://arxiv.org/abs/2606.18307"
+keywords:
+  - data selection
+  - instruction tuning
+  - supervised fine-tuning
+  - influence functions
+  - data attribution
+  - large language models
 version: 0.1.0
 date-released: 2026-11-12
 license: MIT
@@ -29,6 +37,6 @@ preferred-citation:
     - family-names: Yao
       given-names: Yuan
   year: 2026
-  journal: arXiv
+  journal: "arXiv preprint arXiv:2606.18307"
   doi: 10.48550/arXiv.2606.18307
   url: "https://arxiv.org/abs/2606.18307"
