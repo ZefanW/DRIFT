@@ -7,3 +7,4 @@ transformers==4.57.3
 numpy==1.26.4
 datasets==3.6.0
 deepspeed==0.18.3
+liger-kernel==0.6.4

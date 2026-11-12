@@ -1,0 +1,143 @@
+{
+  "protocol_id": "drift_olmo3_paper_v1",
+  "default_max_length": 4096,
+  "lighteval_model_max_length": 32768,
+  "generation_seed": 42,
+  "lighteval_model_seed": 1234,
+  "top_p": 0.95,
+  "olmes_suite": "olmo3:adapt_0424",
+  "olmes_environment": {
+    "FINAL": "true",
+    "TEMPERATURE": "unset",
+    "REPEATS": "unset"
+  },
+  "task_order": [
+    "bbh",
+    "mbppplus",
+    "minerva_math",
+    "mmlu_pro",
+    "zebralogic",
+    "livecodebench_codegeneration",
+    "olympiad_bench",
+    "gpqa"
+  ],
+  "additional_tasks": [
+    "zebralogic",
+    "livecodebench_codegeneration",
+    "olympiad_bench",
+    "gpqa"
+  ],
+  "tasks": {
+    "bbh": {
+      "engine": "olmes",
+      "alias": "bbh:cot::olmo3:adapt",
+      "metric": "primary_score",
+      "aggregation": "micro",
+      "instances": 4365,
+      "responses": 1,
+      "temperature": 0.0,
+      "scoring": "regex answer extraction and exact match"
+    },
+    "mbppplus": {
+      "engine": "olmes",
+      "alias": "mbppplus::olmo3:adapt",
+      "metric": "pass_at_1",
+      "instances": 378,
+      "responses": 8,
+      "temperature": 0.6,
+      "scoring": "enhanced MBPP+ execution tests, pass@1 estimated from eight responses"
+    },
+    "minerva_math": {
+      "engine": "olmes",
+      "alias": "minerva_math::olmo3:adapt",
+      "metric": "primary_score",
+      "aggregation": "macro",
+      "instances": 5000,
+      "responses": 1,
+      "temperature": 0.0,
+      "scoring": "flexible answer extraction and equivalence checking, mean across seven subject scores"
+    },
+    "mmlu_pro": {
+      "engine": "lighteval",
+      "task_key": "mmlu_pro|0",
+      "metric": "extractive_match",
+      "instances": 12032,
+      "responses": 1,
+      "temperature": 0.0,
+      "scoring": "letter extraction and match"
+    },
+    "zebralogic": {
+      "engine": "olmes",
+      "alias": "zebralogic::olmo3:adapt",
+      "metric": "puzzle_accuracy",
+      "instances": 1000,
+      "responses": 4,
+      "temperature": 0.6,
+      "scoring": "all-cell grid correctness averaged over four responses"
+    },
+    "livecodebench_codegeneration": {
+      "engine": "olmes",
+      "alias": "livecodebench_codegeneration::olmo3:adapt",
+      "metric": "pass_at_1",
+      "instances": 1055,
+      "responses": 4,
+      "temperature": 0.6,
+      "revision": "release_v6",
+      "scoring": "code execution tests, pass@1 estimated from four responses",
+      "paper_label": "LCBv5",
+      "revision_note": "The historical local JSON loader ignored release_v5 and read six files (1055 problems). The equivalent public snapshot is release_v6, not the 880-problem release_v5."
+    },
+    "olympiad_bench": {
+      "engine": "lighteval",
+      "task_key": "olympiad_bench:OE_TO_maths_en_COMP|0",
+      "metric": "avg@n:k=4&n=4",
+      "instances": 674,
+      "responses": 4,
+      "temperature": 0.6,
+      "scoring": "expression and LaTeX extraction matching averaged over four responses"
+    },
+    "gpqa": {
+      "engine": "lighteval",
+      "task_key": "gpqa:diamond|0",
+      "metric": "gpqa_pass@k:k=1&n=16",
+      "instances": 198,
+      "responses": 16,
+      "temperature": 0.6,
+      "scoring": "letter extraction matching, pass@1 equals correct-response fraction"
+    }
+  },
+  "bbh_subtasks": [
+    "causal_judgement",
+    "date_understanding",
+    "disambiguation_qa",
+    "geometric_shapes",
+    "logical_deduction_five_objects",
+    "logical_deduction_seven_objects",
+    "logical_deduction_three_objects",
+    "movie_recommendation",
+    "navigate",
+    "reasoning_about_colored_objects",
+    "ruin_names",
+    "salient_translation_error_detection",
+    "snarks",
+    "sports_understanding",
+    "temporal_sequences",
+    "tracking_shuffled_objects_five_objects",
+    "tracking_shuffled_objects_seven_objects",
+    "tracking_shuffled_objects_three_objects"
+  ],
+  "math_subtasks": [
+    "algebra",
+    "counting_and_probability",
+    "geometry",
+    "intermediate_algebra",
+    "number_theory",
+    "prealgebra",
+    "precalculus"
+  ],
+  "version_scope": "Public upstream commits plus the accompanying patches preserve audited task settings; the historical installed package lock was not saved.",
+  "model_identity_scope": "The caller supplies the checkpoint. The manifest records its resolved path and configuration/tokenizer file hashes. Weight-file hashes should come from the caller's training manifest.",
+  "llm_judge": false,
+  "llm_judge_scope": "The inspected eight-task scoring implementations use automatic extraction, equivalence checking, execution tests or grid matching. Code fingerprints must remain fixed.",
+  "olmes_max_length_semantics": "4096 total prompt-plus-completion tokens; batch size 64 affects the shared generation budget"
+}

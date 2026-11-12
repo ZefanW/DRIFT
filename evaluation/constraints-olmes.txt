@@ -1,0 +1,7 @@
+# Observed evaluation environment; not an archived historical lock.
+vllm==0.11.0
+torch==2.8.0
+transformers==4.57.0
+datasets==3.6.0
+numpy==1.26.4
+lm_eval==0.4.9.2

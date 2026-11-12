@@ -30,3 +30,19 @@ def test_dry_run_is_side_effect_free(tmp_path):
     out = tmp_path / 'does-not-exist'
     assert module.main(['--model', 'does-not-exist', '--dataset', 'does-not-exist', '--output', str(out), '--dry-run']) == 0
     assert not out.exists()
+
+
+def test_paper_recipe_matches_recorded_olmo3_settings():
+    cmd, _ = module.command_for(args())
+    expected = {'--template': 'dummy', '--template_backend': 'jinja',
+                '--truncation_strategy': 'delete', '--adam_beta2': '0.95',
+                '--adam_epsilon': '1e-8', '--weight_decay': '0', '--use_liger_kernel': 'true'}
+    for key, value in expected.items():
+        assert cmd[cmd.index(key)+1] == value
+    assert '--external_plugins' not in cmd
+
+
+def test_assistant_only_training_is_explicitly_separate():
+    cmd, _ = module.command_for(args('--template-mode', 'assistant'))
+    assert cmd[cmd.index('--template')+1] == 'drift_chat'
+    assert '--external_plugins' in cmd

@@ -1,0 +1,95 @@
+{
+  "upstream_commit": "f122a7bad99551ffb3f5feec14169af794926f6b",
+  "files": {
+    "oe_eval/configs/regexes.py": {
+      "upstream_sha256": "d7f3a3e3daec1d6b835119d2dc831215b1f9586fe560090b426ea8d2175428bd",
+      "patched_sha256": "571caf91f120409c0eb336e22f970ba6f6eb611c7958e1e66d42b55f2276a401"
+    },
+    "oe_eval/configs/task_suites.py": {
+      "upstream_sha256": "72cd7f99507cd9423b1193c38c21cd96634d79034c308b2285ec1a74c1623096",
+      "patched_sha256": "d48a994dd88ba406a57cf9c87f5a3bc6d85697f6148354dc7e9bcd44bc09539b"
+    },
+    "oe_eval/configs/tasks.py": {
+      "upstream_sha256": "dbc515f332849c726c83ebfd5089a614b1adcf1b4abfce763c0cf20c7ff48f59",
+      "patched_sha256": "608729fbb82ae49f36b497c054d30ef06ba158f55a3194d6a767417ca50c6f5a"
+    },
+    "oe_eval/data/bbh_tasks.py": {
+      "upstream_sha256": "22bb8b8df7581c336517465af98b7ea0055eaa6614561fdd73013472d1c0f5f1",
+      "patched_sha256": "4070c094627c97b0ef7f175f5c3f13f7b1448bc83007e8f9b4361ef23010c6ee"
+    },
+    "oe_eval/default_configs.py": {
+      "upstream_sha256": "b11ef7930ef78ee2945111d1ebcf8dc38fcf8705a79e5f89fe1e00511e90e12a",
+      "patched_sha256": "16e394d539081ca3e46722a445d373f032ddde43f4d3047ff858e8ad33762492"
+    },
+    "oe_eval/metrics/metric.py": {
+      "upstream_sha256": "0485f30e87f65c5c3655996e5928082672e3a6c5b35a9bec15d29a6d3864b00b",
+      "patched_sha256": "3ec573dde6f4fad911022d186eecc52ef51afde0e9181ba8f7a4eec5bd52e691"
+    },
+    "oe_eval/models/eleuther_huggingface.py": {
+      "upstream_sha256": "579814f12639fd9927afebc71bbd5711052fa3d2ae9e5069e22e2b9726806d85",
+      "patched_sha256": "74ad878c3b130ddbb59a3e66c4982d0da8574affaf9248aaf4e01cbf225499e7"
+    },
+    "oe_eval/models/eleuther_olmo_core.py": {
+      "upstream_sha256": "efc931e03440af705d93cfbdd2a0cb80a8e6f0fb8cf6f80defc79caeac9eb213",
+      "patched_sha256": "31e1d4f9f4ba6caec42f7e1f93045b04bd1f390e0b7660834ec12dd6d0fb024c"
+    },
+    "oe_eval/models/eleuther_vllm_causallms.py": {
+      "upstream_sha256": "1f96bb3251dca8110b5de630345966357b0543fe6cfe8fdb1c0e638ce99c9b0d",
+      "patched_sha256": "2ca446807ef073f33c82881b06962346aee8b80d2b1d4ff4a27fde117342e9be"
+    },
+    "oe_eval/models/litellm.py": {
+      "upstream_sha256": "1d03840661ad398f5cc159fa336968d491092aa8682b9d92738d91412d163f37",
+      "patched_sha256": "3f6a81e97ce3d7af9890dc3d6248d11f73384ee0f76ec91846f7b69b1f1643b4"
+    },
+    "oe_eval/tasks/oe_eval_tasks/bbh.py": {
+      "upstream_sha256": "59642e6a609ac08d4abaa440b802d59dbbd3ea11d2a13dc29827cfb0b75e962a",
+      "patched_sha256": "b298009664764121c2734453045a2576c5b3ebc6baef43d87cab3a3dccc3ee03"
+    },
+    "oe_eval/tasks/oe_eval_tasks/codex_mbpp.py": {
+      "upstream_sha256": "0e65bbde20bfaa49c331ecb890061e2a269a4c7f3ed223cfba6c5fb30c56c7f8",
+      "patched_sha256": "a7360ca27859f821f6e2c032cc2c3fa8a8e4a7e3429bbce2ff27b4675eb93dda"
+    },
+    "oe_eval/tasks/oe_eval_tasks/livecodebench_codegeneration.py": {
+      "upstream_sha256": "84cabf6904d193aff876c1147532b5f3253ced82eede3c35e993b968528d415b",
+      "patched_sha256": "a976774c14da0c95e40283699bfd2990c020f83baab15e89a8d7a8f63bae0c99"
+    },
+    "oe_eval/tasks/oe_eval_tasks/minerva_math.py": {
+      "upstream_sha256": "ba5715b9ad37477337a097de7e7a479a7a6920f9fe0551fc4718dfe6f0e656ee",
+      "patched_sha256": "807e0bf09f57d4fe9fd7f85255a1d26f040d6cfacefba3d5d3f409775c55264b"
+    },
+    "oe_eval/tasks/oe_eval_tasks/zebralogic.py": {
+      "upstream_sha256": "8f24c6567b15c6b78ce05245dd29eb37e2fb720ba5279bd6be19c1635b596caf",
+      "patched_sha256": "f87964ba12b35e2c2b86771d6446791501a79aa90fc867a5a2d8b67702ae5144"
+    },
+    "pyproject.toml": {
+      "upstream_sha256": "91391551c2a18a94a7075bb3015ca73c1bf5d65c98d1c6848bb0f6a383ce64bb",
+      "patched_sha256": "dbafe79593e2b3e9db7c08129f1e7dc80e866b5a0bb7ec6ad6760f9de04474c2"
+    }
+  },
+  "note": "Patch source syntax checked; GPU evaluation not executed.",
+  "repository": "https://github.com/allenai/olmes",
+  "patch_sha256": "4c97654fd91016fec9d2351fbf06ffabf16ef546719d96713785d34971ca607e",
+  "licence": "Apache-2.0; preserve upstream LICENSE and notices",
+  "lcb_snapshot": {
+    "hub_revision": "0fe84c3912ea0c4d4a78037083943e8f0c4dd505",
+    "paper_label": "LCBv5",
+    "observed_actual_config": "release_v6",
+    "num_instances": 1055,
+    "file_rows": {
+      "test.jsonl": 400,
+      "test2.jsonl": 111,
+      "test3.jsonl": 101,
+      "test4.jsonl": 101,
+      "test5.jsonl": 167,
+      "test6.jsonl": 175
+    },
+    "reason": "Historical local JSON loader included all six files and ignored nominal revision=release_v5; public patched loader pins this actual snapshot."
+  },
+  "validation": [
+    "git apply --check against official GitHub commit archive passed",
+    "all changed Python files ast.parse passed",
+    "BBH task list has 18 entries",
+    "Zebra repeated-output mean tested: one correct and one wrong => 0.5",
+    "GPU evaluation not run; historical full environment lock unavailable"
+  ]
+}

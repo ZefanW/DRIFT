@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite the DRIFT manuscript when using this implementation."
+message: "If you use DRIFT, please cite the paper below."
 title: "DRIFT: Data Selection for LLM Instruction Tuning via On-Policy Attribution"
 type: software
 repository-code: "https://github.com/ZefanW/DRIFT"
@@ -16,3 +16,19 @@ authors:
     given-names: Tianyu
   - family-names: Yao
     given-names: Yuan
+preferred-citation:
+  type: article
+  title: "DRIFT: Data Selection for LLM Instruction Tuning via On-Policy Attribution"
+  authors:
+    - family-names: Wang
+      given-names: Zefan
+    - family-names: Li
+      given-names: Lincheng
+    - family-names: Yu
+      given-names: Tianyu
+    - family-names: Yao
+      given-names: Yuan
+  year: 2026
+  journal: arXiv
+  doi: 10.48550/arXiv.2606.18307
+  url: "https://arxiv.org/abs/2606.18307"

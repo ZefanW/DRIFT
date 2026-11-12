@@ -1,2 +1,0 @@
-{"id": "arithmetic", "task": "arithmetic", "messages": [{"role": "user", "content": "What is 2 + 2? Reply with only the number."}], "verifier": {"type": "exact", "answer": "4"}}
-{"id": "choice", "task": "knowledge", "messages": [{"role": "user", "content": "Which number is even? A. 3 B. 4. Reply with only the option letter."}], "verifier": {"type": "choice", "answer": "B", "choices": ["3", "4"]}}

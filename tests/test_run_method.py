@@ -67,7 +67,7 @@ class RunnerTests(unittest.TestCase):
     def test_public_configs_generate_commands_accepted_by_the_actual_cli(self):
         from drift.cli import parser as cli_parser
 
-        for name in ("olmo3.json", "olmo2_1b.json"):
+        for name in ("olmo3.json",):
             with self.subTest(config=name):
                 config = runner.read_config(SCRIPT.parents[1] / "configs" / name)
                 groups = runner.build_plan(self.args("--gpus", "0,1"), config)

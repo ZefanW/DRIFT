@@ -1,0 +1,60 @@
+{
+  "lighteval": {
+    "upstream_url": "https://github.com/huggingface/lighteval",
+    "upstream_commit": "7c1cd62716b0a198a630c26d781430c54726cd02",
+    "patch": "patches/lighteval-0.13.0-drift.patch",
+    "files_sha256": {
+      "src/lighteval/metrics/sample_preparator.py": "35d59b69dac809ac6556fdc61732aba15c0f3a6f5505620e8e88aaddc586305f",
+      "src/lighteval/metrics/metrics.py": "da6b47582747d0e282f0f65e5800a56cb6a4102a6a450835ab45a312d65be5e0",
+      "src/lighteval/metrics/metrics_corpus.py": "55b1fdaff672a68517a8582d632c31f13880d965ad630642a289c5834963e949",
+      "src/lighteval/metrics/metrics_sample.py": "e8b27f8caea91ca9705ba7e0bbeca2813a0b95a49f5ac5d3252644f5e36737db",
+      "src/lighteval/metrics/__init__.py": "3f311f0dc1fd1085e442947a4612e00b9897c7cce9da013faf2f53fa684cb80f",
+      "src/lighteval/metrics/dynamic_metrics.py": "41a10b9fe292a223c1a0c8f28ebe6c348a0f65981aa9bcbeb5a52edbfd3abca6",
+      "src/lighteval/metrics/normalizations.py": "71901458c8cf3cda334cc27bd8325afbebdd1281e1fccc83592f19a898a34a11",
+      "src/lighteval/metrics/harness_compatibility/truthful_qa.py": "b21e160903f4e813394b01c2f1b0296434fe568b5d89236bebc2584fdbea9c59",
+      "src/lighteval/metrics/harness_compatibility/drop.py": "02f7b07f39e661ae8c27d3e2da344ba1c488ef09a221f813a5a4b95e8b646c94",
+      "src/lighteval/metrics/utils/llm_as_judge.py": "a05da192bce16a0f6fe7ed75cb02e9d5dd4ded0713dffdb2bf16465651378723",
+      "src/lighteval/metrics/utils/stderr.py": "dcfa940948be256b08afd6f3d12d31050590d251965d59632ec905f607588548",
+      "src/lighteval/metrics/utils/judge_utils.py": "d25bfa062120f1f103c1d9972e2c508ddb0c3e181cb93669c31d0276201164d3",
+      "src/lighteval/metrics/utils/math_comparison.py": "81e5127d449d5bdf0686b023824d9108d1b2940e50f92ff784ddb0a63e558ea4",
+      "src/lighteval/metrics/utils/extractive_match_utils.py": "6dca1a5287ca283ccec339457c3144757d5c3e0976ea9f961cbab4d3d1a81cfb",
+      "src/lighteval/metrics/utils/metric_utils.py": "18d65ffe3e07649ad65d39378f1fb0e21943aa73a74104412cf960a005624ddf",
+      "src/lighteval/metrics/utils/linguistic_tokenizers.py": "17c98ad78d1c3e1e75a60a7d3dddd08bdd873a84051975160da5feb798397e81",
+      "src/lighteval/metrics/imports/summac.py": "2003fb2876fa1be6af57acaf4d7dc186e094bbacbbb40c96b07a3776b1592790",
+      "src/lighteval/metrics/imports/data_stats_utils.py": "9a416fd43c016a0cc4d333ebaa1e2fa87680c6fc5752211b7985527afea2a51d",
+      "src/lighteval/metrics/imports/data_stats_metric.py": "9994600b2dc9fa19b09e917da116614b490cbd857459e687a08d8bf9be7d4315",
+      "src/lighteval/metrics/imports/__init__.py": "f268c2f5a1bcdc16c5b2b76776a0091040228c2a0e03528d398edc5eaf0d9549",
+      "src/lighteval/metrics/imports/bert_scorer.py": "6884824a416f9c91cb6efc5cdf74aa52f4167bac93205b6aab44c90201b6ed64",
+      "src/lighteval/models/vllm/vllm_model.py": "47bac2118b4604051c91acd2df9586379c0fff40a5a50478081d1c3eb003756c",
+      "src/lighteval/tasks/tasks/gpqa.py": "e189f02055c1f34fc501a9a7016db80be242fcf04a4145863ceb04df9f20f2fe",
+      "src/lighteval/tasks/tasks/olympiade_bench.py": "06def996d3ec68039f70dc6e0629818240bb178f17f258ce513c48ac7260f506",
+      "src/lighteval/tasks/tasks/mmlu_pro.py": "c3a25b597c40af5142b72fb7348e960b499d64f05971f8a31e40b1e3347be6bf",
+      "src/lighteval/tasks/lighteval_task.py": "50447911427e7cbfdb4ffd7a59a83324486ae1b69efbcc39d574033fc69e3493",
+      "src/lighteval/tasks/requests.py": "9329fa03983e0ac30a43c14bac2c9a88fc9e8b536f3c239fce116201775d93f8",
+      "src/lighteval/pipeline.py": "644bd0def1dfc0e8a258be455954da40c8603df5110fb52a89da1ea10fcd8fa7"
+    }
+  },
+  "olmes": {
+    "upstream_url": "https://github.com/allenai/olmes",
+    "upstream_commit": "f122a7bad99551ffb3f5feec14169af794926f6b",
+    "patch": "patches/olmes-olmo3-main.patch",
+    "files_sha256": {
+      "oe_eval/configs/regexes.py": "571caf91f120409c0eb336e22f970ba6f6eb611c7958e1e66d42b55f2276a401",
+      "oe_eval/configs/task_suites.py": "d48a994dd88ba406a57cf9c87f5a3bc6d85697f6148354dc7e9bcd44bc09539b",
+      "oe_eval/configs/tasks.py": "608729fbb82ae49f36b497c054d30ef06ba158f55a3194d6a767417ca50c6f5a",
+      "oe_eval/data/bbh_tasks.py": "4070c094627c97b0ef7f175f5c3f13f7b1448bc83007e8f9b4361ef23010c6ee",
+      "oe_eval/default_configs.py": "16e394d539081ca3e46722a445d373f032ddde43f4d3047ff858e8ad33762492",
+      "oe_eval/metrics/metric.py": "3ec573dde6f4fad911022d186eecc52ef51afde0e9181ba8f7a4eec5bd52e691",
+      "oe_eval/models/eleuther_huggingface.py": "74ad878c3b130ddbb59a3e66c4982d0da8574affaf9248aaf4e01cbf225499e7",
+      "oe_eval/models/eleuther_olmo_core.py": "31e1d4f9f4ba6caec42f7e1f93045b04bd1f390e0b7660834ec12dd6d0fb024c",
+      "oe_eval/models/eleuther_vllm_causallms.py": "2ca446807ef073f33c82881b06962346aee8b80d2b1d4ff4a27fde117342e9be",
+      "oe_eval/models/litellm.py": "3f6a81e97ce3d7af9890dc3d6248d11f73384ee0f76ec91846f7b69b1f1643b4",
+      "oe_eval/tasks/oe_eval_tasks/bbh.py": "b298009664764121c2734453045a2576c5b3ebc6baef43d87cab3a3dccc3ee03",
+      "oe_eval/tasks/oe_eval_tasks/codex_mbpp.py": "a7360ca27859f821f6e2c032cc2c3fa8a8e4a7e3429bbce2ff27b4675eb93dda",
+      "oe_eval/tasks/oe_eval_tasks/livecodebench_codegeneration.py": "a976774c14da0c95e40283699bfd2990c020f83baab15e89a8d7a8f63bae0c99",
+      "oe_eval/tasks/oe_eval_tasks/minerva_math.py": "807e0bf09f57d4fe9fd7f85255a1d26f040d6cfacefba3d5d3f409775c55264b",
+      "oe_eval/tasks/oe_eval_tasks/zebralogic.py": "f87964ba12b35e2c2b86771d6446791501a79aa90fc867a5a2d8b67702ae5144",
+      "pyproject.toml": "dbafe79593e2b3e9db7c08129f1e7dc80e866b5a0bb7ec6ad6760f9de04474c2"
+    }
+  }
+}

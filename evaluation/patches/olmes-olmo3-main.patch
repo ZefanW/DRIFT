@@ -1,0 +1,642 @@
+--- a/oe_eval/configs/regexes.py
++++ b/oe_eval/configs/regexes.py
+@@ -10,4 +10,6 @@
+     r"(?i)\b($ANS$)\b",  # Answer appearing as a word in a sentence
+     r"(?i)\b($ANS$)\b",  # Just the answer itself
+     r"(?i).*\b($ANS$)\b",  # Just the answer anywhere in the text
++    r"(?i)\\boxed\{($ANS$)\}",  # boxed answer style
++    r"(?i)\\boxed\{([A-Z])\}", # 匹配无括号的情况 
+ ]
+--- a/oe_eval/configs/task_suites.py
++++ b/oe_eval/configs/task_suites.py
+@@ -1109,3 +1109,15 @@
+         "ifeval::olmo3:adapt",
+     ]
+ }
++
++
++# DRIFT: five OLMES tasks used in the OLMo3 7B main evaluation.
++TASK_SUITE_CONFIGS["olmo3:adapt_0424"] = {
++    "tasks": [
++        "minerva_math::olmo3:adapt",
++        "bbh:cot::olmo3:adapt",
++        "zebralogic::olmo3:adapt",
++        "mbppplus::olmo3:adapt",
++        "livecodebench_codegeneration::olmo3:adapt",
++    ]
++}
+--- a/oe_eval/configs/tasks.py
++++ b/oe_eval/configs/tasks.py
+@@ -1923,7 +1923,7 @@
+                 "do_sample": True,
+                 "top_p": 0.95,
+                 "temperature": 0.6,
+-                "repeats": 10,
++                "repeats": 8,
+                 "stop_sequences": [],
+             },
+             "metric_kwargs": {
+@@ -3703,7 +3703,13 @@
+                 "top_p": 0.95,
+                 "do_sample": True,
+                 "stop_sequences": [],  # we rely on the chat format to provide the stop sequence
+-            },
++                "repeats": 4,
++            },
++            "chat_overrides": {
++                "generation_kwargs": {
++                    "stop_sequences": [],
++                },
++        },
+         },
+         "zebralogic::olmo3:midtrain": {
+             "task_name": "zebralogic",
+@@ -4157,12 +4163,13 @@
+         "num_shots": 0,
+         "chat_overrides": {
+             "generation_kwargs": {
+-                "temperature": 0.6,
++                "temperature": 0.0,
+                 "top_p": 0.95,
+                 "max_gen_toks": 131072,  # matching open instruction length
+                 "do_sample": True,
+                 "truncate_context": False,
+                 "stop_sequences": [],  # we rely on the chat format to provide the stop sequence
++                "repeats": 1, # 如果有FINAL这个全局变量，默认值为1
+             },
+             "metric_kwargs": {
+                 "answer_extract_fn": "answer_regex",
+@@ -4789,11 +4796,12 @@
+         },
+         "generation_kwargs": {
+             "max_gen_toks": 131072,  # super long generation allowed
+-            "temperature": 0.6,
++            "temperature": 0.0,
+             "top_p": 0.95,
+             "do_sample": True,
+             "stop_sequences": [],
+             "truncate_context": False,
++            "repeats": 1, 
+         },
+     }
+     TASK_CONFIGS[f"minerva_math_{task_type}::olmo3:midtrain"] = {
+@@ -7272,7 +7280,7 @@
+             "chat_overrides": {
+                 "context_kwargs": {
+                     "system_prompt": "You are an expert Python programmer. You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.",
+-                    "template": "### Question:\n{{problem_statement}}\n\n### Format:\nProvide CONCISE reasoning on how to arrive at the answer in the <think> </think> tag.\n{{format_instruction}}\n\n### Answer: (use the provided format with backticks)\n\n",
++                    "template": "### Question:\n{{problem_statement}}\n\n### Format: \n{{format_instruction}}\n\n### Answer: (use the provided format with backticks)\n\n",
+                     "assistant_prefix": None,
+                     "truncation_size_when_saved": 5000,
+                 },
+@@ -7282,7 +7290,7 @@
+                     "do_sample": True,
+                     "top_p": 0.95,
+                     "temperature": 0.6,
+-                    "repeats": 10,
++                    "repeats": 4,
+                     "stop_sequences": [],
+                 },
+                 "metric_kwargs": {
+--- a/oe_eval/data/bbh_tasks.py
++++ b/oe_eval/data/bbh_tasks.py
+@@ -1,20 +1,20 @@
+ BBH_TASKS = [
+-    "boolean_expressions",
++    # "boolean_expressions",
+     "causal_judgement",
+     "date_understanding",
+     "disambiguation_qa",
+-    "dyck_languages",
+-    "formal_fallacies",
++    # "dyck_languages",
++    # "formal_fallacies",
+     "geometric_shapes",
+-    "hyperbaton",
++    # "hyperbaton",
+     "logical_deduction_five_objects",
+     "logical_deduction_seven_objects",
+     "logical_deduction_three_objects",
+     "movie_recommendation",
+-    "multistep_arithmetic_two",
++    # "multistep_arithmetic_two",
+     "navigate",
+-    "object_counting",
+-    "penguins_in_a_table",
++    # "object_counting",
++    # "penguins_in_a_table",
+     "reasoning_about_colored_objects",
+     "ruin_names",
+     "salient_translation_error_detection",
+@@ -24,27 +24,27 @@
+     "tracking_shuffled_objects_five_objects",
+     "tracking_shuffled_objects_seven_objects",
+     "tracking_shuffled_objects_three_objects",
+-    "web_of_lies",
+-    "word_sorting",
++    # "web_of_lies",
++    # "word_sorting",
+ ]
+ 
+ BBH_DESCRIPTIONS = {
+-    "boolean_expressions": "Evaluate the result of a random Boolean expression.\n\n",
++    # "boolean_expressions": "Evaluate the result of a random Boolean expression.\n\n",
+     "causal_judgement": "Answer questions about causal attribution.\n\n",
+     "date_understanding": "Infer the date from context.\n\n",
+     "disambiguation_qa": "Clarify the meaning of sentences with ambiguous pronouns.\n\n",
+-    "dyck_languages": "Correctly close a Dyck-n word.\n\n",
+-    "formal_fallacies": "Distinguish deductively valid arguments from formal fallacies.\n\n",
++    # "dyck_languages": "Correctly close a Dyck-n word.\n\n",
++    # "formal_fallacies": "Distinguish deductively valid arguments from formal fallacies.\n\n",
+     "geometric_shapes": "Name geometric shapes from their SVG paths.\n\n",
+-    "hyperbaton": "Order adjectives correctly in English sentences.\n\n",
++    # "hyperbaton": "Order adjectives correctly in English sentences.\n\n",
+     "logical_deduction_five_objects": "A logical deduction task which requires deducing the order of a sequence of objects.\n\n",
+     "logical_deduction_seven_objects": "A logical deduction task which requires deducing the order of a sequence of objects.\n\n",
+     "logical_deduction_three_objects": "A logical deduction task which requires deducing the order of a sequence of objects.\n\n",
+     "movie_recommendation": "Recommend movies similar to the given list of movies.\n\n",
+-    "multistep_arithmetic_two": "Solve multi-step arithmetic problems.\n\n",
++    # "multistep_arithmetic_two": "Solve multi-step arithmetic problems.\n\n",
+     "navigate": "Given a series of navigation instructions, determine whether one would end up back at the starting point.\n\n",
+-    "object_counting": "Questions that involve enumerating objects and asking the model to count them.\n\n",
+-    "penguins_in_a_table": "Answer questions about a table of penguins and their attributes.\n\n",
++    # "object_counting": "Questions that involve enumerating objects and asking the model to count them.\n\n",
++    # "penguins_in_a_table": "Answer questions about a table of penguins and their attributes.\n\n",
+     "reasoning_about_colored_objects": "Answer extremely simple questions about the colors of objects on a surface.\n\n",
+     "ruin_names": "Select the humorous edit that 'ruins' the input movie or musical artist name.\n\n",
+     "salient_translation_error_detection": "Detect the type of error in an English translation of a German source sentence.\n\n",
+@@ -54,6 +54,6 @@
+     "tracking_shuffled_objects_five_objects": "A task requiring determining the final positions of a set of objects given their initial positions and a description of a sequence of swaps.\n\n",
+     "tracking_shuffled_objects_seven_objects": "A task requiring determining the final positions of a set of objects given their initial positions and a description of a sequence of swaps.\n\n",
+     "tracking_shuffled_objects_three_objects": "A task requiring determining the final positions of a set of objects given their initial positions and a description of a sequence of swaps.\n\n",
+-    "web_of_lies": "Evaluate a random boolean function expressed as a word problem.\n\n",
+-    "word_sorting": "Sort a list of words.\n\n",
++    # "web_of_lies": "Evaluate a random boolean function expressed as a word problem.\n\n",
++    # "word_sorting": "Sort a list of words.\n\n",
+ }
+--- a/oe_eval/default_configs.py
++++ b/oe_eval/default_configs.py
+@@ -23,6 +23,7 @@
+     "chat_model": False,
+     "chat_template": None,
+     "vllm_for_mc": False,
++    "max_model_len": None,
+     "vllm_logit_bias": None,
+     "gpu_memory_utilization": None,
+     "process_output": None,
+--- a/oe_eval/metrics/metric.py
++++ b/oe_eval/metrics/metric.py
+@@ -1146,49 +1146,70 @@
+     def process_one_doc(self, group_lst) -> dict:
+         solution_table = group_lst[0]["doc"]["solution_table"]
+         this_total_cells = group_lst[0]["doc"]["total_cells"]
+-        pred = [v["model_resps"]["continuation"] for v in group_lst][0]
+-        prediction_table = extract_last_complete_json(pred)
+-        if prediction_table is None:
++        # 提取所有的 continuation
++        preds = [v["model_resps"]["continuation"] for v in group_lst]
++        
++        total_puzzle_accuracy = 0
++        total_cell_accuracy = 0
++        num_preds = len(preds)
++        
++        if num_preds == 0:
+             return {
+-                "parsed": False,
++                "parsed": True,
+                 "puzzle_accuracy": 0,
+                 "cell_accuracy": 0,
+             }
+-        metrics = {}
+-        try:
+-            prediction_table = prediction_table.get("solution", {}) or {}
+-            this_correct_cells = 0  # number in the solution_table
+-            for house in solution_table:
+-                for column in solution_table[house]:
+-                    if (
+-                        isinstance(prediction_table, dict)
+-                        and house in prediction_table
+-                        and column in prediction_table[house]
+-                    ):
+-                        truth_cell = solution_table[house][column].lower().strip()
++            
++        for pred in preds:
++            prediction_table = extract_last_complete_json(pred)
++            if prediction_table is None:
++                # 如果解析失败，当前这组的 accuracy 视为 0，直接跳过进入下一组
++                continue
++                
++            try:
++                prediction_table = prediction_table.get("solution", {}) or {}
++                this_correct_cells = 0  # number in the solution_table
++                for house in solution_table:
++                    for column in solution_table[house]:
+                         if (
+-                            prediction_table[house][column] is None
+-                            or len(prediction_table[house][column]) == 0
++                            isinstance(prediction_table, dict)
++                            and house in prediction_table
++                            and column in prediction_table[house]
+                         ):
+-                            continue
+-                        # get rid of nested dicts before checking for list or str
+-                        while isinstance(prediction_table[house][column], dict):
+-                            prediction_table[house][column] = list(
+-                                prediction_table[house][column].values()
+-                            )[0]
+-                        if isinstance(prediction_table[house][column], list):
+-                            predicted_cell = prediction_table[house][column][0].lower().strip()
+-                        elif isinstance(prediction_table[house][column], str):
+-                            predicted_cell = prediction_table[house][column].lower().strip()
+-                        else:
+-                            continue
+-                        if truth_cell == predicted_cell:
+-                            this_correct_cells += 1
+-            metrics["puzzle_accuracy"] = 1 if this_correct_cells == this_total_cells else 0
+-            metrics["cell_accuracy"] = this_correct_cells / this_total_cells
+-            metrics["parsed"] = True
+-        except Exception:
+-            metrics["puzzle_accuracy"] = 0
+-            metrics["cell_accuracy"] = 0
+-            metrics["parsed"] = False
+-        return metrics
++                            truth_cell = solution_table[house][column].lower().strip()
++                            if (
++                                prediction_table[house][column] is None
++                                or len(prediction_table[house][column]) == 0
++                            ):
++                                continue
++                            # get rid of nested dicts before checking for list or str
++                            while isinstance(prediction_table[house][column], dict):
++                                prediction_table[house][column] = list(
++                                    prediction_table[house][column].values()
++                                )[0]
++                            if isinstance(prediction_table[house][column], list):
++                                predicted_cell = prediction_table[house][column][0].lower().strip()
++                            elif isinstance(prediction_table[house][column], str):
++                                predicted_cell = prediction_table[house][column].lower().strip()
++                            else:
++                                continue
++                            if truth_cell == predicted_cell:
++                                this_correct_cells += 1
++                                
++                this_puzzle_accuracy = 1 if this_correct_cells == this_total_cells else 0
++                this_cell_accuracy = this_correct_cells / this_total_cells
++                
++                # 累加当前 continuation 的准确率
++                total_puzzle_accuracy += this_puzzle_accuracy
++                total_cell_accuracy += this_cell_accuracy
++                
++            except Exception:
++                # 发生异常时当前这组 accuracy 视为 0，不影响其他组的计算
++                pass
++                
++        # 计算多组的平均 accuracy，并将 parsed 强制设为 True
++        return {
++            "parsed": True,
++            "puzzle_accuracy": total_puzzle_accuracy / num_preds,
++            "cell_accuracy": total_cell_accuracy / num_preds,
++        }
+--- a/oe_eval/models/eleuther_huggingface.py
++++ b/oe_eval/models/eleuther_huggingface.py
+@@ -6,10 +6,11 @@
+ import torch.nn.functional as F
+ import transformers
+ from lm_eval import utils
++from lm_eval import evaluator_utils
+ from lm_eval.models.huggingface import HFLM
+ from lm_eval.models.utils import Collator, pad_and_concat
+ from tqdm import tqdm
+-
++import logging
+ from oe_eval.components.instances import RequestInstance
+ from oe_eval.components.requests import (
+     GenerateUntilAndLoglikelihoodRequest,
+@@ -23,7 +24,14 @@
+ # Minimally modified version of model inference code from lm_eval, (models/huggingface.py)
+ # adding _verbose versions of various methods to return additional information
+ 
+-eval_logger = utils.eval_logger
++# Backward-compatible eval_logger for lm_eval main branch (removed utils.eval_logger)
++eval_logger = getattr(utils, "eval_logger", None) or logging.getLogger("lm-eval")
++
++# pad_and_concat moved from lm_eval.models.utils to lm_eval.models.utils_hf in main branch
++try:
++    from lm_eval.models.utils_hf import pad_and_concat
++except ImportError:
++    from lm_eval.models.utils import pad_and_concat
+ 
+ 
+ class HFLM_Verbose(HFLM):
+--- a/oe_eval/models/eleuther_olmo_core.py
++++ b/oe_eval/models/eleuther_olmo_core.py
+@@ -3,10 +3,11 @@
+ import re
+ import time
+ from typing import Any, Dict, List, Literal, Optional, Tuple, Union, cast
+-
++import logging
+ import torch
+ import torch.nn.functional as F
+ from lm_eval import utils
++from lm_eval import evaluator_utils
+ from lm_eval.api.model import TemplateLM
+ from lm_eval.api.registry import register_model
+ from lm_eval.models.utils import Collator, pad_and_concat
+@@ -28,7 +29,14 @@
+ from oe_eval.utilities.model_results_collation import collate_results
+ from oe_eval.utils import cut_at_stop_sequence
+ 
+-eval_logger = utils.eval_logger
++# Backward-compatible eval_logger for lm_eval main branch (removed utils.eval_logger)
++eval_logger = getattr(utils, "eval_logger", None) or logging.getLogger("lm-eval")
++
++# pad_and_concat moved from lm_eval.models.utils to lm_eval.models.utils_hf in main branch
++try:
++    from lm_eval.models.utils_hf import pad_and_concat
++except ImportError:
++    from lm_eval.models.utils import pad_and_concat
+ 
+ 
+ @register_model("olmo_core")
+--- a/oe_eval/models/eleuther_vllm_causallms.py
++++ b/oe_eval/models/eleuther_vllm_causallms.py
+@@ -21,6 +21,7 @@
+ from oe_eval.utilities.model_results_collation import collate_results
+ from oe_eval.utils import cut_at_stop_sequence
+ 
++from vllm import SamplingParams
+ logger = logging.getLogger(__name__)
+ 
+ # Verbose versions of key methods in VLLM from lm_eval.models.vllm_causallms
+@@ -70,7 +71,10 @@
+         if device is None:
+             device = "cuda" if torch.cuda.device_count() > 0 else "cpu"
+         if torch.cuda.device_count() > 1:
+-            kwargs["tensor_parallel_size"] = torch.cuda.device_count()
++            kwargs["pipeline_parallel_size"] = int(os.environ.get("PP", 1))
++            kwargs["data_parallel_size"] = int(os.environ.get("DP", 1))
++            kwargs["tensor_parallel_size"] = torch.cuda.device_count()//kwargs["pipeline_parallel_size"]//kwargs["data_parallel_size"]
++
+ 
+         if torch.cuda.device_count() == 1:
+             os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+@@ -127,16 +131,15 @@
+             list_context.append(cast(str, request.context))
+             list_gen_kwargs.append(kwargs)
+         res = []
+-
+         # batch tokenize contexts
+         # context, all_gen_kwargs = zip(*(req.arg for req in requests))
+         list_context_encoding = self.tokenizer(
+-            list_context, add_special_tokens=self.add_bos_token
++            list_context, add_special_tokens=self.add_bos_token if self.add_bos_token is not None else False
++            # list_context, add_special_tokens=False
+         ).input_ids
+         requests_tup = [
+             ((a, b), c) for a, b, c in zip(list_context, list_context_encoding, list_gen_kwargs)
+         ]
+-
+         def _collate_gen(_requests):
+             # the negative sign on len(toks) sorts descending - this has a few advantages:
+             # - time estimates will always be over not underestimates, which is more useful for planning
+@@ -145,7 +148,6 @@
+             #   automatic adaptive batches much much easier to implement
+             # - any OOMs will happen right away rather than near the end
+             return -len(_requests[0][1]), _requests[0][0]
+-
+         # we group requests by their generation_kwargs,
+         # so that we don't try to execute e.g. greedy sampling and temp=0.8 sampling
+         # in the same batch.
+@@ -153,7 +155,6 @@
+         chunks = re_ords.get_batched(
+             n=int(self.batch_size) if self.batch_size != "auto" else 0, batch_fn=None
+         )
+-
+         pbar = tqdm(
+             total=len(requests_tup),
+             disable=(disable_tqdm or (self.rank != 0)),
+@@ -192,10 +193,8 @@
+                 max_gen_toks = kwargs.pop("max_gen_toks")
+             else:
+                 max_gen_toks = self.max_gen_toks
+-
+             truncate_context = kwargs.pop("truncate_context", True)
+             min_acceptable_gen_toks = kwargs.pop("min_acceptable_gen_toks", 0)
+-
+             if truncate_context:
+                 # set the max length in tokens of inputs ("context_enc")
+                 # max len for inputs = max length, minus room to generate the max new tokens
+@@ -227,9 +226,7 @@
+                             f"Effective max_gen_toks is 0 (max_batch_toks = {max_batch_toks}, max_ctx_len = {max_ctx_len}) "
+                             + '"consider using "truncate_context": True'
+                         )
+-
+             context_encoding_trunc = [x[-max_ctx_len:] for x in context_encoding]
+-
+             kwargs["logprobs"] = 1  # oe-eval: always return logprobs
+             if self.vllm_logit_bias:
+                 logger.warning(
+@@ -239,15 +236,28 @@
+                     """
+                 )
+                 kwargs["logit_bias"] = self.vllm_logit_bias
++            
+             # perform batched generation
++            vllm_kwargs = self.modify_gen_kwargs(kwargs)
++            
++            # 修改点：为 batch 中的每一个 request 生成一个独立的 SamplingParams
++            import random # 确保使用了 random 模块
++            sampling_params_list = []
++            for _ in range(len(context_encoding_trunc)):
++                req_kwargs = vllm_kwargs.copy()
++                # 为每个请求生成独立的 seed，避免 batch 内重复 prompt 结果相同
++                req_kwargs["seed"] = random.randint(0, 2**32 - 1)
++                
++                sp = SamplingParams(max_tokens=max_gen_toks, stop=until, **req_kwargs)
++                sampling_params_list.append(sp)
+             cont = self._model_generate(
+                 requests=context_encoding_trunc,
+                 generate=True,
+-                max_tokens=max_gen_toks,
+-                stop=until,
+-                **kwargs,
+-            )
+-
++                sampling_params=sampling_params_list, # 传入 SamplingParams 列表
++                # max_tokens=max_gen_toks,
++                # stop=until,
++                # **kwargs,
++            )
+             # cache generations
+             for output, context, context_length in zip(cont, context, context_lengths):
+                 completion_output = output.outputs[0]
+@@ -272,7 +282,6 @@
+                 res.append(res1)  # oe_eval: change to dict here
+                 self.cache_hook.add_partial("generate_until", (context, gen_kwargs), generated_text)
+                 pbar.update(1)
+-
+         pbar.close()
+         # reorder all group of results back to original unsorted form
+         return re_ords.get_original(res)
+@@ -495,13 +504,16 @@
+ 
+             # perform batched generation
+             if not self.vllm_logit_bias:
++                sampling_params = SamplingParams(
++                     max_tokens=1,
++                     stop=None,
++                     logprobs=20,
++                     temperature=0.0,
++                 )
+                 outputs = self._model_generate(
+                     requests=context_enc_trunc,
+                     generate=True,
+-                    max_tokens=1,
+-                    stop=None,
+-                    logprobs=20,
+-                    temperature=0.0,
++                    sampling_params=sampling_params,
+                 )
+             else:
+                 logger.warning(
+@@ -510,14 +522,17 @@
+                     Logprobs in the output will be modified by the underlying logit_bias!
+                     """
+                 )
++                sampling_params = SamplingParams(
++                     max_tokens=1,
++                     stop=None,
++                     logprobs=min(len(multi_conts_key) + 5, 20),
++                     temperature=0.0,
++                     logit_bias=self.vllm_logit_bias,
++                 )
+                 outputs = self._model_generate(
+                     requests=context_enc_trunc,
+                     generate=True,
+-                    max_tokens=1,
+-                    stop=None,
+-                    logprobs=min(len(multi_conts_key) + 5, 20),
+-                    temperature=0.0,
+-                    logit_bias=self.vllm_logit_bias,
++                    sampling_params=sampling_params,
+                 )
+ 
+             for context_len, out, multi_conts_enc in zip(
+--- a/oe_eval/models/litellm.py
++++ b/oe_eval/models/litellm.py
+@@ -5,13 +5,13 @@
+ from typing import List, Optional
+ 
+ from litellm import acompletion, get_supported_openai_params
+-from lm_eval import utils
++from lm_eval import evaluator_utils
+ from lm_eval.api.model import LM
+ 
+ from oe_eval.components.requests import GenerateUntilRequest
+ from oe_eval.utils import cut_at_stop_sequence
+ 
+-eval_logger = utils.eval_logger
++eval_logger = evaluator_utils.eval_logger
+ 
+ 
+ async def get_completion(model: str, messages: List[dict], kwargs: dict) -> dict:
+--- a/oe_eval/tasks/oe_eval_tasks/bbh.py
++++ b/oe_eval/tasks/oe_eval_tasks/bbh.py
+@@ -82,6 +82,7 @@
+     REQUEST_TYPE = RequestType.GENERATE_UNTIL
+     TASK_CONFIG_DEFAULTS = {
+         "dataset_path": "lukaemon/bbh",
++        "revision": "982bb89fd79532a8ac676a61fc42eb1aeec63f99",
+         "native_id_field": "index",
+         "primary_metric": "exact_match",
+         "split": "test",
+@@ -103,7 +104,7 @@
+             },
+             "context_kwargs": {
+                 "assistant_prefix": None,  #  "Solution:"
+-                "fewshot_as_multiturn": True,
++                "fewshot_as_multiturn": False,
+             },
+         },
+     }
+--- a/oe_eval/tasks/oe_eval_tasks/codex_mbpp.py
++++ b/oe_eval/tasks/oe_eval_tasks/codex_mbpp.py
+@@ -326,6 +326,7 @@
+     TASK_CONFIG_DEFAULTS = get_dict_with_defaults(
+         {
+             "dataset_path": "evalplus/mbppplus",
++        "revision": "b2d74c91837c3f2a20c1299ae98133cbe7cfa077",
+             "metric_kwargs": {
+                 "unittest_list": "test",  # use "test_list" for the original (fewer) MBPP tests
+                 "timeout": 20.0,
+--- a/oe_eval/tasks/oe_eval_tasks/livecodebench_codegeneration.py
++++ b/oe_eval/tasks/oe_eval_tasks/livecodebench_codegeneration.py
+@@ -212,7 +212,7 @@
+     REQUEST_TYPE = RequestType.GENERATE_UNTIL
+     TASK_CONFIG_DEFAULTS = {
+         "dataset_path": "livecodebench/code_generation_lite",
+-        "revision": "release_v3",  # keep v4-v6 to use as hidden
++        "revision": "release_v6",  # Actual 1,055-row snapshot used by DRIFT; the paper label said v5.
+         "native_id_field": "question_id",
+         "primary_metric": "pass_at_1",
+         "split": "test",
+@@ -240,7 +240,8 @@
+         if os.path.exists(dataset_path):
+             self.dataset = datasets.load_dataset(
+                 "json",
+-                data_dir=dataset_path,
++                data_files={"test": [os.path.join(dataset_path, f) for f in
++                    ["test.jsonl", "test2.jsonl", "test3.jsonl", "test4.jsonl", "test5.jsonl", "test6.jsonl"]]},
+                 trust_remote_code=True,
+             )
+         else:
+@@ -248,8 +249,12 @@
+             self.dataset = datasets.load_dataset(
+                 dataset_path,
+                 version_tag=version_tag,
++                revision="0fe84c3912ea0c4d4a78037083943e8f0c4dd505",
+                 trust_remote_code=True,
+             )
++
++        if len(self.dataset["test"]) != 1055:
++            raise ValueError("DRIFT requires the complete frozen 1,055-row LiveCodeBench snapshot.")
+ 
+     def make_metrics(self):
+         self._metrics = [
+--- a/oe_eval/tasks/oe_eval_tasks/minerva_math.py
++++ b/oe_eval/tasks/oe_eval_tasks/minerva_math.py
+@@ -68,6 +68,7 @@
+     REQUEST_TYPE = RequestType.GENERATE_UNTIL
+     TASK_CONFIG_DEFAULTS = {
+         "dataset_path": "EleutherAI/hendrycks_math",
++        "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+         "native_id_field": "index",
+         "primary_metric": "exact_match",
+         "fewshot_source": "Minerva:MATH",
+--- a/oe_eval/tasks/oe_eval_tasks/zebralogic.py
++++ b/oe_eval/tasks/oe_eval_tasks/zebralogic.py
+@@ -117,7 +117,8 @@
+     VERSION = 0
+     REQUEST_TYPE = RequestType.GENERATE_UNTIL
+     TASK_CONFIG_DEFAULTS = {
+-        "dataset_path": "allenai/ZebraLogicBench-private",  # private has the answers
++        "dataset_path": "allenai/ZebraLogicBench-private",
++        "revision": "9f39ef490ae924437376657205025f26c0bd1af3",  # private has the answers
+         "dataset_name": "grid_mode",
+         "native_id_field": "index",
+         "primary_metric": "puzzle_accuracy",
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -22,9 +22,9 @@
+     "antlr4-python3-runtime==4.11", # Workaround for parse_latex in minerva_math to work
+     "numpy<2", # Workaround for warning messages about compiled modules
+     "datasets>=3,<4", # Dataset version 4 does not support trust_remote_code=True
+-    "transformers>=4.55.2,<=4.57.0", # Pinned for vLLM 0.11.0
++    "transformers==4.57.0", # Pinned for vLLM 0.11.0
+     "ai2-olmo-core[torchao]>=2.2", # For olmo-core native evaluation
+-    "lm_eval==0.4.3", # Pin this to review changes, but will try to update to latest version
++    "lm_eval[math]==0.4.9.2", # Compatibility with the included vLLM adapter
+     "torch>=2.8.0,<2.9", # Pinned for vLLM 0.11.0
+     "ai2-olmo @ git+https://github.com/allenai/OLMo.git@main", # need latest main for torch>=2.4
+     "olmes-docker @ git+https://github.com/allenai/olmes-docker.git@main",

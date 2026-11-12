@@ -22,7 +22,9 @@ def parser():
     p.add_argument('--revision')
     p.add_argument('--dataset', required=True, help='Exported subset.jsonl')
     p.add_argument('--output', required=True, help='New run directory')
-    p.add_argument('--gpus', default='0,1,2,3')
+    p.add_argument('--gpus', default='0,1,2,3,4,5,6,7')
+    p.add_argument('--template-mode', choices=['paper', 'assistant'], default='paper',
+                   help='paper preserves the original OLMo3 Jinja training objective')
     p.add_argument('--max-steps', type=int, default=500)
     p.add_argument('--max-length', type=int, default=32768)
     p.add_argument('--global-sequences', type=int, default=8)
@@ -32,7 +34,8 @@ def parser():
     p.add_argument('--data-seed', type=int, default=42)
     p.add_argument('--attn-impl', choices=['flash_attn', 'sdpa', 'eager'], default='flash_attn')
     p.add_argument('--no-packing', action='store_true', help='Changes the token budget; intended for small checks')
-    p.add_argument('--dataset-num-proc', type=int, default=1)
+    p.add_argument('--dataset-num-proc', type=int, default=32)
+    p.add_argument('--dataloader-num-workers', type=int, default=32)
     p.add_argument('--master-port', type=int, default=29501)
     p.add_argument('--dry-run', action='store_true')
     return p
@@ -52,13 +55,11 @@ def command_for(args):
     if not 0 < args.min_learning_rate <= args.learning_rate:
         raise ValueError('Require 0 < minimum learning rate <= learning rate')
     if not args.no_packing and args.attn_impl != 'flash_attn':
-        raise ValueError('ms-swift packing requires FlashAttention; use --no-packing for an SDPA smoke check')
+        raise ValueError('ms-swift packing requires FlashAttention')
     accumulation = args.global_sequences // len(devices)
     cmd = [sys.executable, '-m', 'swift.cli.main', 'sft',
            '--model', args.model, '--dataset', args.dataset,
-           '--external_plugins', str(Path(__file__).resolve().with_name('swift_template.py')),
-           '--template', 'drift_chat', '--use_chat_template', 'true',
-           '--template_backend', 'swift', '--truncation_strategy', 'right',
+           '--use_chat_template', 'true',
            '--output_dir', str(Path(args.output) / 'checkpoints'),
            '--train_type', 'full', '--torch_dtype', 'bfloat16',
            '--attn_impl', args.attn_impl, '--max_length', str(args.max_length),
@@ -69,13 +70,21 @@ def command_for(args):
            '--lr_scheduler_type', 'cosine_warmup_with_min_lr',
            '--lr_scheduler_kwargs', json.dumps({'min_lr': args.min_learning_rate}),
            '--optim', 'adamw_torch_fused', '--optim_args', 'eps=1e-6',
+           '--adam_beta1', '0.9', '--adam_beta2', '0.95', '--weight_decay', '0',
+           '--adam_epsilon', '1e-8', '--max_grad_norm', '1', '--use_liger_kernel', 'true',
            '--gradient_checkpointing', 'true', '--seed', str(args.seed),
            '--data_seed', str(args.data_seed), '--split_dataset_ratio', '0',
            '--dataset_shuffle', 'true', '--train_dataloader_shuffle', 'true',
-           '--dataset_num_proc', str(args.dataset_num_proc), '--dataloader_num_workers', '0',
+           '--dataset_num_proc', str(args.dataset_num_proc),
+           '--dataloader_num_workers', str(args.dataloader_num_workers),
            '--save_steps', str(min(100, args.max_steps)), '--save_only_model', 'true',
            '--save_total_limit', '1', '--logging_steps', '1', '--report_to', 'none',
            '--add_version', 'false']
+    if args.template_mode == 'paper':
+        cmd += ['--template', 'dummy', '--template_backend', 'jinja', '--truncation_strategy', 'delete']
+    else:
+        cmd += ['--external_plugins', str(Path(__file__).resolve().with_name('swift_template.py')),
+                '--template', 'drift_chat', '--template_backend', 'swift', '--truncation_strategy', 'right']
     if args.revision:
         cmd += ['--model_revision', args.revision]
     if len(devices) > 1:

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "paper": "https://arxiv.org/abs/2606.18307",
+  "model": {
+    "repo": "allenai/Olmo-3-7B-Instruct-SFT",
+    "revision": "d9687e20d263cd0876dea143723b3c4974d19935"
+  },
+  "corpus": {
+    "repo": "allenai/Dolci-Instruct-SFT",
+    "revision": "b779ae7ae5c757ccea6abb04a05204470bf1e602",
+    "split": "train",
+    "rows": 2152112,
+    "candidate_rows": 1924533,
+    "filter": {
+      "source_not_null": true
+    }
+  },
+  "selection": {
+    "file": "olmo3_selected.jsonl.gz",
+    "count": 192453,
+    "sha256": "9f9fdcf0f617275973c2422af559889f0167fe5a35666f594784399e2f8c9b7b",
+    "ordered_messages_digest": "f9c14849a8ad540bd13c1466ce6817338e7bf4a984316202a779360681df781d",
+    "unique_messages": 179802,
+    "unique_ids": 190806,
+    "order": "Original selected training parquet row order"
+  },
+  "messages_hash": "sha256 of UTF-8 json.dumps(role/content turns, ensure_ascii=False, sort_keys=True, separators=(comma,colon)); null optional fields omitted",
+  "output": {
+    "rows": 192453,
+    "ordered_messages_sha256": "f9c14849a8ad540bd13c1466ce6817338e7bf4a984316202a779360681df781d"
+  }
+}

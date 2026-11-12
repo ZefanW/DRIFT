@@ -6,7 +6,9 @@ __pycache__/
 *.egg-info/
 build/
 dist/
-artifacts/
+artifacts/*
+!artifacts/olmo3_selected.jsonl.gz
+!artifacts/olmo3_selection_manifest.json
 runs/
 data/
 checkpoints/

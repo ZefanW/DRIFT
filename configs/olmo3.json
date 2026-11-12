@@ -10,9 +10,15 @@
   "dimension": 16384,
   "projection_seed": 42,
   "max_length": 4096,
-  "fit_mode": "stable",
+  "fit_mode": "legacy-float32",
   "fraction": 0.1,
   "dtype": "bfloat16",
   "attention": "sdpa",
-  "exclude_parameters": null
+  "exclude_parameters": null,
+  "revision": "d9687e20d263cd0876dea143723b3c4974d19935",
+  "clip": [
+    1,
+    99
+  ],
+  "zscore": true
 }
