@@ -24,4 +24,4 @@ python scripts/run_method.py --config configs/smoke.json \
   --queries examples/queries.jsonl --output runs/model-smoke --gpus 0
 ```
 
-Use a fresh output directory for each model. The default fixture smoke backend is Transformers; `--backend vllm` selects the alternative generator. CPU tests require no GPU libraries or model downloads.
+Use a fresh output directory for each model. The default fixture smoke backend is Transformers; `--backend vllm` selects the alternative generator. CPU tests require no GPU libraries or model downloads. The CPU tests, the synthetic demo and a package build also run in [GitHub Actions](../.github/workflows/tests.yml) on Python 3.10, 3.12 and 3.13.
