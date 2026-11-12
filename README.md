@@ -10,12 +10,21 @@ DRIFT improves an already SFT-trained model by selecting better examples from it
 
 ## OLMo3-7B results
 
-Accuracy reported in the paper (Table 1):
+Accuracy (%) from the paper's main table, with standard deviations from the appendix. Continued-SFT results are mean ± standard deviation across three runs, including training and evaluation randomness.
 
-| Model | Eight-benchmark average | Additional benchmarks |
-|---|---:|---:|
-| OLMo3-7B-Instruct-SFT | 39.17 | 25.49 |
-| + DRIFT | **40.14** | **26.51** |
+| Method | BBH | MBPP+ | MATH | MMLU-Pro | ZebraLogic | LCB v5 | OlympiadBench | GPQA-D | All | Additional |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Base | 44.63 | 56.42 | 66.16 | 44.22 | 17.23 | 15.43 | 34.27 | 35.01 | 39.17 | 25.49 |
+| Random | 44.45 ± 0.29 | 56.34 ± 0.17 | 66.40 ± 0.28 | 44.25 ± 0.15 | 17.67 ± 0.96 | 14.38 ± 0.63 | 35.04 ± 0.47 | 33.77 ± 0.68 | 39.04 ± 0.15 | 25.21 ± 0.16 |
+| DSIR | 39.97 ± 0.23 | 52.63 ± 0.88 | 55.11 ± 0.42 | 36.22 ± 0.82 | 17.68 ± 0.34 | 12.73 ± 0.68 | 27.83 ± 1.07 | 32.82 ± 0.70 | 34.37 ± 0.02 | 22.76 ± 0.04 |
+| Qurating | 44.27 ± 0.21 | 55.96 ± 0.05 | 66.89 ± 0.37 | 44.14 ± 0.16 | 17.77 ± 0.58 | 15.49 ± 0.94 | 34.98 ± 0.26 | 34.61 ± 0.55 | 39.26 ± 0.23 | 25.71 ± 0.31 |
+| BM25 | 44.44 ± 0.40 | 55.74 ± 0.99 | 67.82 ± 0.27 | 44.66 ± 0.14 | 17.48 ± 0.51 | 15.13 ± 1.04 | **36.18** ± 0.64 | **34.90** ± 1.36 | 39.54 ± 0.19 | 25.92 ± 0.42 |
+| LESS | 43.38 ± 0.21 | 53.80 ± 0.20 | 64.60 ± 0.40 | 43.38 ± 0.14 | 16.14 ± 0.90 | 13.45 ± 0.70 | 33.06 ± 0.63 | 33.21 ± 0.51 | 37.63 ± 0.29 | 23.96 ± 0.40 |
+| RDS | 43.68 ± 0.13 | 55.59 ± 0.24 | 66.56 ± 0.39 | 44.80 ± 0.18 | 17.76 ± 1.09 | 14.59 ± 0.84 | 35.38 ± 0.55 | 34.27 ± 0.67 | 39.08 ± 0.24 | 25.50 ± 0.29 |
+| IF (GraSS) | 44.58 ± 0.35 | 54.97 ± 0.28 | 65.69 ± 0.26 | 44.81 ± 0.21 | 16.98 ± 0.35 | 13.67 ± 0.78 | 34.21 ± 0.17 | 34.35 ± 0.41 | 38.66 ± 0.08 | 24.80 ± 0.17 |
+| **DRIFT** | **45.86** ± 0.30 | **56.40** ± 0.22 | **67.84** ± 0.43 | **44.94** ± 0.19 | **19.95** ± 0.94 | **16.28** ± 0.58 | 35.25 ± 0.56 | 34.57 ± 0.92 | **40.14** ± 0.12 | **26.51** ± 0.24 |
+
+All averages the eight benchmarks; Additional averages the last four. Bold marks the best continued-SFT mean. No standard deviation is reported for Base.
 
 “Base” is the checkpoint **after its original SFT schedule**. Continued training uses 192,453 selected examples, 500 updates, a 262,144-token global batch, and learning rate 1e-5.
 
