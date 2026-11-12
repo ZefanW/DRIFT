@@ -26,6 +26,8 @@ Accuracy (%) from the paper's main table, with standard deviations from the appe
 
 All averages the eight benchmarks; Additional averages the last four. Bold marks the best continued-SFT mean. No standard deviation is reported for Base.
 
+Download the [per-run evaluation results](results/README.md) for the main comparison and available ablations.
+
 “Base” is the checkpoint **after its original SFT schedule**. Continued training uses 192,453 selected examples, 500 updates, a 262,144-token global batch, and learning rate 1e-5.
 
 ## Reproduce OLMo3-7B
@@ -33,6 +35,7 @@ All averages the eight benchmarks; Additional averages the last four. Bold marks
 - **Model:** [allenai/Olmo-3-7B-Instruct-SFT](https://huggingface.co/allenai/Olmo-3-7B-Instruct-SFT).
 - **Data:** [Dolci-Instruct-SFT](https://huggingface.co/datasets/allenai/Dolci-Instruct-SFT); 1,924,533 non-tool candidate examples.
 - **Paper’s selected subset:** [ordered selection index](artifacts/olmo3_selected.jsonl.gz), with fixed [model/data versions](artifacts/olmo3_selection_manifest.json). The reconstruction script preserves the selected messages, duplicates, and training order.
+- **Validation rollouts and labels:** [Hugging Face dataset](https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts), containing 8,220 validation queries and 263,040 generated responses with correctness labels.
 
 ### 1. Install
 

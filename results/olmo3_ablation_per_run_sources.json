@@ -1,0 +1,1653 @@
+{
+  "schema_version": 1,
+  "csv": "olmo3_ablation_per_run.csv",
+  "unit": "accuracy percentage points (0-100)",
+  "scope": "27 recorded runs across nine OLMo3 ablation/control conditions. Additional OLMo3 runs are in olmo3_per_run.csv.",
+  "precision": "Source metric values are retained at parsed floating-point precision. No values are reconstructed from summary statistics.",
+  "aggregation": {
+    "Validation_source": "arithmetic mean of BBH, MBPP_plus, MATH, MMLU_Pro",
+    "Additional": "arithmetic mean of ZebraLogic, LCB_v5, OlympiadBench, GPQA_D",
+    "All": "arithmetic mean of eight benchmarks",
+    "standard_deviation": "sample standard deviation across three runs (ddof=1); aggregate metrics are calculated within each run first"
+  },
+  "condition_mapping": {
+    "1P": {
+      "source_definition": "0424_loss_test/setting6_random_pos_only.jsonl",
+      "experiment_prefix": "olmo_rollout_0424_influence_setting6_top10_gradnorm_debias"
+    },
+    "1P + 1N (-1)": {
+      "source_definition": "0424_loss_test/setting7_random_pos_and_neg.jsonl",
+      "experiment_prefix": "olmo_rollout_0424_influence_setting7_top10_gradnorm_debias"
+    },
+    "All P + All N (+1)": {
+      "source_definition": "0424_loss_test/setting9_neg_and_pos_allpos.jsonl",
+      "experiment_prefix": "olmo_rollout_0424_influence_setting9_top10_gradnorm_debias"
+    },
+    "remaining_included_conditions": "Named original experiment directories identify rollout budget, cosine correction, and self-distillation controls."
+  },
+  "notes": [
+    "Source file paths are relative archive references; ** omits deployment-specific model-path directories.",
+    "Some summaries differ from the published table, including the 8-rollout condition. Original metric values are retained; summary_check records the differences.",
+    "The experiment labels and source files are reported as recovered. The four unresolved conditions below are not represented by inferred values."
+  ],
+  "unpublished_conditions": [
+    {
+      "condition": "Off-policy reference",
+      "expected_runs": 3,
+      "reason": "The historical experiment-to-paper-condition mapping has not been confirmed."
+    },
+    {
+      "condition": "All P",
+      "expected_runs": 3,
+      "reason": "The historical experiment-to-paper-condition mapping has not been confirmed."
+    },
+    {
+      "condition": "Packing Correction",
+      "expected_runs": 3,
+      "reason": "The historical experiment-to-paper-condition mapping and complete source records have not been confirmed."
+    },
+    {
+      "condition": "Unified Orthogonalization",
+      "expected_runs": 3,
+      "reason": "The historical experiment-to-paper-condition mapping has not been confirmed."
+    }
+  ],
+  "summary_check": [
+    {
+      "method": "1P",
+      "n_runs": 3,
+      "paper_table": "table_weighting_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 44.505536464299354,
+          "sample_std": 0.2248557749421256
+        },
+        "MBPP_plus": {
+          "mean": 56.536596119929456,
+          "sample_std": 0.3245686037111019
+        },
+        "MATH": {
+          "mean": 67.08227495704678,
+          "sample_std": 0.4174698886243219
+        },
+        "MMLU_Pro": {
+          "mean": 45.14073581560284,
+          "sample_std": 0.1524218163062839
+        },
+        "ZebraLogic": {
+          "mean": 18.058333333333334,
+          "sample_std": 0.8875293422379518
+        },
+        "LCB_v5": {
+          "mean": 15.387045813586099,
+          "sample_std": 0.511175029616539
+        },
+        "OlympiadBench": {
+          "mean": 35.05192878338279,
+          "sample_std": 0.6239838220052202
+        },
+        "GPQA_D": {
+          "mean": 34.50126262626263,
+          "sample_std": 0.822526150302737
+        },
+        "Validation_source": {
+          "mean": 53.31628583921961,
+          "sample_std": 0.1764510793412955
+        },
+        "Additional": {
+          "mean": 25.74964263914121,
+          "sample_std": 0.17535541445836142
+        },
+        "All": {
+          "mean": 39.53296423918041,
+          "sample_std": 0.15857296285327432
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "BBH",
+          "computed": [
+            44.51,
+            0.22
+          ],
+          "paper": [
+            44.51,
+            0.23
+          ]
+        },
+        {
+          "column": "ZebraLogic",
+          "computed": [
+            18.06,
+            0.89
+          ],
+          "paper": [
+            18.06,
+            0.88
+          ]
+        }
+      ]
+    },
+    {
+      "method": "1P + 1N (-1)",
+      "n_runs": 3,
+      "paper_table": "table_weighting_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 44.91790759831997,
+          "sample_std": 0.3400602379261129
+        },
+        "MBPP_plus": {
+          "mean": 56.635802469135804,
+          "sample_std": 0.7374659913438173
+        },
+        "MATH": {
+          "mean": 67.55572370817653,
+          "sample_std": 0.1862940923136428
+        },
+        "MMLU_Pro": {
+          "mean": 45.658798758865245,
+          "sample_std": 0.2774404228367581
+        },
+        "ZebraLogic": {
+          "mean": 19.458333333333332,
+          "sample_std": 0.9625270558967839
+        },
+        "LCB_v5": {
+          "mean": 15.85308056872038,
+          "sample_std": 0.7448451964692752
+        },
+        "OlympiadBench": {
+          "mean": 34.730464886251234,
+          "sample_std": 0.6041934581043854
+        },
+        "GPQA_D": {
+          "mean": 34.96422558922559,
+          "sample_std": 0.3765894395659353
+        },
+        "Validation_source": {
+          "mean": 53.692058133624386,
+          "sample_std": 0.2727590170857953
+        },
+        "Additional": {
+          "mean": 26.251526094382633,
+          "sample_std": 0.2610022484434284
+        },
+        "All": {
+          "mean": 39.97179211400351,
+          "sample_std": 0.2554761687517649
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "MBPP_plus",
+          "computed": [
+            56.64,
+            0.74
+          ],
+          "paper": [
+            56.63,
+            0.74
+          ]
+        },
+        {
+          "column": "LCB_v5",
+          "computed": [
+            15.85,
+            0.74
+          ],
+          "paper": [
+            15.85,
+            0.75
+          ]
+        },
+        {
+          "column": "All",
+          "computed": [
+            39.97,
+            0.26
+          ],
+          "paper": [
+            39.97,
+            0.25
+          ]
+        }
+      ]
+    },
+    {
+      "method": "All P + All N, 4 rollouts",
+      "n_runs": 3,
+      "paper_table": "table_weighting_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 45.16991218022146,
+          "sample_std": 0.17497425333928307
+        },
+        "MBPP_plus": {
+          "mean": 56.723985890652564,
+          "sample_std": 0.48186712950604904
+        },
+        "MATH": {
+          "mean": 67.71727798348118,
+          "sample_std": 0.40291698829564454
+        },
+        "MMLU_Pro": {
+          "mean": 45.34851507092199,
+          "sample_std": 0.19211811222945513
+        },
+        "ZebraLogic": {
+          "mean": 18.616666666666667,
+          "sample_std": 0.5210166344113523
+        },
+        "LCB_v5": {
+          "mean": 15.80568720379147,
+          "sample_std": 0.6673046369824038
+        },
+        "OlympiadBench": {
+          "mean": 35.06429277942631,
+          "sample_std": 0.26833004963168566
+        },
+        "GPQA_D": {
+          "mean": 34.54335016835017,
+          "sample_std": 0.46854890736978877
+        },
+        "Validation_source": {
+          "mean": 53.7399227813193,
+          "sample_std": 0.139952896800308
+        },
+        "Additional": {
+          "mean": 26.007499204558652,
+          "sample_std": 0.12680336134690184
+        },
+        "All": {
+          "mean": 39.873710992938975,
+          "sample_std": 0.12936750676286088
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "MBPP_plus",
+          "computed": [
+            56.72,
+            0.48
+          ],
+          "paper": [
+            56.73,
+            0.48
+          ]
+        },
+        {
+          "column": "LCB_v5",
+          "computed": [
+            15.81,
+            0.67
+          ],
+          "paper": [
+            15.8,
+            0.67
+          ]
+        },
+        {
+          "column": "OlympiadBench",
+          "computed": [
+            35.06,
+            0.27
+          ],
+          "paper": [
+            35.07,
+            0.27
+          ]
+        }
+      ]
+    },
+    {
+      "method": "All P + All N, 8 rollouts",
+      "n_runs": 3,
+      "paper_table": "table_weighting_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 45.61282932416953,
+          "sample_std": 0.0826014037906982
+        },
+        "MBPP_plus": {
+          "mean": 56.01851851851852,
+          "sample_std": 0.5523575756775848
+        },
+        "MATH": {
+          "mean": 67.22655382763111,
+          "sample_std": 0.22781557619312376
+        },
+        "MMLU_Pro": {
+          "mean": 45.185062056737586,
+          "sample_std": 0.29529031421478175
+        },
+        "ZebraLogic": {
+          "mean": 19.708333333333336,
+          "sample_std": 0.7891187067440069
+        },
+        "LCB_v5": {
+          "mean": 16.011058451816744,
+          "sample_std": 0.7584172490414002
+        },
+        "OlympiadBench": {
+          "mean": 35.731948565776456,
+          "sample_std": 0.5063203568111596
+        },
+        "GPQA_D": {
+          "mean": 34.12247474747475,
+          "sample_std": 0.5584534726311275
+        },
+        "Validation_source": {
+          "mean": 53.51074093176419,
+          "sample_std": 0.14202879370148785
+        },
+        "Additional": {
+          "mean": 26.39345377460032,
+          "sample_std": 0.09232321287832732
+        },
+        "All": {
+          "mean": 39.95209735318225,
+          "sample_std": 0.0529242273357023
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "MATH",
+          "computed": [
+            67.23,
+            0.23
+          ],
+          "paper": [
+            67.56,
+            0.36
+          ]
+        },
+        {
+          "column": "MMLU_Pro",
+          "computed": [
+            45.19,
+            0.3
+          ],
+          "paper": [
+            45.18,
+            0.3
+          ]
+        },
+        {
+          "column": "OlympiadBench",
+          "computed": [
+            35.73,
+            0.51
+          ],
+          "paper": [
+            35.73,
+            0.5
+          ]
+        },
+        {
+          "column": "Validation_source",
+          "computed": [
+            53.51,
+            0.14
+          ],
+          "paper": [
+            53.59,
+            0.1
+          ]
+        },
+        {
+          "column": "Additional",
+          "computed": [
+            26.39,
+            0.09
+          ],
+          "paper": [
+            26.4,
+            0.1
+          ]
+        },
+        {
+          "column": "All",
+          "computed": [
+            39.95,
+            0.05
+          ],
+          "paper": [
+            39.99,
+            0.02
+          ]
+        }
+      ]
+    },
+    {
+      "method": "All P + All N, 16 rollouts",
+      "n_runs": 3,
+      "paper_table": "table_weighting_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 45.46773577701413,
+          "sample_std": 0.16091109206342422
+        },
+        "MBPP_plus": {
+          "mean": 56.238977072310405,
+          "sample_std": 0.3504875021072449
+        },
+        "MATH": {
+          "mean": 67.42685851672637,
+          "sample_std": 0.40918745378444815
+        },
+        "MMLU_Pro": {
+          "mean": 45.03823138297872,
+          "sample_std": 0.14202133885169102
+        },
+        "ZebraLogic": {
+          "mean": 18.383333333333333,
+          "sample_std": 0.5592033023269214
+        },
+        "LCB_v5": {
+          "mean": 15.450236966824644,
+          "sample_std": 0.8622467013583066
+        },
+        "OlympiadBench": {
+          "mean": 35.917408506429275,
+          "sample_std": 0.5617120025519545
+        },
+        "GPQA_D": {
+          "mean": 35.64814814814815,
+          "sample_std": 1.2247040847602237
+        },
+        "Validation_source": {
+          "mean": 53.54295068725741,
+          "sample_std": 0.014028857847868781
+        },
+        "Additional": {
+          "mean": 26.34978173868385,
+          "sample_std": 0.25238880613963444
+        },
+        "All": {
+          "mean": 39.94636621297063,
+          "sample_std": 0.12012460625186501
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "ZebraLogic",
+          "computed": [
+            18.38,
+            0.56
+          ],
+          "paper": [
+            18.37,
+            0.56
+          ]
+        },
+        {
+          "column": "OlympiadBench",
+          "computed": [
+            35.92,
+            0.56
+          ],
+          "paper": [
+            35.91,
+            0.56
+          ]
+        }
+      ]
+    },
+    {
+      "method": "All P + All N (+1)",
+      "n_runs": 3,
+      "paper_table": "table_weighting_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 44.02443680794196,
+          "sample_std": 0.11756246138480793
+        },
+        "MBPP_plus": {
+          "mean": 56.81216931216932,
+          "sample_std": 0.45462060465831566
+        },
+        "MATH": {
+          "mean": 66.85166374294887,
+          "sample_std": 0.13534074315167383
+        },
+        "MMLU_Pro": {
+          "mean": 43.7998670212766,
+          "sample_std": 0.3000090699431552
+        },
+        "ZebraLogic": {
+          "mean": 17.166666666666668,
+          "sample_std": 0.9138973319434369
+        },
+        "LCB_v5": {
+          "mean": 13.262243285939968,
+          "sample_std": 0.602442810921591
+        },
+        "OlympiadBench": {
+          "mean": 36.01632047477745,
+          "sample_std": 0.46476127915955834
+        },
+        "GPQA_D": {
+          "mean": 34.311868686868685,
+          "sample_std": 0.35851694102274534
+        },
+        "Validation_source": {
+          "mean": 52.87203422108419,
+          "sample_std": 0.21205892550477085
+        },
+        "Additional": {
+          "mean": 25.189274778563192,
+          "sample_std": 0.1631505732901536
+        },
+        "All": {
+          "mean": 39.03065449982369,
+          "sample_std": 0.18646355476170343
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "OlympiadBench",
+          "computed": [
+            36.02,
+            0.46
+          ],
+          "paper": [
+            36.02,
+            0.47
+          ]
+        },
+        {
+          "column": "All",
+          "computed": [
+            39.03,
+            0.19
+          ],
+          "paper": [
+            39.03,
+            0.18
+          ]
+        }
+      ]
+    },
+    {
+      "method": "Cosine",
+      "n_runs": 3,
+      "paper_table": "table_debias_seeds.tex",
+      "computed": {
+        "BBH": {
+          "mean": 44.69644902634594,
+          "sample_std": 0.3374781182739141
+        },
+        "MBPP_plus": {
+          "mean": 56.31613756613756,
+          "sample_std": 0.34524823111476277
+        },
+        "MATH": {
+          "mean": 67.10983280083514,
+          "sample_std": 0.35027508150381764
+        },
+        "MMLU_Pro": {
+          "mean": 45.12134308510638,
+          "sample_std": 0.2898204084800983
+        },
+        "ZebraLogic": {
+          "mean": 20.858333333333334,
+          "sample_std": 0.6983611768514435
+        },
+        "LCB_v5": {
+          "mean": 15.529225908372828,
+          "sample_std": 0.6720561855104514
+        },
+        "OlympiadBench": {
+          "mean": 35.917408506429275,
+          "sample_std": 0.20428674136817798
+        },
+        "GPQA_D": {
+          "mean": 33.80681818181818,
+          "sample_std": 0.3515002754311874
+        },
+        "Validation_source": {
+          "mean": 53.31094061960625,
+          "sample_std": 0.18609894446710018
+        },
+        "Additional": {
+          "mean": 26.527946482488407,
+          "sample_std": 0.1252614762935634
+        },
+        "All": {
+          "mean": 39.91944355104733,
+          "sample_std": 0.06040585216787099
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "OlympiadBench",
+          "computed": [
+            35.92,
+            0.2
+          ],
+          "paper": [
+            35.92,
+            0.21
+          ]
+        },
+        {
+          "column": "Validation_source",
+          "computed": [
+            53.31,
+            0.19
+          ],
+          "paper": [
+            53.31,
+            0.18
+          ]
+        },
+        {
+          "column": "Additional",
+          "computed": [
+            26.53,
+            0.13
+          ],
+          "paper": [
+            26.53,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "method": "Self-Distillation",
+      "n_runs": 3,
+      "paper_table": "table_robustness_olmo3.tex",
+      "computed": {
+        "BBH": {
+          "mean": 43.184421534937,
+          "sample_std": 0.6784464098492952
+        },
+        "MBPP_plus": {
+          "mean": 54.772927689594354,
+          "sample_std": 0.41872618856310406
+        },
+        "MATH": {
+          "mean": 67.89733605778407,
+          "sample_std": 0.3638500222455018
+        },
+        "MMLU_Pro": {
+          "mean": 41.278812056737586,
+          "sample_std": 0.32872052850612354
+        },
+        "ZebraLogic": {
+          "mean": 17.758333333333333,
+          "sample_std": 0.2309401076758495
+        },
+        "LCB_v5": {
+          "mean": 8.917851500789888,
+          "sample_std": 0.5171815650828078
+        },
+        "OlympiadBench": {
+          "mean": 35.99159248269041,
+          "sample_std": 0.380682599365497
+        },
+        "GPQA_D": {
+          "mean": 31.292087542087543,
+          "sample_std": 0.31141937262097386
+        },
+        "Validation_source": {
+          "mean": 51.78337433476326,
+          "sample_std": 0.17071271154194995
+        },
+        "Additional": {
+          "mean": 23.489966214725293,
+          "sample_std": 0.10814013142517206
+        },
+        "All": {
+          "mean": 37.636670274744276,
+          "sample_std": 0.13478042919121994
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "MBPP_plus",
+          "computed": [
+            54.77,
+            0.42
+          ],
+          "paper": [
+            54.77,
+            0.41
+          ]
+        }
+      ]
+    },
+    {
+      "method": "Self-Distillation + Random",
+      "n_runs": 3,
+      "paper_table": "table_robustness_olmo3.tex",
+      "computed": {
+        "BBH": {
+          "mean": 43.7266132111493,
+          "sample_std": 0.7533478399473721
+        },
+        "MBPP_plus": {
+          "mean": 55.952380952380956,
+          "sample_std": 0.26247532847863075
+        },
+        "MATH": {
+          "mean": 67.90986766869474,
+          "sample_std": 0.2680069785515428
+        },
+        "MMLU_Pro": {
+          "mean": 42.644614361702125,
+          "sample_std": 0.4488801401725669
+        },
+        "ZebraLogic": {
+          "mean": 17.849999999999998,
+          "sample_std": 0.22220486043289048
+        },
+        "LCB_v5": {
+          "mean": 9.676145339652448,
+          "sample_std": 0.430036574686136
+        },
+        "OlympiadBench": {
+          "mean": 36.20178041543027,
+          "sample_std": 0.2967359050445104
+        },
+        "GPQA_D": {
+          "mean": 32.996632996633,
+          "sample_std": 0.9751352899072105
+        },
+        "Validation_source": {
+          "mean": 52.55836904848178,
+          "sample_std": 0.2715183235519719
+        },
+        "Additional": {
+          "mean": 24.181139687928926,
+          "sample_std": 0.23598803408020708
+        },
+        "All": {
+          "mean": 38.369754368205356,
+          "sample_std": 0.2204417069217424
+        }
+      },
+      "differences_at_two_decimals": [
+        {
+          "column": "GPQA_D",
+          "computed": [
+            33.0,
+            0.98
+          ],
+          "paper": [
+            33.0,
+            0.97
+          ]
+        }
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "method": "1P",
+      "run_id": "olmo_rollout_0424_influence_setting6_top10_gradnorm_debias",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "f77b886b28655b38b070f508ac099fce52a10cfa0400cb9a52b92c69ab9fbe0a"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T04-09-26.775575.json",
+          "sha256": "7ab394d26b6d35e9267a7d55ec5ec574704ce977a4b14735e80b10cc9392dd23"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T03-48-01.083424.json",
+          "sha256": "1f24876c531a0f2b6b80ee3c080071890bed76219fcb773c19153c22e4a92096"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "1P",
+      "run_id": "olmo_rollout_0424_influence_setting6_top10_gradnorm_debias_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "6c799d03d3274c6b64d48943d549936d4592d1a7d19990ec333cb0394a987c8c"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T15-49-58.570622.json",
+          "sha256": "e7f742aa8238ae6715d5680c1b26fcd373f573fd3cd039163bec12c1baeda3c9"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T15-27-53.080908.json",
+          "sha256": "76ae32d7e62af49de23c00b6215376fabe3e7dd28267ee8efc95469e31d1ecfc"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "1P",
+      "run_id": "olmo_rollout_0424_influence_setting6_top10_gradnorm_debias_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "2ede834cae987eb62ecfa42dd3c1f0fa5fb15360442a0bb8221a61ba44c97a66"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T12-10-30.814751.json",
+          "sha256": "60218abd27d1853925865c0a7797d37e16f7eef5a0003047e50e114452000efd"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T11-47-51.932952.json",
+          "sha256": "accc8a237bab2e11083b729ddc18dc3616db3d56ac9f593ad29a503c8986d405"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "1P + 1N (-1)",
+      "run_id": "olmo_rollout_0424_influence_setting7_top10_gradnorm_debias",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "11185f87e722af8a969cf8bc18f2354be41029894726ae3c95b3ee69a1ea9b50"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T04-12-16.091937.json",
+          "sha256": "7314b67d343d43770fe0593f776b4617c0f4bfa42043d416c826d8a039c4551d"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T03-49-49.189009.json",
+          "sha256": "d8833288a145d84d3cd208c7b84f9e7670d13a9c846a118497d09c9ac82922cc"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "1P + 1N (-1)",
+      "run_id": "olmo_rollout_0424_influence_setting7_top10_gradnorm_debias_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "85fa60649e51ca460697314b716619b6299dbd9ef785d59219d78d05f49c5a31"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T15-52-22.549640.json",
+          "sha256": "f59ce9ffdbbb8938da7e3ebc5d16db9bdf52dfaacb7b58304554ee6978da02a7"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T15-30-10.229891.json",
+          "sha256": "d3501dbe73b16f14098ecce904cfd690609c0c68e2e796cf7bfad5bab2496d0f"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "1P + 1N (-1)",
+      "run_id": "olmo_rollout_0424_influence_setting7_top10_gradnorm_debias_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "33714791715726955549fe69b18cbe0c064fd93891c115c539310552be2d7545"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T12-23-23.422536.json",
+          "sha256": "03d0bb8fa863daa0c0cc335855bb1e5eb53c1a32192547b3a191193d8a4bd488"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T12-00-26.435498.json",
+          "sha256": "007d1bf0e8be60956cf077435677f47ecb28f87c07422e46be25fba0e1a35fdd"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 4 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_4_top10_gradnorm_debias",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "7424b24e57a5db208dd6a15c2568efc49aae896de59d939d2b2927994bdf852a"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T04-13-54.157143.json",
+          "sha256": "acead97a33b74931f9e7b6b57c86c85e1b84aff24a8b14c5c56e30f63bb9fafc"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T03-51-10.500085.json",
+          "sha256": "60ae2b88a19b94c020a7c4cd6691f2a06fbe5638f58a324fbde6c6511f0d286e"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 4 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_4_top10_gradnorm_debias_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "3765cd34f9933d8189e7202c77b532c3ccba1138dcff5343a337f77a99f038f2"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T05-36-12.432246.json",
+          "sha256": "3479f10f6ec72fbf96bdc765e2fe39c3d638cfcba289ce11c01bfdad777ecf5b"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T05-12-00.304457.json",
+          "sha256": "0cfd4a12026d65ee2b86d84209bfd4ca04baaf850ddb1e49d2ffca8d32a41cea"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 4 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_4_top10_gradnorm_debias_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "f5ce683f7eb8e22dc85a9d86e27047875fe18b0fae4d770b90848ef7ae8689d0"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T01-56-42.657708.json",
+          "sha256": "51b1057b82c0012fc5fda5d7b27dc68c96ceb0f644478a7331301797742c4817"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T01-31-54.557851.json",
+          "sha256": "e65a9edeab0067bd782eb7a60b07068e39211cd8ab4ff0ee133b168a622944d8"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 8 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_8_top10_gradnorm_debias",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "c9f355b0ab90a8240110292b43b6b6114212b29c76f5353529d97d8f76cacfaa"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T04-19-19.564299.json",
+          "sha256": "e5c45e4fffbd716549dbe96cadea6309cbdc03d45fa6cb11232646397dddbd6a"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T03-55-23.853013.json",
+          "sha256": "7fe901b81e9e01d092ed1126333349d94aa601141caf0920531ac37e016c2354"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 8 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_8_top10_gradnorm_debias_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "8ac9cacb3d1097b8a7fcb3e6b998026191486e7549b672f4ebfe86cd6dc22e9d"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T05-33-30.803363.json",
+          "sha256": "6fa8f405677e2ae1a982b6f2162d2677a91dd03756eded45449a65af56acbb42"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T05-09-49.063490.json",
+          "sha256": "040496202c5da902e7d0824003497ac2366e36fd187c106431350396d45d8fe2"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 8 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_8_top10_gradnorm_debias_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "dcd65c8733ae3148a1ac2bd8db74fbed409357109db233f6e95f474fcb06d189"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T02-07-52.723948.json",
+          "sha256": "de3be4f7b4cda076537d436efa076faf5ead1d4cf5634974f75cf1e5ace901ee"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T01-44-37.847737.json",
+          "sha256": "56b0ce031817881fedb8724b536118fca27ca2f1c99a0474d91cd354f1046b00"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 16 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_16_top10_gradnorm_debias",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "72c2c76277b92be75a6f44fa480329805ec769d8a4fbcefea14382c10753663a"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T04-58-15.443877.json",
+          "sha256": "dd6ebe7fe7b1f7ff8db623568cfd43f7f3f97c2096c092144c61a73b032f5870"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T04-36-07.006430.json",
+          "sha256": "4682ff36babc02fe4da7d5b4568e828db566da9f789fb7b16cbb765e68e6f02d"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 16 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_16_top10_gradnorm_debias_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "a86e55a09452caf376d3ef973b23ce2112b05b86c94b926440d853c2f358bdd7"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T05-31-16.399549.json",
+          "sha256": "e4da3eb7140591eac204019b3cce9e97f19b9fd6bc6476670afafe7dc5e84c11"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T05-08-38.658962.json",
+          "sha256": "3314e0918a911b1163313915879e6251ff27d83537126e3b6a1e6749fa82dcc0"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N, 16 rollouts",
+      "run_id": "olmo_rollout_0424_influence_setting5_16_top10_gradnorm_debias_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "9f8f27e395e9ba4f58267aafde762901d0c48263e8b12ee96ebb27df74c1a601"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T01-29-19.841712.json",
+          "sha256": "18cece9e4a75fd679f123beaaff779748d3d325b124a4f6300d8a66608af71c2"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T01-06-57.366634.json",
+          "sha256": "6213422a10c1cf112908f79c77ceff94f3321835e3124b186812b383824281bd"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N (+1)",
+      "run_id": "olmo_rollout_0424_influence_setting9_top10_gradnorm_debias",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "67e223f7db1b105309378034fdb060fd2dc39172cf886defe60eb9ed59582da3"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T20-50-17.401180.json",
+          "sha256": "e995d67e41700921f29709151871c6d7cf2eb37842e7bc1bd8469a9f468a24b0"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-05-02T20-24-31.895490.json",
+          "sha256": "a3bdcf6ae0830e062193077aee0737fc104a45df47481bf2617988a183298917"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N (+1)",
+      "run_id": "olmo_rollout_0424_influence_setting9_top10_gradnorm_debias_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "603b77f67cb0453690f172e9b2a3bbccbf3b46693abfae8a0c9e4920493c5b0b"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T15-32-52.562276.json",
+          "sha256": "b1dfde7c334213a7edce5de3fd1d3444f1afdc3f9aaa6d82720bef9863f2966c"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-10T15-14-32.585052.json",
+          "sha256": "cd703c545299be2bea5b6f2115fa1b33926f07054edc81729fa6966803726e6d"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "All P + All N (+1)",
+      "run_id": "olmo_rollout_0424_influence_setting9_top10_gradnorm_debias_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "ebfd1520c5f5ee1923cad579bff5557ff49bd9be91cd384a9c901d84250fcc9b"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T11-30-25.883997.json",
+          "sha256": "de5062a7d691a49fc9eeb78777f625da3f247e081ff7bcff879a134651ecbdf6"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-11T11-12-05.878902.json",
+          "sha256": "5a399d21a81d77a043fdcd65d13d091ccd1689e3b87ce7a22c3809aa489f4afd"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Cosine",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10_cosine",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "594b0cb4eb592325b6944b4037fdf404e7814b5db1973a050d82855535d464ec"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-04-30T09-43-43.474634.json",
+          "sha256": "1624fbe06ac4c2dcf4c51c39c3608eacb0467adc8be58b5f38cf49ef7bdc10b3"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-04-30T09-22-33.024692.json",
+          "sha256": "8df178b37313cc1b2606088a19303d36a50f22e7d4d66ba1aa1a86bac09c7765"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Cosine",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10_cosine_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "da6a52e7d4a80f8153a13de3e3e245a6f779ac5fd4e494d50c44afeedb39d6bd"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-09T02-07-29.107193.json",
+          "sha256": "efcc8889a70dcb26d14774ef1e272df8c1b25e4a97d7037dbb02d31bc89c306a"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-09T01-47-38.221993.json",
+          "sha256": "85e133196c5c2e1a4d9fb9b5350fe424ae38a2cabdfbb0a1f0984601b1caf4e6"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Cosine",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10_cosine_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "f042abfecd0336e99ccc56041cd2bb3d936724d2783d2da277b6fcf9539078df"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-09T12-00-10.354258.json",
+          "sha256": "f56f85ead5c23d0eef55f8653b80e4dbdad5e66bab0d91161816174eead28d69"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-09T11-39-24.048018.json",
+          "sha256": "b6e22e00411f0a5e23251a1a674963bf54bcdd0d768da3289969c6abef230dfb"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Self-Distillation",
+      "run_id": "olmo3_0424_distillation_rj",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "3e240047fe7c362c155f8c05c34425b19cc34c65865b5ce1ac29e065fff1b88a"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-04-28T04-51-28.708748.json",
+          "sha256": "87da153d6183e4ca5ab0b25ec138e7025dfe399daf40c157447495ff5ce7730b"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-04-28T04-26-19.856471.json",
+          "sha256": "d86b6eccb13286bdb312cdf0853af1dee6ae7e744e373930c1b1f2281d289add"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Self-Distillation",
+      "run_id": "olmo_rj_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "a521996a051b37f8bf2fa6e9acc3d19726f8b9cc6ab18ce215e1bff4d12504f1"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-08-27T05-39-02.029092.json",
+          "sha256": "eaa3e5a709b7a7d0e1cfeb223f58a49354adb0734c447b3e7b462787fb1ef6d6"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-08-27T05-14-45.780328.json",
+          "sha256": "05dbcf184ec690cd6f5e22394acca5ab33735ada64cafaa2ff2f6baf36a5aa6f"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Self-Distillation",
+      "run_id": "olmo_rj_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "8bf3da5a0054a605676dbddf4bc1cb10f83b09de135353da41c94ecc5f753ad0"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-08-27T15-25-58.380577.json",
+          "sha256": "06675aeb665543b8946ccbec2b056c19ffb2e230e38eaedee1d88738d3237cef"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-08-27T15-00-55.255887.json",
+          "sha256": "f692e816cc903f34866e0337b281f2613168a347ce0d94ad12d1bebe32dad4fd"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Self-Distillation + Random",
+      "run_id": "olmo_rj_half_dolci5pct_run1",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "4a530416e9f71df8b9a94c7931832255f4e37c0982f49cf179018122c61f1c62"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-12T05-15-29.433070.json",
+          "sha256": "54bf459bc7eb261fce84c04a22746f3bc4d512c01f512ed697356236b4e3982e"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-12T04-48-06.023275.json",
+          "sha256": "3786744f0d98c8fdc7da88a8a688f9474c550b269816229521ff174365abd5b7"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Self-Distillation + Random",
+      "run_id": "olmo_rj_half_dolci5pct_run2",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "e942fa84274d90f7da6443e99c0f6a2d75ed9a49dd84a9424f1bee10bcb310ff"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-12T05-10-04.711368.json",
+          "sha256": "997abe303dc87b2e4bd08fa1ab9d6ea2b77972aa57e49fca4e73c7887d9c8bec"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-12T04-44-58.394669.json",
+          "sha256": "ec4a964da364753ea76a210063edaed8b7f2f5a1d9fa3fb0f68780e8bdafe9f2"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    },
+    {
+      "method": "Self-Distillation + Random",
+      "run_id": "olmo_rj_half_dolci5pct_run3",
+      "files": [
+        {
+          "file": "eval_output_olmes_0424/metrics.json",
+          "sha256": "7aba989c808ed2ed53180c33fc37b6748bdd842def50973c04d4cc1ef2da93ae"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-12T05-11-30.090952.json",
+          "sha256": "ee6351f6a76d35a9e1243a54687bb9452be76243611bac8ce5c888c9984fc243"
+        },
+        {
+          "file": "eval_output_lighteval_0424/results/**/results_2026-09-12T04-45-20.490665.json",
+          "sha256": "b5e251b22729b8448ce8ea967f6df2220b035d9284a2c5eff3aa46f7d92c64f6"
+        }
+      ],
+      "metric_keys": {
+        "MMLU_Pro": [
+          "mmlu_pro|0",
+          "extractive_match"
+        ],
+        "OlympiadBench": [
+          "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "avg@n:k=4&n=4"
+        ],
+        "GPQA_D": [
+          "gpqa:diamond|0",
+          "gpqa_pass@k:k=1&n=16"
+        ]
+      }
+    }
+  ]
+}

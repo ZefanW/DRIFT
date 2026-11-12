@@ -6,6 +6,8 @@ Use this route to compute attribution and select data yourself. To reproduce tra
 
 Use the completed SFT checkpoint `allenai/Olmo-3-7B-Instruct-SFT`, its original non-tool corpus, and validation queries. The paper uses 8,220 queries: 7,500 MATH, 54 BBH, 596 MBPP, and 70 MMLU-Pro. MBPP validation problems are disjoint from the MBPP+ evaluation set.
 
+The [original validation queries, rollouts, and correctness labels](https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts) are available as compressed JSONL files. The dataset card explains their original schema, including `is_original` to distinguish reference answers from generated responses.
+
 Corpus rows preserve all conversation turns:
 
 ```json

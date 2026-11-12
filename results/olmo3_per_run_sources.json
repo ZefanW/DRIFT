@@ -1,0 +1,4005 @@
+{
+  "schema_version": 1,
+  "csv": "olmo3_per_run.csv",
+  "unit": "accuracy percentage points (0-100)",
+  "scope": "24 original OLMo3 main-table runs and six available ablation runs. No new evaluations were run for this export.",
+  "run_id_definition": "Original experiment-directory basename, or the original supplied CSV run number. Run numbers are labels, not evidence of different RNG seeds.",
+  "precision": "Metric-file values are retained at parsed floating-point precision. The signed-BM25 source was supplied at two decimal places. No values were reconstructed from means or standard deviations.",
+  "aggregation": {
+    "Validation_source": "arithmetic mean of BBH, MBPP_plus, MATH, MMLU_Pro",
+    "Additional": "arithmetic mean of ZebraLogic, LCB_v5, OlympiadBench, GPQA_D",
+    "All": "arithmetic mean of the eight benchmark scores",
+    "standard_deviation": "sample standard deviation across three runs (ddof=1); aggregate metrics are calculated within each run first",
+    "BBH": "micro average over 18 subtasks and 4,365 questions",
+    "MATH": "stored OLMES primary_score (subject-macro average)"
+  },
+  "notes": [
+    "All mean and sample-standard-deviation summaries match the corresponding paper table at two decimal places for every included method.",
+    "Some per-benchmark summaries differ in the last decimal place when calculated from full-precision metrics. Values are not adjusted to match the table; differences are listed below.",
+    "For Random, full-precision GPQA mean is 33.7752525253; averaging per-run scores first rounded to two decimals gives 33.7733333333. The MBPP+ standard-deviation difference is likewise explained by per-run rounding.",
+    "IF (GraSS) GPQA yields 34.36 +/- 0.43, compared with the paper's 34.35 +/- 0.41; rounding each run to two decimals does not resolve this difference.",
+    "Base is not included: the starting checkpoint is not a three-run continual-training condition.",
+    "Source paths are relative archive references. A ** segment omits deployment-specific model-path directories; filename plus SHA256 identifies the source metric file. Original metric JSON files and model responses are not bundled here."
+  ],
+  "extraction": {
+    "summary_script": "eval_table.py",
+    "summary_script_sha256": "226d541b6485d42b54fa984271fbb41138c0b3570f0058385c687cce737c96c3",
+    "selection": "Explicit protocol-matched metric files; separate greedy evaluations are not combined via filename-order overwrites.",
+    "saved_audit_sha256": "135c82429c981367aad3b7b61841a777073fe02c515202a12dae7c77f894b49e"
+  },
+  "summary_check": [
+    {
+      "method": "Random",
+      "All": {
+        "mean": 39.037160489429304,
+        "sample_std": 0.14728330350338317
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "MBPP_plus",
+          "computed": [
+            56.34,
+            0.16
+          ],
+          "paper": [
+            56.34,
+            0.17
+          ]
+        },
+        {
+          "column": "GPQA_D",
+          "computed": [
+            33.78,
+            0.68
+          ],
+          "paper": [
+            33.77,
+            0.68
+          ]
+        }
+      ]
+    },
+    {
+      "method": "DSIR",
+      "All": {
+        "mean": 34.37300377018216,
+        "sample_std": 0.023282947690276178
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "MBPP_plus",
+          "computed": [
+            52.62,
+            0.88
+          ],
+          "paper": [
+            52.63,
+            0.88
+          ]
+        }
+      ]
+    },
+    {
+      "method": "Qurating",
+      "All": {
+        "mean": 39.26250551820983,
+        "sample_std": 0.2336363601639013
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "MATH",
+          "computed": [
+            66.88,
+            0.37
+          ],
+          "paper": [
+            66.89,
+            0.37
+          ]
+        },
+        {
+          "column": "MMLU_Pro",
+          "computed": [
+            44.14,
+            0.17
+          ],
+          "paper": [
+            44.14,
+            0.16
+          ]
+        },
+        {
+          "column": "LCB_v5",
+          "computed": [
+            15.49,
+            0.93
+          ],
+          "paper": [
+            15.49,
+            0.94
+          ]
+        },
+        {
+          "column": "Validation_source",
+          "computed": [
+            52.81,
+            0.17
+          ],
+          "paper": [
+            52.82,
+            0.17
+          ]
+        }
+      ]
+    },
+    {
+      "method": "BM25",
+      "All": {
+        "mean": 39.54272885261147,
+        "sample_std": 0.1855617814157753
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "BBH",
+          "computed": [
+            44.44,
+            0.39
+          ],
+          "paper": [
+            44.44,
+            0.4
+          ]
+        },
+        {
+          "column": "ZebraLogic",
+          "computed": [
+            17.47,
+            0.51
+          ],
+          "paper": [
+            17.48,
+            0.51
+          ]
+        },
+        {
+          "column": "GPQA_D",
+          "computed": [
+            34.9,
+            1.35
+          ],
+          "paper": [
+            34.9,
+            1.36
+          ]
+        },
+        {
+          "column": "Validation_source",
+          "computed": [
+            53.17,
+            0.12
+          ],
+          "paper": [
+            53.16,
+            0.12
+          ]
+        }
+      ]
+    },
+    {
+      "method": "LESS",
+      "All": {
+        "mean": 37.62771927740869,
+        "sample_std": 0.2929999499445251
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "ZebraLogic",
+          "computed": [
+            16.13,
+            0.9
+          ],
+          "paper": [
+            16.14,
+            0.9
+          ]
+        }
+      ]
+    },
+    {
+      "method": "RDS",
+      "All": {
+        "mean": 39.078943046792666,
+        "sample_std": 0.2411394388564904
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "LCB_v5",
+          "computed": [
+            14.59,
+            0.83
+          ],
+          "paper": [
+            14.59,
+            0.84
+          ]
+        },
+        {
+          "column": "OlympiadBench",
+          "computed": [
+            35.39,
+            0.55
+          ],
+          "paper": [
+            35.38,
+            0.55
+          ]
+        },
+        {
+          "column": "GPQA_D",
+          "computed": [
+            34.27,
+            0.66
+          ],
+          "paper": [
+            34.27,
+            0.67
+          ]
+        }
+      ]
+    },
+    {
+      "method": "IF (GraSS)",
+      "All": {
+        "mean": 38.66037199283778,
+        "sample_std": 0.07933731454440089
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "MATH",
+          "computed": [
+            65.69,
+            0.25
+          ],
+          "paper": [
+            65.69,
+            0.26
+          ]
+        },
+        {
+          "column": "ZebraLogic",
+          "computed": [
+            16.97,
+            0.35
+          ],
+          "paper": [
+            16.98,
+            0.35
+          ]
+        },
+        {
+          "column": "GPQA_D",
+          "computed": [
+            34.36,
+            0.43
+          ],
+          "paper": [
+            34.35,
+            0.41
+          ]
+        },
+        {
+          "column": "Additional",
+          "computed": [
+            24.81,
+            0.17
+          ],
+          "paper": [
+            24.8,
+            0.17
+          ]
+        }
+      ]
+    },
+    {
+      "method": "DRIFT",
+      "All": {
+        "mean": 40.13635717253275,
+        "sample_std": 0.1227108775034771
+      },
+      "paper_table": "paper/table/table_robustness_olmo3.tex",
+      "differences_at_two_decimals": []
+    },
+    {
+      "method": "No Debiasing",
+      "All": {
+        "mean": 39.42772980159177,
+        "sample_std": 0.15116654907496768
+      },
+      "paper_table": "paper/table/table_debias_seeds.tex",
+      "differences_at_two_decimals": [
+        {
+          "column": "BBH",
+          "computed": [
+            43.64,
+            0.2
+          ],
+          "paper": [
+            43.65,
+            0.2
+          ]
+        },
+        {
+          "column": "MATH",
+          "computed": [
+            65.47,
+            0.18
+          ],
+          "paper": [
+            65.47,
+            0.17
+          ]
+        }
+      ]
+    },
+    {
+      "method": "BM25 (signed rollouts)",
+      "All": {
+        "mean": 39.30041666666666,
+        "sample_std": 0.15142207842099517
+      },
+      "paper_table": "paper/table/table_scoring_seeds.tex",
+      "differences_at_two_decimals": []
+    }
+  ],
+  "files": {
+    "8ba959100698ad5d": {
+      "path": "notebook/final_results_olmes_0424/olmo3_instruct_uniform_bbh_mc/metrics.json",
+      "sha256": "8ba959100698ad5de15ff8723047934c54013453e0d8bace5493e376fbb87516"
+    },
+    "3889b3d467f88faa": {
+      "path": "notebook/final_results_olmes_0424/olmo3_instruct_unifom_mbpp/metrics.json",
+      "sha256": "3889b3d467f88faa4a3fe4630e544b6bafe4aedbc47aa8f2c95391bd58393700"
+    },
+    "2a0be8f54ef46bf9": {
+      "path": "olmo_uniform_safe/eval_output_olmes_greedy/metrics.json",
+      "sha256": "2a0be8f54ef46bf97be60f04b088b70eb83c2e58dbad3211b8b34dbda253de9a"
+    },
+    "5d977f3cf3b696c8": {
+      "path": "notebook/final_results_olmes_0424/olmo3_uniform_mmlupro/resultsolmo_uniform_safe/train_output/v0-20260420-002750/checkpoint-500/results_2026-04-24T20-19-45.448164.json",
+      "sha256": "5d977f3cf3b696c8f915a75571e7c7000634272d7e54314cd81dbcc99f395398"
+    },
+    "5a5f36e356e9e23d": {
+      "path": "notebook/final_results_olmes_0424/olmo3_instruct_uniform_zebralogic/metrics.json",
+      "sha256": "5a5f36e356e9e23dec2116744225db5c200ea3fd7804172f5937b205c5f5e0e4"
+    },
+    "d390956da8a35293": {
+      "path": "notebook/final_results_olmes_0424/olmo3_instruct_uniform_lcb/metrics.json",
+      "sha256": "d390956da8a3529391116225d356c2be18bc35d596e01575dd862f242b38fb51"
+    },
+    "0ff2d080f5707565": {
+      "path": "notebook/final_results_olmes_0424/olmo3_instruct_uniform_olym/resultsolmo_uniform_safe/train_output/v0-20260420-002750/checkpoint-500/results_2026-04-24T22-41-57.360598.json",
+      "sha256": "0ff2d080f5707565c0c57f91b1f28222f1fa884a35adf22e7de2745f32f82e07"
+    },
+    "6f2c31cb913bc389": {
+      "path": "notebook/final_results_olmes_0424/olmo3_instruct_uniform_gpqa16/resultsolmo_uniform_safe/train_output/v0-20260420-002750/checkpoint-500/results_2026-04-24T22-28-53.297991.json",
+      "sha256": "6f2c31cb913bc38913e53931afa1345d018eb2eb81549e7d3239aa1ace71587c"
+    },
+    "26ddbd20a6eb491a": {
+      "path": "olmo_uniform_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "26ddbd20a6eb491aa0a00d8a7fa8e76f1c3fa5422549c422b0467585ee6b3486"
+    },
+    "1b92f33277b5e741": {
+      "path": "olmo_uniform_run2/eval_output_lighteval_0424/resultsolmo_uniform_run2/train_output/v0-20260810-021529/checkpoint-500/results_2026-08-10T16-26-41.103586.json",
+      "sha256": "1b92f33277b5e7414c2959d307cdc122144a5819ec73f34b801aa14645d6e730"
+    },
+    "394fa3fa04c849ea": {
+      "path": "olmo_uniform_run2/eval_output_lighteval_0424/resultsolmo_uniform_run2/train_output/v0-20260810-021529/checkpoint-500/results_2026-08-10T16-08-08.800772.json",
+      "sha256": "394fa3fa04c849ea3f8727f0ba0c899d249d011ef8c7755962efc5af912edc98"
+    },
+    "b46a44507c60476b": {
+      "path": "olmo_uniform_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "b46a44507c60476b4bd0ce3d3de9cd41e7a5ba3fb0871c7af4b35e29de91fc10"
+    },
+    "f47b797627c3753c": {
+      "path": "olmo_uniform_run3/eval_output_lighteval_0424/resultsolmo_uniform_run3/train_output/v0-20260810-134911/checkpoint-500/results_2026-08-10T21-11-11.866668.json",
+      "sha256": "f47b797627c3753ce10209932d1e0869ac7462232922301c86547604085ca60e"
+    },
+    "27d3326644fad879": {
+      "path": "olmo_uniform_run3/eval_output_lighteval_0424/resultsolmo_uniform_run3/train_output/v0-20260810-134911/checkpoint-500/results_2026-08-10T20-53-06.834527.json",
+      "sha256": "27d3326644fad87960605a1d173eaf77910f693ac2e9628cea8b91b8f4a88bef"
+    },
+    "062c79240c7a8176": {
+      "path": "olmo3_0424_dsir/eval_output_olmes_0424/metrics.json",
+      "sha256": "062c79240c7a8176e023428b030ef0b2a23d510e7a437b92c48e0a66b2d9e537"
+    },
+    "252f3027d0e3dd27": {
+      "path": "olmo3_0424_dsir/eval_output_lighteval_0424/resultsolmo3_0424_dsir/train_output/v0-20260427-201359/checkpoint-500/results_2026-04-28T03-16-39.923529.json",
+      "sha256": "252f3027d0e3dd27007a0e6b97a6f238cdd7fcf182bfb9697f0d1623fdaa1e6a"
+    },
+    "de3bb7ae6bf60195": {
+      "path": "olmo3_0424_dsir/eval_output_lighteval_0424/resultsolmo3_0424_dsir/train_output/v0-20260427-201359/checkpoint-500/results_2026-04-28T03-09-44.536548.json",
+      "sha256": "de3bb7ae6bf601958e571321f25f837cf83abd91a97eb9744440683a11457273"
+    },
+    "2b8eac3c76befbb4": {
+      "path": "olmo_dsir_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "2b8eac3c76befbb4a81fdeb7bb07519927b748cf5aff23d291c815f4423dbe8a"
+    },
+    "355be55f15a976b3": {
+      "path": "olmo_dsir_run2/eval_output_lighteval_0424/resultsolmo_dsir_run2/train_output/v0-20260817-114324/checkpoint-500/results_2026-08-17T18-45-17.618217.json",
+      "sha256": "355be55f15a976b33c3bae5545f3b59da080d805955fc03eebcb801155e3adee"
+    },
+    "405d40f9737ac556": {
+      "path": "olmo_dsir_run2/eval_output_lighteval_0424/resultsolmo_dsir_run2/train_output/v0-20260817-114324/checkpoint-500/results_2026-08-17T18-37-16.382666.json",
+      "sha256": "405d40f9737ac5564892550d506b0c1748482fa43b0073d8d2fcd93715529b6d"
+    },
+    "6696e374d01588c5": {
+      "path": "olmo_dsir_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "6696e374d01588c599a043492e69ae6028789092e097ff8892075ccb2224f78b"
+    },
+    "7771b17cb0e453e2": {
+      "path": "olmo_dsir_run3/eval_output_lighteval_0424/resultsolmo_dsir_run3/train_output/v0-20260817-201102/checkpoint-500/results_2026-08-18T03-12-27.951031.json",
+      "sha256": "7771b17cb0e453e2d508d82a9e5586b88177e4c5498218d87ffd26c0562aa397"
+    },
+    "a43b92a48aff0373": {
+      "path": "olmo_dsir_run3/eval_output_lighteval_0424/resultsolmo_dsir_run3/train_output/v0-20260817-201102/checkpoint-500/results_2026-08-18T03-04-31.180915.json",
+      "sha256": "a43b92a48aff03736d6fd70afbddf2af58cdd7b3233a9b64692d36bf35b21e6b"
+    },
+    "01c914f688295b80": {
+      "path": "olmo_qurating/eval_output_olmes_0424/metrics.json",
+      "sha256": "01c914f688295b803549fdd2761b4b8f7e81ef2b0fe56275b9a8d4ff48b43d12"
+    },
+    "2b625738fe78877f": {
+      "path": "olmo_qurating/eval_output_lighteval_0424/resultsolmo_qurating/train_output/v0-20260420-231035/checkpoint-500/results_2026-04-25T21-40-03.758387.json",
+      "sha256": "2b625738fe78877fe5fdd3f80de03472e9a7a006ebc94285a8feea7e8437f4a1"
+    },
+    "9c3e75b78d73798a": {
+      "path": "olmo_qurating/eval_output_lighteval_0424/resultsolmo_qurating/train_output/v0-20260420-231035/checkpoint-500/results_2026-04-25T21-22-08.296656.json",
+      "sha256": "9c3e75b78d73798ad214e7d004e048a0a3d30e715a23e6df9caac01ed0fa5309"
+    },
+    "db247bd45863df5e": {
+      "path": "olmo_qurating_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "db247bd45863df5e8ed38e03892f97d51e2199908c245c9a28e389ec8f384094"
+    },
+    "e5ce701fd8b190d0": {
+      "path": "olmo_qurating_run2/eval_output_lighteval_0424/resultsolmo_qurating_run2/train_output/v1-20260817-194838/checkpoint-500/results_2026-08-18T03-10-56.182555.json",
+      "sha256": "e5ce701fd8b190d0bc51af8ab73cb0e39cc191a463d18a5694ed1d4ac84fdeb7"
+    },
+    "8b73dd8688c03d38": {
+      "path": "olmo_qurating_run2/eval_output_lighteval_0424/resultsolmo_qurating_run2/train_output/v1-20260817-194838/checkpoint-500/results_2026-08-18T02-52-44.778079.json",
+      "sha256": "8b73dd8688c03d38993c7e28ad7dbbce08cbc0719c60e5c2454eb9861b63b095"
+    },
+    "2d40733bb28f3377": {
+      "path": "olmo_qurating_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "2d40733bb28f3377f01b9cbc90746806872b0a30fd507a556974d66c12c4f54a"
+    },
+    "25ab19861f75ab93": {
+      "path": "olmo_qurating_run3/eval_output_lighteval_0424/resultsolmo_qurating_run3/train_output/v0-20260818-051438/checkpoint-500/results_2026-08-18T12-36-38.953701.json",
+      "sha256": "25ab19861f75ab93cbcebfe206ee2de955d3be8ff1692e3b748a8c7a4884685b"
+    },
+    "d51d6ce06270499f": {
+      "path": "olmo_qurating_run3/eval_output_lighteval_0424/resultsolmo_qurating_run3/train_output/v0-20260818-051438/checkpoint-500/results_2026-08-18T12-18-49.027763.json",
+      "sha256": "d51d6ce06270499f3d5c9bc33e3db525587c717e1f8aaf8f915c0dc8259ce1a5"
+    },
+    "1155faa92c8dc585": {
+      "path": "olmo3_0424_bm25/eval_output_olmes_0424/metrics.json",
+      "sha256": "1155faa92c8dc585faa61466727789514c6be2cbf58fe0b633c266a189778986"
+    },
+    "2038c6a8e33649be": {
+      "path": "olmo3_0424_bm25/eval_output_lighteval_0424/resultsolmo3_0424_bm25/train_output/v0-20260427-201500/checkpoint-500/results_2026-04-28T03-45-57.626089.json",
+      "sha256": "2038c6a8e33649be5ad01c298fdae29cd1305e4b26971e10265a251c465ca824"
+    },
+    "4377e45738f2bbcd": {
+      "path": "olmo3_0424_bm25/eval_output_lighteval_0424/resultsolmo3_0424_bm25/train_output/v0-20260427-201500/checkpoint-500/results_2026-04-28T03-25-22.104810.json",
+      "sha256": "4377e45738f2bbcd0fbe80b918dbad47551118a54cacd6679fb3ef8ac010276c"
+    },
+    "0f3c6ee87730917b": {
+      "path": "olmo_bm25_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "0f3c6ee87730917b50fb506fcac44d375a834526bbb09a5262e63284a57bce50"
+    },
+    "caabf053e13ec819": {
+      "path": "olmo_bm25_run2/eval_output_lighteval_0424/resultsolmo_bm25_run2/train_output/v0-20260810-205012/checkpoint-500/results_2026-08-11T10-50-15.477685.json",
+      "sha256": "caabf053e13ec819e35c13ae3a4bd19ace9ca47381acb0541f8590a2735d2574"
+    },
+    "842ea6e6c6670429": {
+      "path": "olmo_bm25_run2/eval_output_lighteval_0424/resultsolmo_bm25_run2/train_output/v0-20260810-205012/checkpoint-500/results_2026-08-11T10-28-30.433720.json",
+      "sha256": "842ea6e6c667042944e79f9576f047d22fa31bbcb18da35068054db8ff3552aa"
+    },
+    "d680a71a32d22746": {
+      "path": "olmo_bm25_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "d680a71a32d2274605126221087134bde839f870155471e29c46cf815bef1831"
+    },
+    "bc3884ea096ff70d": {
+      "path": "olmo_bm25_run3/eval_output_lighteval_0424/resultsolmo_bm25_run3/train_output/v0-20260811-132811/checkpoint-500/results_2026-08-12T03-27-43.895230.json",
+      "sha256": "bc3884ea096ff70d923d0a4a8255de6ec82c90120bf6a6880a536af25525c173"
+    },
+    "546c4a87adf54357": {
+      "path": "olmo_bm25_run3/eval_output_lighteval_0424/resultsolmo_bm25_run3/train_output/v0-20260811-132811/checkpoint-500/results_2026-08-12T03-06-15.999419.json",
+      "sha256": "546c4a87adf543574dd51584df2847f1e6c166291ee9d1438eca36343d772295"
+    },
+    "917b8362ba27d648": {
+      "path": "olmo_less/eval_output_olmes_0424/metrics.json",
+      "sha256": "917b8362ba27d648f2ef344a766cda7564ec6ae93fb8bb3dca67c82642aee2f7"
+    },
+    "7b7997fe222d3a90": {
+      "path": "olmo_less/eval_output_lighteval_0424/resultsolmo_less/train_output/v0-20260502-072901/checkpoint-500/results_2026-05-02T14-52-44.429971.json",
+      "sha256": "7b7997fe222d3a901e2bae389896a975f0cfa26937981d366110c9f98c78b3a4"
+    },
+    "7bbd5c61b5bea943": {
+      "path": "olmo_less/eval_output_lighteval_0424/resultsolmo_less/train_output/v0-20260502-072901/checkpoint-500/results_2026-05-02T14-32-41.435262.json",
+      "sha256": "7bbd5c61b5bea943635afca437e676ede2916f39abbe03e64fd589f7d7f059a8"
+    },
+    "e7db088c3015312d": {
+      "path": "olmo_less_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "e7db088c3015312dd823defb7fdf537a89d5b010d7f2c5c7dc28a6e5a48bd0c8"
+    },
+    "fb97f933930b6988": {
+      "path": "olmo_less_run2/eval_output_lighteval_0424/resultsolmo_less_run2/train_output/v0-20260817-114925/checkpoint-500/results_2026-08-17T19-19-59.332807.json",
+      "sha256": "fb97f933930b6988334703a3a63f808a099a9ceb1638afc4aecaeb13d3b5a433"
+    },
+    "750e2138dfbab5a9": {
+      "path": "olmo_less_run2/eval_output_lighteval_0424/resultsolmo_less_run2/train_output/v0-20260817-114925/checkpoint-500/results_2026-08-17T18-59-43.557837.json",
+      "sha256": "750e2138dfbab5a93fe2a581ef5b3b8f58a8a63c557d0dbd0bb9179e15dcb76b"
+    },
+    "219a6f53538326d6": {
+      "path": "olmo_less_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "219a6f53538326d6981b5747cfafcf43e9a7eb27d47e92ad4185ece6d3e2e3e7"
+    },
+    "55f2069b8c051d07": {
+      "path": "olmo_less_run3/eval_output_lighteval_0424/resultsolmo_less_run3/train_output/v0-20260817-213307/checkpoint-500/results_2026-08-18T05-02-20.756864.json",
+      "sha256": "55f2069b8c051d07fdc6592889d130512a1e044d32bbf1bcdac05d02ccf72758"
+    },
+    "86d2f209b2c7672a": {
+      "path": "olmo_less_run3/eval_output_lighteval_0424/resultsolmo_less_run3/train_output/v0-20260817-213307/checkpoint-500/results_2026-08-18T04-42-12.224128.json",
+      "sha256": "86d2f209b2c7672ada84d4a172a012da386a5dd168a5d74807828a67fd0cd86c"
+    },
+    "d7f833af0fcb6be9": {
+      "path": "olmo3_0424_rds/eval_output_olmes_0424/metrics.json",
+      "sha256": "d7f833af0fcb6be973fb58421d77942c6c90fc0cad8f7eb693934774a0ef492d"
+    },
+    "a4c5998981e00545": {
+      "path": "olmo3_0424_rds/eval_output_lighteval_0424/resultsolmo3_0424_rds/train_output/v0-20260427-201306/checkpoint-500/results_2026-04-28T03-40-32.627479.json",
+      "sha256": "a4c5998981e005458260b42ff66eb249508d98e5042601e9c3d1d54a3755a6c0"
+    },
+    "9eb63c630e85011e": {
+      "path": "olmo3_0424_rds/eval_output_lighteval_0424/resultsolmo3_0424_rds/train_output/v0-20260427-201306/checkpoint-500/results_2026-04-28T03-20-37.323523.json",
+      "sha256": "9eb63c630e85011e0b073061dfca2c5747bc43dfae3f5654d9809e9792eb94d9"
+    },
+    "53f2387b30c0df17": {
+      "path": "olmo_rds_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "53f2387b30c0df171bb6f43f13b078b24224ec7714b665930143d86d7b043d3b"
+    },
+    "f54124791b0a1c55": {
+      "path": "olmo_rds_run2/eval_output_lighteval_0424/resultsolmo_rds_run2/train_output/v0-20260824-005853/checkpoint-500/results_2026-08-24T08-39-37.137089.json",
+      "sha256": "f54124791b0a1c554358d7739740a8c6442fa0cdcd2a075574158371e7d81f1c"
+    },
+    "32ae70ad1badb6a2": {
+      "path": "olmo_rds_run2/eval_output_lighteval_0424/resultsolmo_rds_run2/train_output/v0-20260824-005853/checkpoint-500/results_2026-08-24T08-12-48.964534.json",
+      "sha256": "32ae70ad1badb6a2af95b1c19467d151768465a72fcb32863e1249b3fad19d63"
+    },
+    "5013d61ddba46797": {
+      "path": "olmo_rds_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "5013d61ddba467976dee42cb35dce7a699721f738664850fe4e22e33482b85ae"
+    },
+    "c65a419cf3518b60": {
+      "path": "olmo_rds_run3/eval_output_lighteval_0424/resultsolmo_rds_run3/train_output/v1-20260825-010658/checkpoint-500/results_2026-08-25T08-34-43.745045.json",
+      "sha256": "c65a419cf3518b6027bdc380f891a6b83c75449bfb59a99a102304b52d13ecac"
+    },
+    "aa3439ce0cdbb714": {
+      "path": "olmo_rds_run3/eval_output_lighteval_0424/resultsolmo_rds_run3/train_output/v1-20260825-010658/checkpoint-500/results_2026-08-25T08-13-57.802366.json",
+      "sha256": "aa3439ce0cdbb71450f0c39bfbf99873c194621f49b5cba804c24f2975be1108"
+    },
+    "1d759c6566dd1be8": {
+      "path": "olmo_rollout_0424_influence_sjlt_top10/eval_output_olmes_0424/metrics.json",
+      "sha256": "1d759c6566dd1be8bafd2ade20f6f08b72532eea0fa80c02279394892122a6a2"
+    },
+    "25d602b128d8a41c": {
+      "path": "olmo_rollout_0424_influence_sjlt_top10/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_sjlt_top10/train_output/v0-20260429-182232/checkpoint-500/results_2026-04-30T01-47-40.084480.json",
+      "sha256": "25d602b128d8a41c4546eb90e3bee77d6bad353c866d03bae260dad82c0f092c"
+    },
+    "03451e75deea5f82": {
+      "path": "olmo_rollout_0424_influence_sjlt_top10/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_sjlt_top10/train_output/v0-20260429-182232/checkpoint-500/results_2026-04-30T01-27-44.242067.json",
+      "sha256": "03451e75deea5f8241b1a6d069099f1177340fc3b036bf953a8eae64bc342368"
+    },
+    "045ff37f637dc13c": {
+      "path": "olmo_sjlt_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "045ff37f637dc13c401db972717847d7b21c060b959f50634403170860a62c23"
+    },
+    "42a24fb9149602ca": {
+      "path": "olmo_sjlt_run2/eval_output_lighteval_0424/resultsolmo_sjlt_run2/train_output/v0-20260824-035606/checkpoint-500/results_2026-08-24T11-19-19.939754.json",
+      "sha256": "42a24fb9149602ca988e6f3903d93fcb07cf6e416b69020c419c8248513b6900"
+    },
+    "c13c86ca3f95cab9": {
+      "path": "olmo_sjlt_run2/eval_output_lighteval_0424/resultsolmo_sjlt_run2/train_output/v0-20260824-035606/checkpoint-500/results_2026-08-24T10-59-36.915265.json",
+      "sha256": "c13c86ca3f95cab98d2be547d8995bf550571ad6f8041135b098b1111964cfe8"
+    },
+    "61a423f379fef5f3": {
+      "path": "olmo_sjlt_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "61a423f379fef5f3a9de29f6984d83861fc78e5da15f68a1acdc6324c7b16f33"
+    },
+    "f6c9377d9c731242": {
+      "path": "olmo_sjlt_run3/eval_output_lighteval_0424/resultsolmo_sjlt_run3/train_output/v0-20260824-134045/checkpoint-500/results_2026-08-24T21-03-22.543001.json",
+      "sha256": "f6c9377d9c7312426a3210ba077288a431181776ef9a7fee5201a9b93ac4a665"
+    },
+    "897f209196b914c0": {
+      "path": "olmo_sjlt_run3/eval_output_lighteval_0424/resultsolmo_sjlt_run3/train_output/v0-20260824-134045/checkpoint-500/results_2026-08-24T20-43-53.380282.json",
+      "sha256": "897f209196b914c0e9021ecdc1869c674901e02dba4c5cd151a2e81ca7e6632d"
+    },
+    "9ff478e0099598bd": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_gradnorm_debias/eval_output_olmes_0424/metrics.json",
+      "sha256": "9ff478e0099598bdfd36d91e517cea9771fcd4ada044306cabc7e85ffbc79dc4"
+    },
+    "3bfc982fccb5675f": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_gradnorm_debias/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10_gradnorm_debias/train_output/v0-20260430-224246/checkpoint-500/results_2026-05-01T06-08-59.230075.json",
+      "sha256": "3bfc982fccb5675f26f4be327d9c45ae28e8dcc2117d6f9e3e0121e7ff4596a1"
+    },
+    "4f462e6d92026617": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_gradnorm_debias/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10_gradnorm_debias/train_output/v0-20260430-224246/checkpoint-500/results_2026-05-01T05-47-09.947487.json",
+      "sha256": "4f462e6d9202661771891de507e07b1f515e766927976834ac215e423488fd0e"
+    },
+    "4acaf01c176c6b08": {
+      "path": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "4acaf01c176c6b0812f6bfa0c9b6ceaf26792c5e3104c049da47dfa9c32bae3f"
+    },
+    "e39c9f667a0fc037": {
+      "path": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run2/eval_output_lighteval_0424/resultsolmo_rollout_0810_setting5_top10_gradnorm_debias_run2/train_output/v0-20260810-141052/checkpoint-500/results_2026-08-10T21-40-15.405109.json",
+      "sha256": "e39c9f667a0fc037efac94900a170286dfcf12321c67b1b82df14dfc4dd9f6c7"
+    },
+    "c9f4ce8652e6419a": {
+      "path": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run2/eval_output_lighteval_0424/resultsolmo_rollout_0810_setting5_top10_gradnorm_debias_run2/train_output/v0-20260810-141052/checkpoint-500/results_2026-08-10T21-16-50.231323.json",
+      "sha256": "c9f4ce8652e6419a68685d101b6af923e0c77af92322bcbd27f0d61cfb4a0d7a"
+    },
+    "f0b5e22f95f49e14": {
+      "path": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "f0b5e22f95f49e14490c42e9fe94965c73e3a5ced27462c7742a9b630fd2362f"
+    },
+    "775df7e1220b0546": {
+      "path": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run3/eval_output_lighteval_0424/resultsolmo_rollout_0810_setting5_top10_gradnorm_debias_run3/train_output/v0-20260810-141105/checkpoint-500/results_2026-08-11T04-05-13.466870.json",
+      "sha256": "775df7e1220b0546ba038b7271f82207738d3389e1618a1ee9109f559a83f4a5"
+    },
+    "97300c22a4c83396": {
+      "path": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run3/eval_output_lighteval_0424/resultsolmo_rollout_0810_setting5_top10_gradnorm_debias_run3/train_output/v0-20260810-141105/checkpoint-500/results_2026-08-11T03-43-41.780940.json",
+      "sha256": "97300c22a4c83396865e87eeb3bf16c5c2c091c5c4b01a3842f5c738d6b5e98b"
+    },
+    "e616895590fc105a": {
+      "path": "olmo_rollout_0424_influence_setting5_top10/eval_output_olmes_0424/metrics.json",
+      "sha256": "e616895590fc105a526ce580e1d5f5675e374103e9f934a8fb0c7932b5739f99"
+    },
+    "a4bce35dc2fca97f": {
+      "path": "olmo_rollout_0424_influence_setting5_top10/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10/train_output/v0-20260430-150140/checkpoint-500/results_2026-04-30T18-12-20.700602.json",
+      "sha256": "a4bce35dc2fca97f9b183d25afde0057553a8ee246dc7628109de85c68a46871"
+    },
+    "aa41e4c8ff0708ca": {
+      "path": "olmo_rollout_0424_influence_setting5_top10/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10/train_output/v0-20260430-150140/checkpoint-500/results_2026-04-30T17-52-41.931112.json",
+      "sha256": "aa41e4c8ff0708ca31d6710479f98c26a197d8b66f096c5f77773f24777c44bb"
+    },
+    "7962b7581c4e3409": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_run2/eval_output_olmes_0424/metrics.json",
+      "sha256": "7962b7581c4e3409e16d2445306dbf1d8cc04ab4f05a1a5bd1275fd7a248c473"
+    },
+    "792d165dc0f44052": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_run2/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10_run2/train_output/v0-20260908-184137/checkpoint-500/results_2026-09-09T02-08-01.939821.json",
+      "sha256": "792d165dc0f44052300fb90268c9f592ca897d83a7c37d442436b80cc8a46bda"
+    },
+    "53cd71ea25b5b9df": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_run2/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10_run2/train_output/v0-20260908-184137/checkpoint-500/results_2026-09-09T01-46-57.811138.json",
+      "sha256": "53cd71ea25b5b9df6f4ed557dc429db54f26cf67f0d27f5c73604e633ad67cf6"
+    },
+    "1a540e56210261cb": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_run3/eval_output_olmes_0424/metrics.json",
+      "sha256": "1a540e56210261cbd31b7fd142f1da9d3a2ec6808115f6b10d2eaa6e8fd02180"
+    },
+    "07fffa81eaa0b3b5": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_run3/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10_run3/train_output/v0-20260909-044000/checkpoint-500/results_2026-09-09T12-07-51.752085.json",
+      "sha256": "07fffa81eaa0b3b5330cf3eabb899bc0f9ed55d77f9aeac9209d45ab390b357c"
+    },
+    "54bd986214cec8a7": {
+      "path": "olmo_rollout_0424_influence_setting5_top10_run3/eval_output_lighteval_0424/resultsolmo_rollout_0424_influence_setting5_top10_run3/train_output/v0-20260909-044000/checkpoint-500/results_2026-09-09T11-46-36.056343.json",
+      "sha256": "54bd986214cec8a7c8c5b11cd967331637a32d8ff7c318e263f5e78f1101e230"
+    }
+  },
+  "rows": [
+    {
+      "method": "Random",
+      "run_id": "olmo_uniform_safe",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "8ba959100698ad5d",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "3889b3d467f88faa",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "2a0be8f54ef46bf9",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "5d977f3cf3b696c8",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "5a5f36e356e9e23d",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "d390956da8a35293",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "0ff2d080f5707565",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "6f2c31cb913bc389",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      },
+      "note": "Assembled from dispersed files whose recorded model is the same olmo_uniform_safe checkpoint-500; stochastic benchmarks use their declared repeated-sampling files."
+    },
+    {
+      "method": "Random",
+      "run_id": "olmo_uniform_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "26ddbd20a6eb491a",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "26ddbd20a6eb491a",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "26ddbd20a6eb491a",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "1b92f33277b5e741",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "26ddbd20a6eb491a",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "26ddbd20a6eb491a",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "394fa3fa04c849ea",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "394fa3fa04c849ea",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "Random",
+      "run_id": "olmo_uniform_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "b46a44507c60476b",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "b46a44507c60476b",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "b46a44507c60476b",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "f47b797627c3753c",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "b46a44507c60476b",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "b46a44507c60476b",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "27d3326644fad879",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "27d3326644fad879",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "DSIR",
+      "run_id": "olmo3_0424_dsir",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "062c79240c7a8176",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "062c79240c7a8176",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "062c79240c7a8176",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "252f3027d0e3dd27",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "062c79240c7a8176",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "062c79240c7a8176",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "de3bb7ae6bf60195",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "de3bb7ae6bf60195",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "DSIR",
+      "run_id": "olmo_dsir_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2b8eac3c76befbb4",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "2b8eac3c76befbb4",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "2b8eac3c76befbb4",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "355be55f15a976b3",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "2b8eac3c76befbb4",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "2b8eac3c76befbb4",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "405d40f9737ac556",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "405d40f9737ac556",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "DSIR",
+      "run_id": "olmo_dsir_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "6696e374d01588c5",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "6696e374d01588c5",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "6696e374d01588c5",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "7771b17cb0e453e2",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "6696e374d01588c5",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "6696e374d01588c5",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "a43b92a48aff0373",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "a43b92a48aff0373",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "Qurating",
+      "run_id": "olmo_qurating",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "01c914f688295b80",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "01c914f688295b80",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "01c914f688295b80",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "2b625738fe78877f",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "01c914f688295b80",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "01c914f688295b80",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "9c3e75b78d73798a",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "9c3e75b78d73798a",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      },
+      "note": "Uses eval_output_olmes_0424 explicitly, excluding the separate greedy evaluation."
+    },
+    {
+      "method": "Qurating",
+      "run_id": "olmo_qurating_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "db247bd45863df5e",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "db247bd45863df5e",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "db247bd45863df5e",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "e5ce701fd8b190d0",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "db247bd45863df5e",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "db247bd45863df5e",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "8b73dd8688c03d38",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "8b73dd8688c03d38",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "Qurating",
+      "run_id": "olmo_qurating_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "2d40733bb28f3377",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "2d40733bb28f3377",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "2d40733bb28f3377",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "25ab19861f75ab93",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "2d40733bb28f3377",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "2d40733bb28f3377",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "d51d6ce06270499f",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "d51d6ce06270499f",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "BM25",
+      "run_id": "olmo3_0424_bm25",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1155faa92c8dc585",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "1155faa92c8dc585",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "1155faa92c8dc585",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "2038c6a8e33649be",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "1155faa92c8dc585",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "1155faa92c8dc585",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "4377e45738f2bbcd",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "4377e45738f2bbcd",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "BM25",
+      "run_id": "olmo_bm25_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "0f3c6ee87730917b",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "0f3c6ee87730917b",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "0f3c6ee87730917b",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "caabf053e13ec819",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "0f3c6ee87730917b",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "0f3c6ee87730917b",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "842ea6e6c6670429",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "842ea6e6c6670429",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "BM25",
+      "run_id": "olmo_bm25_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d680a71a32d22746",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "d680a71a32d22746",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "d680a71a32d22746",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "bc3884ea096ff70d",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "d680a71a32d22746",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "d680a71a32d22746",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "546c4a87adf54357",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "546c4a87adf54357",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "LESS",
+      "run_id": "olmo_less",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "917b8362ba27d648",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "917b8362ba27d648",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "917b8362ba27d648",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "7b7997fe222d3a90",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "917b8362ba27d648",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "917b8362ba27d648",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "7bbd5c61b5bea943",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "7bbd5c61b5bea943",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "LESS",
+      "run_id": "olmo_less_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "e7db088c3015312d",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "e7db088c3015312d",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "e7db088c3015312d",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "fb97f933930b6988",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "e7db088c3015312d",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "e7db088c3015312d",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "750e2138dfbab5a9",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "750e2138dfbab5a9",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "LESS",
+      "run_id": "olmo_less_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "219a6f53538326d6",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "219a6f53538326d6",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "219a6f53538326d6",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "55f2069b8c051d07",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "219a6f53538326d6",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "219a6f53538326d6",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "86d2f209b2c7672a",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "86d2f209b2c7672a",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "RDS",
+      "run_id": "olmo3_0424_rds",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "d7f833af0fcb6be9",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "d7f833af0fcb6be9",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "d7f833af0fcb6be9",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "a4c5998981e00545",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "d7f833af0fcb6be9",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "d7f833af0fcb6be9",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "9eb63c630e85011e",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "9eb63c630e85011e",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "RDS",
+      "run_id": "olmo_rds_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "53f2387b30c0df17",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "53f2387b30c0df17",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "53f2387b30c0df17",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "f54124791b0a1c55",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "53f2387b30c0df17",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "53f2387b30c0df17",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "32ae70ad1badb6a2",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "32ae70ad1badb6a2",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "RDS",
+      "run_id": "olmo_rds_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "5013d61ddba46797",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "5013d61ddba46797",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "5013d61ddba46797",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "c65a419cf3518b60",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "5013d61ddba46797",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "5013d61ddba46797",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "aa3439ce0cdbb714",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "aa3439ce0cdbb714",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "IF (GraSS)",
+      "run_id": "olmo_rollout_0424_influence_sjlt_top10",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "1d759c6566dd1be8",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "1d759c6566dd1be8",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "1d759c6566dd1be8",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "25d602b128d8a41c",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "1d759c6566dd1be8",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "1d759c6566dd1be8",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "03451e75deea5f82",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "03451e75deea5f82",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "IF (GraSS)",
+      "run_id": "olmo_sjlt_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "045ff37f637dc13c",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "045ff37f637dc13c",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "045ff37f637dc13c",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "42a24fb9149602ca",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "045ff37f637dc13c",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "045ff37f637dc13c",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "c13c86ca3f95cab9",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "c13c86ca3f95cab9",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "IF (GraSS)",
+      "run_id": "olmo_sjlt_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "aggregation": "instance-weighted mean of 18 BBH subtasks",
+          "num_instances": 4365,
+          "components": [
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_causal_judgement:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 187
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_date_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_disambiguation_qa:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_geometric_shapes:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_logical_deduction_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_logical_deduction_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_logical_deduction_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_movie_recommendation:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_navigate:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_reasoning_about_colored_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_ruin_names:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_salient_translation_error_detection:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_snarks:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 178
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_sports_understanding:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_temporal_sequences:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_tracking_shuffled_objects_five_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_tracking_shuffled_objects_seven_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            },
+            {
+              "file": "61a423f379fef5f3",
+              "task": "bbh_tracking_shuffled_objects_three_objects:cot::olmo3:adapt",
+              "metric": "primary_score",
+              "num_instances": 250
+            }
+          ]
+        },
+        "MBPP_plus": {
+          "file": "61a423f379fef5f3",
+          "task": "mbppplus::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "61a423f379fef5f3",
+          "task": "minerva_math::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "f6c9377d9c731242",
+          "task": "mmlu_pro|0",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "61a423f379fef5f3",
+          "task": "zebralogic::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "61a423f379fef5f3",
+          "task": "livecodebench_codegeneration::olmo3:adapt",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "897f209196b914c0",
+          "task": "olympiad_bench:OE_TO_maths_en_COMP|0",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "897f209196b914c0",
+          "task": "gpqa:diamond|0",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "DRIFT",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10_gradnorm_debias",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "9ff478e0099598bd",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "9ff478e0099598bd",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "9ff478e0099598bd",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "3bfc982fccb5675f",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "9ff478e0099598bd",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "9ff478e0099598bd",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "4f462e6d92026617",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "4f462e6d92026617",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "DRIFT",
+      "run_id": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "4acaf01c176c6b08",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "4acaf01c176c6b08",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "4acaf01c176c6b08",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "e39c9f667a0fc037",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "4acaf01c176c6b08",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "4acaf01c176c6b08",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "c9f4ce8652e6419a",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "c9f4ce8652e6419a",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "DRIFT",
+      "run_id": "olmo_rollout_0810_setting5_top10_gradnorm_debias_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "f0b5e22f95f49e14",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "f0b5e22f95f49e14",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "f0b5e22f95f49e14",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "775df7e1220b0546",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "f0b5e22f95f49e14",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "f0b5e22f95f49e14",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "97300c22a4c83396",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "97300c22a4c83396",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "No Debiasing",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10",
+      "run_number": 1,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "e616895590fc105a",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "e616895590fc105a",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "e616895590fc105a",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "a4bce35dc2fca97f",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "e616895590fc105a",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "e616895590fc105a",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "aa41e4c8ff0708ca",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "aa41e4c8ff0708ca",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "No Debiasing",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10_run2",
+      "run_number": 2,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "7962b7581c4e3409",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "7962b7581c4e3409",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "7962b7581c4e3409",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "792d165dc0f44052",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "7962b7581c4e3409",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "7962b7581c4e3409",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "53cd71ea25b5b9df",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "53cd71ea25b5b9df",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "No Debiasing",
+      "run_id": "olmo_rollout_0424_influence_setting5_top10_run3",
+      "run_number": 3,
+      "source_kind": "archived_metrics",
+      "metrics": {
+        "BBH": {
+          "file": "1a540e56210261cb",
+          "task": "bbh",
+          "metric": "primary_score"
+        },
+        "MBPP_plus": {
+          "file": "1a540e56210261cb",
+          "task": "mbppplus",
+          "metric": "primary_score"
+        },
+        "MATH": {
+          "file": "1a540e56210261cb",
+          "task": "minerva_math",
+          "metric": "primary_score"
+        },
+        "MMLU_Pro": {
+          "file": "07fffa81eaa0b3b5",
+          "task": "mmlu_pro",
+          "metric": "extractive_match"
+        },
+        "ZebraLogic": {
+          "file": "1a540e56210261cb",
+          "task": "zebralogic",
+          "metric": "primary_score"
+        },
+        "LCB_v5": {
+          "file": "1a540e56210261cb",
+          "task": "livecodebench_codegeneration",
+          "metric": "primary_score"
+        },
+        "OlympiadBench": {
+          "file": "54bd986214cec8a7",
+          "task": "olympiad_bench",
+          "metric": "avg@n:k=4&n=4"
+        },
+        "GPQA_D": {
+          "file": "54bd986214cec8a7",
+          "task": "gpqa",
+          "metric": "gpqa_pass@k:k=1&n=16"
+        }
+      }
+    },
+    {
+      "method": "BM25 (signed rollouts)",
+      "run_id": "1",
+      "run_number": 1,
+      "source_kind": "provided_per_run_csv",
+      "source": {
+        "path": "paper/results/bm25_on_policy_signed.csv",
+        "sha256": "f62f983b92f556ab9e16d6a4b28535514805406a0e52383073622d7ed197232e",
+        "row": 1,
+        "precision": "two decimal places as supplied"
+      }
+    },
+    {
+      "method": "BM25 (signed rollouts)",
+      "run_id": "2",
+      "run_number": 2,
+      "source_kind": "provided_per_run_csv",
+      "source": {
+        "path": "paper/results/bm25_on_policy_signed.csv",
+        "sha256": "f62f983b92f556ab9e16d6a4b28535514805406a0e52383073622d7ed197232e",
+        "row": 2,
+        "precision": "two decimal places as supplied"
+      }
+    },
+    {
+      "method": "BM25 (signed rollouts)",
+      "run_id": "3",
+      "run_number": 3,
+      "source_kind": "provided_per_run_csv",
+      "source": {
+        "path": "paper/results/bm25_on_policy_signed.csv",
+        "sha256": "f62f983b92f556ab9e16d6a4b28535514805406a0e52383073622d7ed197232e",
+        "row": 3,
+        "precision": "two decimal places as supplied"
+      }
+    }
+  ]
+}
