@@ -1,4 +1,4 @@
-"""Offline validation-query sampling with reproducible provenance.
+"""Sample responses to validation queries from a frozen checkpoint.
 
 Each rank owns queries whose input row index modulo world_size equals rank.
 Launch ranks independently with the desired CUDA_VISIBLE_DEVICES; this module

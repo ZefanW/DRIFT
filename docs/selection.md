@@ -81,7 +81,7 @@ For another model, copy the file and set `model` and `revision`. The paper's Ope
 
 ## Disk space
 
-Feature extraction writes one shard per GPU, and the merge step checks that every row is covered before scoring. For 1.92M examples at dimension 16,384, one float32 feature table takes about 126 GB. Keeping the shards and the merged table doubles that, and the rollout features come on top.
+Feature extraction writes one shard per GPU, and the merge step checks that every row is covered before scoring. For about 2M examples at dimension 16,384, one float32 feature table takes roughly 130 GB. Keeping the shards and the merged table doubles that, and the rollout features come on top.
 
 ## Differences from the paper's run
 

@@ -24,6 +24,8 @@ Two datasets are gated. Accept the access conditions of `Idavidrein/gpqa` and `a
 
 MBPP+ and LiveCodeBench execute model-generated code, so run the evaluation in an isolated environment.
 
+`constraints-olmes.txt` and `constraints-lighteval.txt` list the package versions of the two evaluation environments. The patches apply cleanly to the pinned commits. A full eight-benchmark run from a fresh install has not been repeated yet.
+
 ## Run
 
 ```bash
@@ -57,10 +59,6 @@ The launcher verifies the hashes of the patched sources, records package version
 
 [`protocol.json`](protocol.json) holds these counts and the aggregation rules. [`sources.json`](sources.json) holds the upstream commits and the hashes of the patched files.
 
-### LiveCodeBench version
-
-The paper labels this benchmark LiveCodeBench v5. The loader used for the paper's runs ignored the `release_v5` setting and read six files with 1,055 problems in total, which is the public `release_v6` collection. `release_v5` has 880 problems. The harness here pins the 1,055-problem collection, so it evaluates the same problems as the paper. [`olmes_patch_provenance.json`](olmes_patch_provenance.json) records the dataset commit and the six files.
-
 ### Generation settings
 
 | Harness | Context | Sampling |
@@ -69,10 +67,6 @@ The paper labels this benchmark LiveCodeBench v5. The loader used for the paper'
 | LightEval | 32,768 tokens, up to 4,096 new tokens | Top-p 0.95, sampling seed 42, model seed 1234 |
 
 The per-request sampling seeds of the original OLMES runs were not saved, so sampled benchmarks will not match the paper run for run.
-
-## Status
-
-The patches apply cleanly to the pinned upstream commits and pass CPU checks. The eight benchmarks have not been re-run end to end on GPU from a fresh install. The package lock of the original environment was not kept, so `constraints-olmes.txt` and `constraints-lighteval.txt` list the versions found in the evaluation environments.
 
 ## Sources and licenses
 

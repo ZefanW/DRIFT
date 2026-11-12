@@ -1,8 +1,8 @@
 """Portable GraSS: uniform coordinate subsampling followed by signed hashing.
 
-    This implementation uses a saved NumPy PCG64 projection specification. It
-    follows the paper's sparse construction, not the historical dattri RNG bitstream.
-    No dense P-by-d matrix or concatenation of all parameter gradients is needed.
+The projection is drawn with NumPy's PCG64 from a saved specification. It
+follows the paper's sparse construction but not dattri's random stream. No
+dense P-by-d matrix or concatenation of all parameter gradients is needed.
 """
 from __future__ import annotations
 

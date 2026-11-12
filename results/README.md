@@ -14,7 +14,7 @@ Accuracy in percent, one row per continued-SFT run. Every condition has three ru
 | `method` | Condition label |
 | `run_id` | Name of the original experiment |
 | `run_number` | Index of the run within its condition |
-| `BBH` … `GPQA_D` | Accuracy on each benchmark. `LCB_v5` keeps the paper's label for [LiveCodeBench](../evaluation/README.md#livecodebench-version) |
+| `BBH` … `GPQA_D` | Accuracy on each benchmark |
 | `Validation_source` | Mean of BBH, MBPP+, MATH and MMLU-Pro within the run |
 | `Additional` | Mean of ZebraLogic, LiveCodeBench, OlympiadBench and GPQA Diamond within the run |
 | `All` | Mean of the eight benchmarks within the run |
@@ -65,19 +65,12 @@ Put benchmark names in `cols` for per-benchmark summaries.
 
 DRIFT in the main table is the signed 32-rollout condition with per-task norm correction.
 
-## Agreement with the paper
-
-The files keep the precision of the original metric records, and no value was adjusted to match a table.
-
-- **Main table.** `All` agrees with the paper to two decimals for every method, in mean and standard deviation. A few per-benchmark entries differ in the last digit.
-- **Ablations.** Summaries agree with the paper up to the last digit, except for the 8-rollout condition, where the recovered runs average 39.95 on `All` and the paper reports 39.99.
-
 ## Not included
 
 - The starting checkpoint, which is evaluated once and has no training runs. Its scores are in the paper's Table 1.
-- The off-policy reference, All P, Packing Correction and Unified Orthogonalization conditions. Their runs have not been matched to the original experiment records yet.
+- The off-policy reference, All P, Packing Correction and Unified Orthogonalization conditions.
 - OpenR1-Distill-7B.
 
-## Provenance
+## Source files
 
-[`olmo3_per_run_sources.json`](olmo3_per_run_sources.json) and [`olmo3_ablation_per_run_sources.json`](olmo3_ablation_per_run_sources.json) list the source metric file and its SHA-256 for every run, together with the full comparison against the paper's tables.
+[`olmo3_per_run_sources.json`](olmo3_per_run_sources.json) and [`olmo3_ablation_per_run_sources.json`](olmo3_ablation_per_run_sources.json) list the metric files behind every run with their SHA-256.

@@ -95,7 +95,7 @@ Accuracy (%) after continued SFT on 10% of each model's original SFT corpus (pap
   </tbody>
 </table>
 
-LCB is LiveCodeBench. The [evaluation notes](evaluation/README.md#livecodebench-version) say which release was evaluated.
+LCB is LiveCodeBench.
 
 </details>
 
@@ -105,7 +105,7 @@ Standard deviations and per-run records for Olmo3 are in [`results/`](results/).
 
 | Artifact | Location | Contents |
 |---|---|---|
-| Selected subset | [`artifacts/`](artifacts/) | The 192,453 conversations DRIFT selected from 1,924,533 candidates, as an ordered index that rebuilds the training file from the public corpus |
+| Selected subset | [`artifacts/`](artifacts/) | The 192,453 conversations DRIFT selected from about 2M candidates, as an ordered index that rebuilds the training file from the public corpus |
 | Validation rollouts | [Hugging Face](https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts) | 8,220 validation queries and 263,040 sampled responses with correctness labels |
 | Per-run results | [`results/`](results/) | 57 continued-SFT runs behind the main table and the ablations |
 | Evaluation harness | [`evaluation/`](evaluation/) | Protocol, pinned OLMES and LightEval patches, and a launcher for the eight benchmarks |

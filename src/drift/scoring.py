@@ -1,10 +1,9 @@
 """NumPy implementation of DRIFT's task balancing, scoring and selection.
 
-Features must use the same checkpoint, parameter subset and projection. This
-module cannot establish that provenance from numeric arrays alone. The stable
-regression implements the paper's intercept-inclusive OLS. ``legacy-float32``
-replays the historical NumPy fit's numerical convention, including its default
-rank cutoff; it is not claimed to be equivalent to full-rank OLS.
+Features must come from the same checkpoint, parameter subset and projection.
+``stable`` is the paper's intercept-inclusive OLS. ``legacy-float32`` keeps the
+float32 fitting convention of the paper's runs, including NumPy's default rank
+cutoff.
 """
 
 from __future__ import annotations

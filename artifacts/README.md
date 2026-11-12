@@ -32,7 +32,7 @@ The corpus contains repeated conversations, and the selection keeps them: the 19
 |---|---|
 | Model | `allenai/Olmo-3-7B-Instruct-SFT` at `d9687e20d263cd0876dea143723b3c4974d19935` |
 | Corpus | `allenai/Dolci-Instruct-SFT` at `b779ae7ae5c757ccea6abb04a05204470bf1e602`, train split |
-| Candidates | 1,924,533 of 2,152,112 rows, those with a non-null `source` |
+| Candidates | About 2M rows, those with a non-null `source` |
 | Selected | 192,453 rows |
 
 It also stores the SHA-256 of the index file and a digest of the ordered message hashes. The rebuild script checks both.

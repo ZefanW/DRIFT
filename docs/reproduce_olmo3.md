@@ -1,6 +1,6 @@
 # Reproduce the Olmo3 experiment
 
-This guide retrains Olmo3-7B-Instruct-SFT on the subset DRIFT selected in the [paper](https://arxiv.org/abs/2606.18307) and evaluates the result. It uses the released selection of **192,453 conversations out of 1,924,533 candidates**, so no rollouts or gradient features are recomputed. To run the selection yourself, see the [selection guide](selection.md).
+This guide retrains Olmo3-7B-Instruct-SFT on the subset DRIFT selected in the [paper](https://arxiv.org/abs/2606.18307) and evaluates the result. It uses the released selection of **192,453 conversations out of about 2M candidates**, so no rollouts or gradient features are recomputed. To run the selection yourself, see the [selection guide](selection.md).
 
 ## Environment
 
