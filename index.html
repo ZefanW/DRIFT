@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRIFT</title>
+<meta name="description" content="DRIFT is a data selection method for LLM instruction tuning. It ranks a fully-trained model's own SFT corpus with on-policy influence functions and lifts the model above its full-data checkpoint.">
+<meta name="keywords" content="data selection, instruction tuning, supervised fine-tuning, influence functions, data attribution, on-policy, LLM">
+<meta name="citation_title" content="DRIFT: Data Selection for LLM Instruction Tuning via On-Policy Attribution">
+<meta name="citation_publication_date" content="2026/06/16">
+<meta name="citation_abstract_html_url" content="https://arxiv.org/abs/2606.18307">
+<meta name="citation_pdf_url" content="https://arxiv.org/pdf/2606.18307">
+<link rel="canonical" href="https://zefanw.github.io/DRIFT/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23c2603c%27/%3E%3Cpath d=%27M10 8h6a8 8 0 0 1 0 16h-6z%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%273%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zefanw.github.io/DRIFT/">
+<meta property="og:title" content="DRIFT: Data Selection for LLM Instruction Tuning via On-Policy Attribution">
+<meta property="og:description" content="Data selection that raises the ceiling of a fully-trained LLM, using influence functions anchored on the model's own responses.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "DRIFT: Data Selection for LLM Instruction Tuning via On-Policy Attribution",
+  "description": "Data selection for instruction tuning is usually studied for efficiency. DRIFT asks whether selection can raise the performance ceiling of a model that has already finished SFT on its full corpus. It ranks that corpus with influence functions anchored on the model's own correctness-weighted responses and continues training on the top-ranked subset.",
+  "datePublished": "2026-06-16",
+  "dateModified": "2026-09-26",
+  "url": "https://arxiv.org/abs/2606.18307",
+  "sameAs": ["https://arxiv.org/abs/2606.18307", "https://doi.org/10.48550/arXiv.2606.18307"],
+  "identifier": "arXiv:2606.18307",
+  "codeRepository": "https://github.com/ZefanW/DRIFT",
+  "sourceOrganization": {"@type": "CollegeOrUniversity", "name": "Tsinghua University"},
+  "keywords": ["data selection", "instruction tuning", "supervised fine-tuning", "influence functions", "data attribution", "on-policy", "large language models"]
+}
+</script>
+<style>
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;src:url("fonts/instrument-sans-latin-wght-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
+/* Layout: one narrow left-aligned column. Title, a short statement, the pipeline figure,
+   one results table, what is released, citation. Light look by design, no scripts beyond Copy.
+   Clay marks DRIFT and correct rollouts, blue marks incorrect rollouts (inside the figure). */
+:root{
+  --bg:#ffffff; --panel:#f6f8fa; --ink:#1f2328; --ink-2:#59636e; --ink-3:#8c959f;
+  --rule:#e6eaee; --rule-2:#d8dee4; --clay:#c2603c; --clay-soft:#fbf1ec;
+  --f-sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--clay)}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:3px}
+.wrap{max-width:880px;margin:0 auto;padding:56px max(20px,env(safe-area-inset-left,0px)) 40px}
+p{margin:0}
+h1{margin:0;font-size:clamp(44px,7vw,64px);line-height:1;letter-spacing:-.04em;font-weight:700}
+.sub{margin-top:12px;font-size:clamp(18px,2.4vw,22px);line-height:1.35;font-weight:500;text-wrap:balance}
+.aff{margin-top:10px;font-size:14px;color:var(--ink-2)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.links a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border:1px solid var(--rule-2);border-radius:999px;background:var(--bg);font:600 14px/1 var(--f-sans);color:var(--ink);text-decoration:none;cursor:pointer}
+.links a:hover{border-color:var(--clay);color:var(--clay)}
+.lede{margin-top:36px;font-size:19px;line-height:1.55;max-width:42em}
+.lede b{font-weight:650}
+.body{margin-top:14px;color:var(--ink-2);max-width:44em}
+figure{margin:30px 0 0}
+.fig{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fig svg{display:block;width:100%;min-width:680px;height:auto}
+h2{margin:52px 0 6px;font-size:24px;line-height:1.2;letter-spacing:-.02em;font-weight:700}
+.note{color:var(--ink-2);font-size:15.5px;max-width:44em}
+.tbl{margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:520px;font-variant-numeric:tabular-nums}
+thead th{font-size:13px;font-weight:600;color:var(--ink-2);text-align:right;padding:6px 14px;white-space:nowrap}
+thead tr:first-child th{color:var(--ink);font-size:14px;text-align:center;padding-bottom:2px}
+thead tr:first-child th:first-child{text-align:left;vertical-align:bottom;padding-left:12px}
+thead tr:last-child th,thead th[rowspan]{border-bottom:1px solid var(--rule-2)}
+thead tr:last-child th{padding-right:calc(14px + 8px + 3.6em * 12 / 13)}
+thead tr:first-child th[colspan]{padding-right:14px}
+tbody th{text-align:left;font-weight:500;font-size:15px;padding:9px 12px;white-space:nowrap}
+tbody td{text-align:right;font:400 14.5px/1.2 var(--f-mono);padding:9px 14px;white-space:nowrap;color:var(--ink)}
+tbody tr{border-bottom:1px solid var(--rule)}
+tbody tr:last-child{border-bottom:0}
+td small{display:inline-block;min-width:3.6em;margin-left:8px;font-size:12px;color:var(--ink-3);text-align:right}
+tr.base th,tr.base td{color:var(--ink-2);background:var(--panel)}
+tr.drift th,tr.drift td{background:var(--clay-soft);font-weight:600}
+tr.drift th{color:var(--clay);font-weight:700}
+tr.drift td small{color:var(--clay);font-weight:500}
+.sepL{border-left:1px solid var(--rule-2)}
+.rel{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--rule)}
+.rel li{display:grid;grid-template-columns:170px minmax(0,1fr);gap:4px 20px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:15.5px}
+.rel a{font-weight:600}
+.rel span{color:var(--ink-2)}
+@media (max-width:560px){.rel li{grid-template-columns:minmax(0,1fr)}}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;font-size:13px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>DRIFT</h1>
+    <p class="sub">Data Selection for LLM Instruction Tuning via On-Policy Attribution</p>
+    <p class="aff">Tsinghua University</p>
+    <nav class="links" aria-label="Links">
+      <a href="https://arxiv.org/abs/2606.18307">Paper</a>
+      <a href="https://github.com/ZefanW/DRIFT">Code</a>
+      <a href="https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts">Rollouts</a>
+      <a href="https://github.com/ZefanW/DRIFT#citation">BibTeX</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="lede">Data selection is usually studied for efficiency. DRIFT asks whether it can also <b>raise the ceiling</b> and produce a better model than training on all of the data.</p>
+    <p class="body">DRIFT starts from a model that has finished SFT on its full corpus. It samples the model's own responses to validation queries, signs them by correctness, and ranks the original corpus by its influence on those responses. Training then continues on the top 10%. Influence functions are a local approximation, and the model's own responses make much closer targets than external reference answers.</p>
+
+    <figure>
+      <div class="fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 250"  role="img" aria-label="DRIFT overview: on-policy rollouts, signed validation centroids, norm-debiased influence scores, continued SFT on the top 10% of the corpus">
+<g transform="translate(0 0)">
+<rect x="0.5" y="0.5" width="221" height="249" rx="14" fill="#f6f8fa" stroke="#d8dee4"/>
+<g transform="translate(0 14)"><rect x="16" y="56" width="54" height="28" rx="7" fill="#ffffff" stroke="#d8dee4"/><text x="43" y="74.5" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11.5" fill="#59636e">query</text><path d="M70 70 C 98 70, 94 22, 120 22" fill="none" stroke="#e2a283" stroke-width="1.5"/><rect x="122" y="14" width="58" height="16" rx="4" fill="#f6e1d6"/><circle cx="198" cy="22" r="8" fill="#c2603c"/><path d="M194 22 h8 M198 18 v8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/><path d="M70 70 C 98 70, 94 54, 120 54" fill="none" stroke="#e2a283" stroke-width="1.5"/><rect x="122" y="46" width="44" height="16" rx="4" fill="#f6e1d6"/><circle cx="198" cy="54" r="8" fill="#c2603c"/><path d="M194 54 h8 M198 50 v8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/><path d="M70 70 C 98 70, 94 86, 120 86" fill="none" stroke="#9fb1dc" stroke-width="1.5"/><rect x="122" y="78" width="54" height="16" rx="4" fill="#dde5f6"/><circle cx="198" cy="86" r="8" fill="#3f62b5"/><path d="M194 86 h8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/><path d="M70 70 C 98 70, 94 118, 120 118" fill="none" stroke="#e2a283" stroke-width="1.5"/><rect x="122" y="110" width="40" height="16" rx="4" fill="#f6e1d6"/><circle cx="198" cy="118" r="8" fill="#c2603c"/><path d="M194 118 h8 M198 114 v8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/></g>
+<text x="16" y="188" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="600" fill="#c2603c">1</text>
+<text x="33" y="188" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">On-policy rollouts</text>
+<text x="16" y="211" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">Sample responses from the</text>
+<text x="16" y="229" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">checkpoint and verify them</text>
+</g>
+<path d="M230.5 77 l7 7 l-7 7" fill="none" stroke="#8c959f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(246 0)">
+<rect x="0.5" y="0.5" width="221" height="249" rx="14" fill="#f6f8fa" stroke="#d8dee4"/>
+<g transform="translate(0 14)"><path d="M60 104 L79.9 29.7" stroke="#e2a283" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M81.7 22.9 L76.5 28.8 L83.3 30.6 Z" fill="#e2a283"/><path d="M60 104 L113.4 27.8" stroke="#e2a283" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M117.4 22.1 L110.5 25.8 L116.2 29.8 Z" fill="#e2a283"/><path d="M60 104 L162.6 95.0" stroke="#e2a283" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M169.6 94.4 L162.3 91.5 L162.9 98.5 Z" fill="#e2a283"/><path d="M60 104 L19.2 120.5" stroke="#9fb1dc" stroke-width="1.5" stroke-dasharray="3 3" stroke-linecap="round"/><path d="M60 104 L142.5 70.6" stroke="#9fb1dc" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M149.0 68.0 L141.2 67.4 L143.8 73.9 Z" fill="#9fb1dc"/><path d="M60 104 L162.4 24.0" stroke="#1f2328" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M170.3 17.8 L159.3 20.0 L165.5 27.9 Z" fill="#1f2328"/><circle cx="60" cy="104" r="3.2" fill="#1f2328"/><text x="206" y="50" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11" fill="#59636e">centroid</text><text x="16" y="136" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11.5" fill="#8c959f">−1 flips incorrect ones</text></g>
+<text x="16" y="188" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="600" fill="#c2603c">2</text>
+<text x="33" y="188" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">Signed centroids</text>
+<text x="16" y="211" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">Correct +1, incorrect −1,</text>
+<text x="16" y="229" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">averaged within each task</text>
+</g>
+<path d="M476.5 77 l7 7 l-7 7" fill="none" stroke="#8c959f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(492 0)">
+<rect x="0.5" y="0.5" width="221" height="249" rx="14" fill="#f6f8fa" stroke="#d8dee4"/>
+<g transform="translate(0 14)"><path d="M24 120 H206 M24 120 V14" stroke="#d8dee4" stroke-width="1.2" fill="none"/><path d="M32 110 L200 30" stroke="#8c959f" stroke-width="1.4" stroke-dasharray="4 3"/><circle cx="40.0" cy="103.7" r="2.7" fill="#b3bac3"/><circle cx="50.4" cy="96.3" r="2.7" fill="#b3bac3"/><circle cx="60.8" cy="98.4" r="2.7" fill="#b3bac3"/><circle cx="71.2" cy="85.3" r="2.7" fill="#b3bac3"/><circle cx="81.6" cy="86.9" r="2.7" fill="#b3bac3"/><circle cx="92.0" cy="79.5" r="2.7" fill="#b3bac3"/><circle cx="102.4" cy="70.3" r="2.7" fill="#b3bac3"/><circle cx="112.8" cy="71.6" r="2.7" fill="#b3bac3"/><circle cx="123.2" cy="60.1" r="2.7" fill="#b3bac3"/><circle cx="133.6" cy="60.7" r="2.7" fill="#b3bac3"/><circle cx="144.0" cy="50.6" r="2.7" fill="#b3bac3"/><circle cx="154.4" cy="46.0" r="2.7" fill="#b3bac3"/><circle cx="164.8" cy="45.7" r="2.7" fill="#b3bac3"/><circle cx="175.2" cy="46.4" r="2.7" fill="#b3bac3"/><circle cx="185.6" cy="31.6" r="2.7" fill="#b3bac3"/><circle cx="196.0" cy="28.0" r="2.7" fill="#b3bac3"/><path d="M104 40 V75.7" stroke="#c2603c" stroke-width="1.7"/><circle cx="104" cy="40" r="4.2" fill="#c2603c"/><text x="113" y="38" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11" fill="#c2603c">residual</text><text x="206" y="136" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11.5" fill="#8c959f">log ‖grad‖</text><text x="30" y="12" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11.5" fill="#8c959f">log |score|</text></g>
+<text x="16" y="188" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="600" fill="#c2603c">3</text>
+<text x="33" y="188" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">Debiased influence</text>
+<text x="16" y="211" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">Score the SFT corpus, then</text>
+<text x="16" y="229" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">remove the norm trend</text>
+</g>
+<path d="M722.5 77 l7 7 l-7 7" fill="none" stroke="#8c959f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(738 0)">
+<rect x="0.5" y="0.5" width="221" height="249" rx="14" fill="#f6f8fa" stroke="#d8dee4"/>
+<g transform="translate(0 14)"><rect x="20.0" y="30.0" width="5.4" height="88.0" rx="1.6" fill="#c2603c"/><rect x="27.4" y="34.0" width="5.4" height="84.0" rx="1.6" fill="#c2603c"/><rect x="34.8" y="37.9" width="5.4" height="80.1" rx="1.6" fill="#c2603c"/><rect x="42.2" y="41.6" width="5.4" height="76.4" rx="1.6" fill="#d0d7de"/><rect x="49.6" y="49.4" width="5.4" height="68.6" rx="1.6" fill="#d0d7de"/><rect x="57.0" y="52.8" width="5.4" height="65.2" rx="1.6" fill="#d0d7de"/><rect x="64.4" y="56.1" width="5.4" height="61.9" rx="1.6" fill="#d0d7de"/><rect x="71.8" y="63.4" width="5.4" height="54.6" rx="1.6" fill="#d0d7de"/><rect x="79.2" y="66.3" width="5.4" height="51.7" rx="1.6" fill="#d0d7de"/><rect x="86.6" y="69.1" width="5.4" height="48.9" rx="1.6" fill="#d0d7de"/><rect x="94.0" y="71.7" width="5.4" height="46.3" rx="1.6" fill="#d0d7de"/><rect x="101.4" y="78.3" width="5.4" height="39.7" rx="1.6" fill="#d0d7de"/><rect x="108.8" y="80.5" width="5.4" height="37.5" rx="1.6" fill="#d0d7de"/><rect x="116.2" y="82.6" width="5.4" height="35.4" rx="1.6" fill="#d0d7de"/><rect x="123.6" y="88.7" width="5.4" height="29.3" rx="1.6" fill="#d0d7de"/><rect x="131.0" y="90.4" width="5.4" height="27.6" rx="1.6" fill="#d0d7de"/><rect x="138.4" y="91.9" width="5.4" height="26.1" rx="1.6" fill="#d0d7de"/><rect x="145.8" y="93.2" width="5.4" height="24.8" rx="1.6" fill="#d0d7de"/><rect x="153.2" y="98.4" width="5.4" height="19.6" rx="1.6" fill="#d0d7de"/><rect x="160.6" y="99.3" width="5.4" height="18.7" rx="1.6" fill="#d0d7de"/><rect x="168.0" y="99.9" width="5.4" height="18.1" rx="1.6" fill="#d0d7de"/><rect x="175.4" y="104.5" width="5.4" height="13.5" rx="1.6" fill="#d0d7de"/><rect x="182.8" y="104.7" width="5.4" height="13.3" rx="1.6" fill="#d0d7de"/><rect x="190.2" y="104.5" width="5.4" height="13.5" rx="1.6" fill="#d0d7de"/><rect x="197.6" y="104.1" width="5.4" height="13.9" rx="1.6" fill="#d0d7de"/><path d="M20 22 v-5 H40.2 v5" fill="none" stroke="#c2603c" stroke-width="1.4"/><text x="48.2" y="21" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11" fill="#c2603c">top 10%</text><text x="206" y="136" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="11.5" fill="#8c959f">SFT corpus, ranked</text></g>
+<text x="16" y="188" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" font-weight="600" fill="#c2603c">4</text>
+<text x="33" y="188" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">Continued SFT</text>
+<text x="16" y="211" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">Keep the top 10% and train</text>
+<text x="16" y="229" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif" font-size="13" fill="#59636e">from the same checkpoint</text>
+</g>
+</svg>
+      </div>
+    </figure>
+
+    <section id="results">
+      <h2>Results</h2>
+      <p class="note">Accuracy (%) after continued SFT on 10% of each model's original SFT corpus. Small numbers give the change from the full-data checkpoint.</p>
+      <div class="tbl">
+      <table>
+        <thead>
+          <tr><th rowspan="2">Method</th><th colspan="2">Olmo3-7B-Instruct-SFT</th><th colspan="2" class="sepL">OpenR1-Distill-7B</th></tr>
+          <tr><th>All</th><th>Add.</th><th class="sepL">All</th><th>Add.</th></tr>
+        </thead>
+        <tbody>
+        <tr class="base"><th scope="row">Full data</th><td>39.17<small></small></td><td>25.49<small></small></td><td class="sepL">57.23<small></small></td><td>46.24<small></small></td></tr>
+        <tr><th scope="row">Random</th><td>39.04<small>−0.13</small></td><td>25.21<small>−0.28</small></td><td class="sepL">57.40<small>+0.17</small></td><td>46.65<small>+0.41</small></td></tr>
+        <tr><th scope="row">DSIR</th><td>34.37<small>−4.80</small></td><td>22.76<small>−2.73</small></td><td class="sepL">56.24<small>−0.99</small></td><td>45.43<small>−0.81</small></td></tr>
+        <tr><th scope="row">QuRating</th><td>39.26<small>+0.09</small></td><td>25.71<small>+0.22</small></td><td class="sepL">57.78<small>+0.55</small></td><td>47.05<small>+0.81</small></td></tr>
+        <tr><th scope="row">BM25</th><td>39.54<small>+0.37</small></td><td>25.92<small>+0.43</small></td><td class="sepL">57.32<small>+0.09</small></td><td>46.54<small>+0.30</small></td></tr>
+        <tr><th scope="row">LESS</th><td>37.63<small>−1.54</small></td><td>23.96<small>−1.53</small></td><td class="sepL">57.28<small>+0.05</small></td><td>46.44<small>+0.20</small></td></tr>
+        <tr><th scope="row">RDS</th><td>39.08<small>−0.09</small></td><td>25.50<small>+0.01</small></td><td class="sepL">57.63<small>+0.40</small></td><td>46.91<small>+0.67</small></td></tr>
+        <tr><th scope="row">IF (GraSS)</th><td>38.66<small>−0.51</small></td><td>24.80<small>−0.69</small></td><td class="sepL">57.85<small>+0.62</small></td><td>47.69<small>+1.45</small></td></tr>
+        <tr class="drift"><th scope="row">DRIFT</th><td>40.14<small>+0.97</small></td><td>26.51<small>+1.02</small></td><td class="sepL">58.66<small>+1.43</small></td><td>48.73<small>+2.49</small></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note" style="margin-top:12px"><i>Full data</i> is the model after its original SFT on the whole corpus. Every other row continues from it. <b>All</b> averages eight benchmarks, and <b>Add.</b> averages the four that are never used for attribution.</p>
+    </section>
+
+    <section id="release">
+      <h2>Release</h2>
+      <ul class="rel">
+        <li><a href="https://github.com/ZefanW/DRIFT">Code</a><span>Selection pipeline, training recipe and evaluation harness</span></li>
+        <li><a href="https://github.com/ZefanW/DRIFT/tree/main/artifacts">Selected subset</a><span>The 192,453 conversations DRIFT selected for Olmo3</span></li>
+        <li><a href="https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts">Validation rollouts</a><span>8,220 queries and 263,040 sampled responses with correctness labels</span></li>
+        <li><a href="https://github.com/ZefanW/DRIFT/tree/main/results">Per-run results</a><span>57 continued-SFT runs behind the main table and the ablations</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer><span>Tsinghua University</span><span>arXiv:2606.18307</span></footer>
+</div>
+</body>
+</html>
