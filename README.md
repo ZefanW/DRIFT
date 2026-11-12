@@ -5,12 +5,13 @@
 **Data Selection for LLM Instruction Tuning via On-Policy Attribution**
 
 [![arXiv](https://img.shields.io/badge/arXiv-2606.18307-b31b1b.svg)](https://arxiv.org/abs/2606.18307)
+[![Project page](https://img.shields.io/badge/project-page-c2603c.svg)](https://zefanw.github.io/DRIFT/)
 [![Rollouts on Hugging Face](https://img.shields.io/badge/Hugging%20Face-validation%20rollouts-ffb000.svg?logo=huggingface&logoColor=white)](https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts)
 [![Tests](https://github.com/ZefanW/DRIFT/actions/workflows/tests.yml/badge.svg)](https://github.com/ZefanW/DRIFT/actions/workflows/tests.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f.svg)](LICENSE)
 
-[Paper](https://arxiv.org/abs/2606.18307) · [Results](#results) · [Released artifacts](#released-artifacts) · [Reproduce](#reproduce-the-olmo3-experiment) · [Your own data](#run-drift-on-your-own-data) · [Citation](#citation)
+[Paper](https://arxiv.org/abs/2606.18307) · [Project page](https://zefanw.github.io/DRIFT/) · [Results](#results) · [Artifacts](#released-artifacts) · [Reproduce](#reproduce-the-olmo3-experiment) · [Your data](#run-drift-on-your-own-data) · [Citation](#citation)
 
 <sub>Zefan Wang, Lincheng Li, Tianyu Yu, Yuan Yao · Tsinghua University</sub>
 
