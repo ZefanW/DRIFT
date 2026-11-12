@@ -43,19 +43,19 @@ Accuracy (%) of Olmo3-7B-Instruct-SFT after continued SFT on 10% of its original
 <table>
   <thead>
     <tr>
-      <th rowspan="2" align="left">Selection method</th>
+      <th rowspan="2" align="left">Method</th>
       <th colspan="4" align="center">Validation-source benchmarks</th>
       <th colspan="4" align="center">Additional benchmarks</th>
       <th colspan="2" align="center">Average</th>
     </tr>
     <tr>
       <th align="right">BBH</th><th align="right">MBPP+</th><th align="right">MATH</th><th align="right">MMLU<br>Pro</th>
-      <th align="right">Zebra<br>Logic</th><th align="right">LCB</th><th align="right">Olympiad<br>Bench</th><th align="right">GPQA<br>Diamond</th>
+      <th align="right">Zebra<br>Logic</th><th align="right">LCB</th><th align="right">Olympiad<br>Bench</th><th align="right">GPQA</th>
       <th align="right">All</th><th align="right">Add.</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><i>Full-data checkpoint</i></td><td align="right"><i>44.63</i></td><td align="right"><i>56.42</i></td><td align="right"><i>66.16</i></td><td align="right"><i>44.22</i></td><td align="right"><i>17.23</i></td><td align="right"><i>15.43</i></td><td align="right"><i>34.27</i></td><td align="right"><i>35.01</i></td><td align="right"><i>39.17</i></td><td align="right"><i>25.49</i></td></tr>
+    <tr><td><i>Full data</i></td><td align="right"><i>44.63</i></td><td align="right"><i>56.42</i></td><td align="right"><i>66.16</i></td><td align="right"><i>44.22</i></td><td align="right"><i>17.23</i></td><td align="right"><i>15.43</i></td><td align="right"><i>34.27</i></td><td align="right"><i>35.01</i></td><td align="right"><i>39.17</i></td><td align="right"><i>25.49</i></td></tr>
     <tr><td>Random</td><td align="right">44.45</td><td align="right">56.34</td><td align="right">66.40</td><td align="right">44.25</td><td align="right">17.67</td><td align="right">14.38</td><td align="right">35.04</td><td align="right">33.77</td><td align="right">39.04</td><td align="right">25.21</td></tr>
     <tr><td>DSIR</td><td align="right">39.97</td><td align="right">52.63</td><td align="right">55.11</td><td align="right">36.22</td><td align="right">17.68</td><td align="right">12.73</td><td align="right">27.83</td><td align="right">32.82</td><td align="right">34.37</td><td align="right">22.76</td></tr>
     <tr><td>QuRating</td><td align="right">44.27</td><td align="right">55.96</td><td align="right">66.89</td><td align="right">44.14</td><td align="right">17.77</td><td align="right">15.49</td><td align="right">34.98</td><td align="right">34.61</td><td align="right">39.26</td><td align="right">25.71</td></tr>
@@ -67,7 +67,7 @@ Accuracy (%) of Olmo3-7B-Instruct-SFT after continued SFT on 10% of its original
   </tbody>
 </table>
 
-Every row except the first continues SFT from the full-data checkpoint, and bold marks the best of them in each column. **All** averages the eight benchmarks. **Add.** averages the four additional benchmarks, which supply no validation queries. LCB is LiveCodeBench, and the [evaluation notes](evaluation/README.md#livecodebench-version) say which release was evaluated.
+*Full data* is the checkpoint after its original SFT on the whole corpus. Every other row continues SFT from it, and bold marks the best of them in each column. **All** averages the eight benchmarks. **Add.** averages the four additional benchmarks, which supply no validation queries. LCB is LiveCodeBench and GPQA is GPQA Diamond. The [evaluation notes](evaluation/README.md#livecodebench-version) say which LiveCodeBench release was evaluated.
 
 Standard deviations and per-run records are in [`results/`](results/). On OpenR1-Distill-7B, DRIFT is also the best of these selectors on both averages (paper, Table 1 and Appendix B).
 
