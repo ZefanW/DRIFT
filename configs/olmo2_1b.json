@@ -1,0 +1,18 @@
+{
+  "model": "allenai/OLMo-2-0425-1B-SFT",
+  "samples": 16,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "top_k": 40,
+  "max_new_tokens": 2048,
+  "max_model_len": 4096,
+  "seed": 42,
+  "dimension": 16384,
+  "projection_seed": 42,
+  "max_length": 4096,
+  "fit_mode": "stable",
+  "fraction": 0.1,
+  "dtype": "bfloat16",
+  "attention": "sdpa",
+  "exclude_parameters": null
+}

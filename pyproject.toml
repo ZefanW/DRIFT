@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "drift-attribution"
+version = "0.1.0"
+description = "On-policy influence scoring for instruction-data refinement"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "DRIFT contributors"}]
+dependencies = ["numpy>=1.24,<3"]
+
+[project.urls]
+Repository = "https://github.com/ZefanW/DRIFT"
+Documentation = "https://github.com/ZefanW/DRIFT#readme"
+Issues = "https://github.com/ZefanW/DRIFT/issues"
+
+[project.optional-dependencies]
+data = ["pyarrow>=16", "datasets>=3,<5"]
+models = ["torch>=2.8,<3", "transformers>=4.57.1,<5", "accelerate>=1,<2", "safetensors>=0.4"]
+rollout = ["vllm==0.11.0"]
+math = ["math-verify>=0.8,<1"]
+dev = ["pytest>=8,<10", "build>=1"]
+
+[project.scripts]
+drift = "drift.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
