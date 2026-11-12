@@ -1,10 +1,10 @@
-# Reproduce the OLMo3-7B experiment
+# Reproduce the Olmo3 experiment
 
-This route uses the paper’s frozen selection: **192,453 conversations from 1,924,533 non-tool candidates**. Rebuilding that subset avoids differences caused by regenerating rollouts or random projections.
+This guide retrains Olmo3-7B-Instruct-SFT on the subset DRIFT selected in the [paper](https://arxiv.org/abs/2606.18307) and evaluates the result. It uses the released selection of **192,453 conversations out of 1,924,533 candidates**, so no rollouts or gradient features are recomputed. To run the selection yourself, see the [selection guide](selection.md).
 
 ## Environment
 
-Use Linux, Python 3.12, and an NVIDIA GPU environment. The recorded training configuration used 8 × 80 GB GPUs. From the repository root:
+Linux, Python 3.12 and NVIDIA GPUs. The paper's training run used eight 80 GB GPUs. From the repository root:
 
 ```bash
 python3.12 -m venv .venv
@@ -14,23 +14,27 @@ pip install -e '.[data]'
 pip install 'flash-attn==2.8.3' --no-build-isolation
 ```
 
-FlashAttention must match the installed PyTorch/CUDA build. `requirements-train.txt` pins the available training stack; it is not a claim that every dependency version from the original run was archived.
+FlashAttention has to match your PyTorch and CUDA build. `requirements-train.txt` pins the main training dependencies. The full lock file of the original run was not kept.
 
 ## Data and checkpoint
 
-The [selection manifest](../artifacts/olmo3_selection_manifest.json) fixes:
+The [selection manifest](../artifacts/olmo3_selection_manifest.json) pins everything the subset depends on.
 
-- Model: `allenai/Olmo-3-7B-Instruct-SFT`, revision `d9687e20d263cd0876dea143723b3c4974d19935`.
-- Source data: `allenai/Dolci-Instruct-SFT`, revision `b779ae7ae5c757ccea6abb04a05204470bf1e602`, train split. This is the original downloaded parent corpus. Records with null `source` are excluded before matching.
-- Selection: the original selected parquet’s **row order and multiplicity**, recorded by message-content SHA256. IDs alone are insufficient because the corpus contains duplicate IDs.
+| Item | Pinned value |
+|---|---|
+| Model | `allenai/Olmo-3-7B-Instruct-SFT` at revision `d9687e20d263cd0876dea143723b3c4974d19935` |
+| Corpus | `allenai/Dolci-Instruct-SFT` at revision `b779ae7ae5c757ccea6abb04a05204470bf1e602`, train split, rows with a null `source` removed |
+| Selection | 192,453 rows in their original training order, each identified by a SHA-256 of its message content |
+
+Rows are matched by content hash because the corpus contains duplicate IDs. The [index format](../artifacts/README.md) is described next to the file.
 
 ```bash
 python scripts/prepare_olmo3_subset.py --output data/olmo3_drift.jsonl
 ```
 
-The script streams the public source and writes the selected conversations in their original training order. Content hashes include every role/content turn; empty optional tool fields are omitted. Missing or mismatching conversations stop reconstruction. Temporary text is cached on disk, not accumulated in RAM. Allow several GB of free disk space for dataset reads, the temporary database, and the output.
+The script streams the corpus from the Hub and writes the selected conversations in training order, duplicates included. It stops if a conversation is missing or does not match its hash. Leave several GB of free disk for the dataset cache, a temporary database and the output.
 
-If the pinned corpus is already downloaded as Parquet shards:
+If you already have the pinned corpus as Parquet shards:
 
 ```bash
 python scripts/prepare_olmo3_subset.py \
@@ -38,7 +42,7 @@ python scripts/prepare_olmo3_subset.py \
   --output data/olmo3_drift.jsonl
 ```
 
-The released index contains hashes and source IDs, not the original conversation text. Dataset terms are provided on the [Dolci dataset card](https://huggingface.co/datasets/allenai/Dolci-Instruct-SFT).
+The index stores hashes and source IDs only. The conversations come from the Dolci dataset under the terms on its [dataset card](https://huggingface.co/datasets/allenai/Dolci-Instruct-SFT).
 
 ## Training
 
@@ -50,33 +54,35 @@ python scripts/continue_sft.py \
   --gpus 0,1,2,3,4,5,6,7
 ```
 
-| Setting | Recorded OLMo3 recipe |
+The defaults are the paper's Olmo3 recipe.
+
+| Setting | Value |
 |---|---|
-| Updates / packed context | 500 / 32,768 tokens |
-| Global batch | 8 sequences, nominally 262,144 tokens |
+| Updates and context | 500 updates on packed 32,768-token sequences |
+| Global batch | 8 sequences, 262,144 tokens |
 | Learning rate | 1e-5 peak, cosine decay to 1e-6, 10% warmup |
-| Optimizer | Fused AdamW, betas (0.9, 0.95), weight decay 0, clipping 1 |
-| Precision / memory | BF16, gradient checkpointing, FlashAttention 2, Liger, ZeRO-2 |
-| Template / truncation | Swift `dummy` + `jinja`; delete overlength examples |
-| Randomization | Training seed 42; data seed 42; dataset and dataloader shuffling |
+| Optimizer | Fused AdamW, betas (0.9, 0.95), weight decay 0, gradient clipping 1 |
+| Precision and memory | BF16, gradient checkpointing, FlashAttention 2, Liger kernels, DeepSpeed ZeRO-2 |
+| Template and truncation | ms-swift `dummy` template with the `jinja` backend, overlength examples dropped |
+| Seeds | Training seed 42, data seed 42, with dataset and dataloader shuffling |
 
-`--template-mode paper` is the default. It preserves the original Jinja training path, whose loss covers the rendered sequence. The optional `assistant` mode uses assistant-only loss and changes this training recipe. Attribution’s assistant-token gradients are a separate computation.
+`--template-mode paper` is the default and reproduces the original training path, in which the loss covers the whole rendered sequence. `--template-mode assistant` restricts the loss to assistant tokens and is a different recipe. Attribution always uses assistant-token gradients, whatever this flag is set to.
 
-The original arguments include `optim_args=eps=1e-6` and `adam_epsilon=1e-8`; the pinned Transformers fused-AdamW path uses `adam_epsilon`. Both values are retained. Four GPUs can use `--gpus 0,1,2,3`; accumulation doubles to preserve the global batch, although hardware and kernels can still affect results.
+The original arguments set both `optim_args=eps=1e-6` and `adam_epsilon=1e-8`. With the pinned Transformers version the fused AdamW path reads `adam_epsilon`. Both are passed as they were.
 
-Outputs include `training_manifest.json`, `train.log`, and `checkpoints/checkpoint-500`. Use a fresh output directory. Add `--dry-run` to inspect the actual command.
+With four GPUs, pass `--gpus 0,1,2,3`. Gradient accumulation doubles to keep the global batch.
+
+The run writes `training_manifest.json`, `train.log` and `checkpoints/checkpoint-500`. Each run needs a new output directory, and `--dry-run` prints the training command without starting it.
 
 ## Evaluation
 
-The paper evaluates BBH, MBPP+, MATH, MMLU-Pro, ZebraLogic, LiveCodeBench v5, OlympiadBench, and GPQA Diamond. See [evaluation setup](../evaluation/README.md) for the released harness configuration and commands.
+Evaluate `checkpoints/checkpoint-500` on the eight benchmarks with the [evaluation harness](../evaluation/README.md). It lists the decoding settings, the number of sampled responses and the metric of each benchmark.
 
-| Benchmark | Decoding / aggregation |
-|---|---|
-| BBH | Greedy; micro-average over the selected 18 subtasks |
-| MATH | Greedy; macro-average over seven subjects |
-| MMLU-Pro | Greedy |
-| MBPP+ | Temperature 0.6, top-p 0.95, avg@8 |
-| ZebraLogic, LCB v5, OlympiadBench | Temperature 0.6, top-p 0.95, avg@4 |
-| GPQA Diamond | Temperature 0.6, top-p 0.95, avg@16 |
+The paper's numbers for this experiment:
 
-`All` is the arithmetic mean of the eight benchmark accuracies. `Additional` averages ZebraLogic, LCB v5, OlympiadBench, and GPQA Diamond. The paper reports 39.17 → 40.14 for `All`; these are the paper’s reported values, not measurements from rerunning the release code.
+| Model | All | Additional |
+|---|---:|---:|
+| Starting checkpoint | 39.17 | 25.49 |
+| After continued SFT on the DRIFT subset, three runs | 40.14 ± 0.12 | 26.51 ± 0.24 |
+
+`All` is the mean of the eight benchmark accuracies and `Additional` the mean of ZebraLogic, LiveCodeBench, OlympiadBench and GPQA Diamond. The three runs behind the second row are in [`results/`](../results/).
