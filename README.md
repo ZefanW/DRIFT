@@ -38,38 +38,68 @@ Influence functions are a local approximation, so they are most reliable when th
 
 ## Results
 
-Accuracy (%) of Olmo3-7B-Instruct-SFT after continued SFT on 10% of its original corpus, averaged over three runs (paper, Table 1).
+Accuracy (%) after continued SFT on 10% of each model's original SFT corpus (paper, Table 1).
 
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2" align="left">Method</th>
+      <th colspan="2" align="center">Olmo3-7B-Instruct-SFT</th>
+      <th colspan="2" align="center">OpenR1-Distill-7B</th>
+    </tr>
+    <tr>
+      <th align="right">All</th><th align="right">Add.</th>
+      <th align="right">All</th><th align="right">Add.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><i>Full data</i></td><td align="right"><i>39.17</i></td><td align="right"><i>25.49</i></td><td align="right"><i>57.23</i></td><td align="right"><i>46.24</i></td></tr>
+    <tr><td>Random</td><td align="right">39.04</td><td align="right">25.21</td><td align="right">57.40</td><td align="right">46.65</td></tr>
+    <tr><td>DSIR</td><td align="right">34.37</td><td align="right">22.76</td><td align="right">56.24</td><td align="right">45.43</td></tr>
+    <tr><td>QuRating</td><td align="right">39.26</td><td align="right">25.71</td><td align="right">57.78</td><td align="right">47.05</td></tr>
+    <tr><td>BM25</td><td align="right">39.54</td><td align="right">25.92</td><td align="right">57.32</td><td align="right">46.54</td></tr>
+    <tr><td>LESS</td><td align="right">37.63</td><td align="right">23.96</td><td align="right">57.28</td><td align="right">46.44</td></tr>
+    <tr><td>RDS</td><td align="right">39.08</td><td align="right">25.50</td><td align="right">57.63</td><td align="right">46.91</td></tr>
+    <tr><td>IF (GraSS)</td><td align="right">38.66</td><td align="right">24.80</td><td align="right">57.85</td><td align="right">47.69</td></tr>
+    <tr><td><b>DRIFT</b></td><td align="right"><b>40.14</b></td><td align="right"><b>26.51</b></td><td align="right"><b>58.66</b></td><td align="right"><b>48.73</b></td></tr>
+  </tbody>
+</table>
+
+*Full data* is the checkpoint after its original SFT on the whole corpus. Every other row continues SFT from it, and bold marks the best of them in each column. **All** averages eight benchmarks. **Add.** averages the four that supply no validation queries. Olmo3 numbers are means over three runs.
+
+<details>
+<summary>Per-benchmark results on Olmo3-7B-Instruct-SFT</summary>
+<br>
 <table>
   <thead>
     <tr>
       <th rowspan="2" align="left">Method</th>
       <th colspan="4" align="center">Validation-source benchmarks</th>
       <th colspan="4" align="center">Additional benchmarks</th>
-      <th colspan="2" align="center">Average</th>
     </tr>
     <tr>
       <th align="right">BBH</th><th align="right">MBPP+</th><th align="right">MATH</th><th align="right">MMLU<br>Pro</th>
-      <th align="right">Zebra<br>Logic</th><th align="right">LCB</th><th align="right">Olympiad<br>Bench</th><th align="right">GPQA</th>
-      <th align="right">All</th><th align="right">Add.</th>
+      <th align="right">Zebra<br>Logic</th><th align="right">LCB</th><th align="right">Olympiad<br>Bench</th><th align="right">GPQA<br>Diamond</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><i>Full data</i></td><td align="right"><i>44.63</i></td><td align="right"><i>56.42</i></td><td align="right"><i>66.16</i></td><td align="right"><i>44.22</i></td><td align="right"><i>17.23</i></td><td align="right"><i>15.43</i></td><td align="right"><i>34.27</i></td><td align="right"><i>35.01</i></td><td align="right"><i>39.17</i></td><td align="right"><i>25.49</i></td></tr>
-    <tr><td>Random</td><td align="right">44.45</td><td align="right">56.34</td><td align="right">66.40</td><td align="right">44.25</td><td align="right">17.67</td><td align="right">14.38</td><td align="right">35.04</td><td align="right">33.77</td><td align="right">39.04</td><td align="right">25.21</td></tr>
-    <tr><td>DSIR</td><td align="right">39.97</td><td align="right">52.63</td><td align="right">55.11</td><td align="right">36.22</td><td align="right">17.68</td><td align="right">12.73</td><td align="right">27.83</td><td align="right">32.82</td><td align="right">34.37</td><td align="right">22.76</td></tr>
-    <tr><td>QuRating</td><td align="right">44.27</td><td align="right">55.96</td><td align="right">66.89</td><td align="right">44.14</td><td align="right">17.77</td><td align="right">15.49</td><td align="right">34.98</td><td align="right">34.61</td><td align="right">39.26</td><td align="right">25.71</td></tr>
-    <tr><td>BM25</td><td align="right">44.44</td><td align="right">55.74</td><td align="right">67.82</td><td align="right">44.66</td><td align="right">17.48</td><td align="right">15.13</td><td align="right"><b>36.18</b></td><td align="right"><b>34.90</b></td><td align="right">39.54</td><td align="right">25.92</td></tr>
-    <tr><td>LESS</td><td align="right">43.38</td><td align="right">53.80</td><td align="right">64.60</td><td align="right">43.38</td><td align="right">16.14</td><td align="right">13.45</td><td align="right">33.06</td><td align="right">33.21</td><td align="right">37.63</td><td align="right">23.96</td></tr>
-    <tr><td>RDS</td><td align="right">43.68</td><td align="right">55.59</td><td align="right">66.56</td><td align="right">44.80</td><td align="right">17.76</td><td align="right">14.59</td><td align="right">35.38</td><td align="right">34.27</td><td align="right">39.08</td><td align="right">25.50</td></tr>
-    <tr><td>IF (GraSS)</td><td align="right">44.58</td><td align="right">54.97</td><td align="right">65.69</td><td align="right">44.81</td><td align="right">16.98</td><td align="right">13.67</td><td align="right">34.21</td><td align="right">34.35</td><td align="right">38.66</td><td align="right">24.80</td></tr>
-    <tr><td><b>DRIFT</b></td><td align="right"><b>45.86</b></td><td align="right"><b>56.40</b></td><td align="right"><b>67.84</b></td><td align="right"><b>44.94</b></td><td align="right"><b>19.95</b></td><td align="right"><b>16.28</b></td><td align="right">35.25</td><td align="right">34.57</td><td align="right"><b>40.14</b></td><td align="right"><b>26.51</b></td></tr>
+      <tr><td><i>Full data</i></td><td align="right"><i>44.63</i></td><td align="right"><i>56.42</i></td><td align="right"><i>66.16</i></td><td align="right"><i>44.22</i></td><td align="right"><i>17.23</i></td><td align="right"><i>15.43</i></td><td align="right"><i>34.27</i></td><td align="right"><i>35.01</i></td></tr>
+      <tr><td>Random</td><td align="right">44.45</td><td align="right">56.34</td><td align="right">66.40</td><td align="right">44.25</td><td align="right">17.67</td><td align="right">14.38</td><td align="right">35.04</td><td align="right">33.77</td></tr>
+      <tr><td>DSIR</td><td align="right">39.97</td><td align="right">52.63</td><td align="right">55.11</td><td align="right">36.22</td><td align="right">17.68</td><td align="right">12.73</td><td align="right">27.83</td><td align="right">32.82</td></tr>
+      <tr><td>QuRating</td><td align="right">44.27</td><td align="right">55.96</td><td align="right">66.89</td><td align="right">44.14</td><td align="right">17.77</td><td align="right">15.49</td><td align="right">34.98</td><td align="right">34.61</td></tr>
+      <tr><td>BM25</td><td align="right">44.44</td><td align="right">55.74</td><td align="right">67.82</td><td align="right">44.66</td><td align="right">17.48</td><td align="right">15.13</td><td align="right"><b>36.18</b></td><td align="right"><b>34.90</b></td></tr>
+      <tr><td>LESS</td><td align="right">43.38</td><td align="right">53.80</td><td align="right">64.60</td><td align="right">43.38</td><td align="right">16.14</td><td align="right">13.45</td><td align="right">33.06</td><td align="right">33.21</td></tr>
+      <tr><td>RDS</td><td align="right">43.68</td><td align="right">55.59</td><td align="right">66.56</td><td align="right">44.80</td><td align="right">17.76</td><td align="right">14.59</td><td align="right">35.38</td><td align="right">34.27</td></tr>
+      <tr><td>IF (GraSS)</td><td align="right">44.58</td><td align="right">54.97</td><td align="right">65.69</td><td align="right">44.81</td><td align="right">16.98</td><td align="right">13.67</td><td align="right">34.21</td><td align="right">34.35</td></tr>
+      <tr><td><b>DRIFT</b></td><td align="right"><b>45.86</b></td><td align="right"><b>56.40</b></td><td align="right"><b>67.84</b></td><td align="right"><b>44.94</b></td><td align="right"><b>19.95</b></td><td align="right"><b>16.28</b></td><td align="right">35.25</td><td align="right">34.57</td></tr>
   </tbody>
 </table>
 
-*Full data* is the checkpoint after its original SFT on the whole corpus. Every other row continues SFT from it, and bold marks the best of them in each column. **All** averages the eight benchmarks. **Add.** averages the four additional benchmarks, which supply no validation queries. LCB is LiveCodeBench and GPQA is GPQA Diamond. The [evaluation notes](evaluation/README.md#livecodebench-version) say which LiveCodeBench release was evaluated.
+LCB is LiveCodeBench. The [evaluation notes](evaluation/README.md#livecodebench-version) say which release was evaluated.
 
-Standard deviations and per-run records are in [`results/`](results/). On OpenR1-Distill-7B, DRIFT is also the best of these selectors on both averages (paper, Table 1 and Appendix B).
+</details>
+
+Standard deviations and per-run records for Olmo3 are in [`results/`](results/).
 
 ## Released artifacts
 

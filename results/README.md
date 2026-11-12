@@ -32,6 +32,8 @@ cols = ["Validation_source", "Additional", "All"]
 print(runs.groupby("method", sort=False)[cols].agg(["mean", "std"]).round(2))
 ```
 
+Put benchmark names in `cols` for per-benchmark summaries.
+
 ### Main table
 
 | Method | Validation source | Additional | All |
