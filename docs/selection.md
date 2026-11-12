@@ -1,67 +1,94 @@
-# Recompute DRIFT selection
+# Run the DRIFT selection
 
-Use this route to compute attribution and select data yourself. To reproduce training on the **paper’s existing OLMo3 selection**, use [the frozen-subset route](reproduce_olmo3.md).
+This guide computes attribution scores and selects data yourself, for Olmo3 or for another checkpoint. To retrain on the subset selected in the paper, use the [reproduction guide](reproduce_olmo3.md) instead.
 
 ## Inputs
 
-Use the completed SFT checkpoint `allenai/Olmo-3-7B-Instruct-SFT`, its original non-tool corpus, and validation queries. The paper uses 8,220 queries: 7,500 MATH, 54 BBH, 596 MBPP, and 70 MMLU-Pro. MBPP validation problems are disjoint from the MBPP+ evaluation set.
+DRIFT needs three things: a checkpoint that has finished SFT, the corpus it was trained on, and validation queries with a way to verify responses.
 
-The [original validation queries, rollouts, and correctness labels](https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts) are available as compressed JSONL files. The dataset card explains their original schema, including `is_original` to distinguish reference answers from generated responses.
+For Olmo3 these are `allenai/Olmo-3-7B-Instruct-SFT`, the Dolci-Instruct-SFT corpus without tool-use rows, and the paper's 8,220 validation queries (7,500 MATH, 596 MBPP, 70 MMLU-Pro and 54 BBH). The MBPP queries are disjoint from the MBPP+ evaluation set. The queries, the 32 rollouts per query and their correctness labels are on [Hugging Face](https://huggingface.co/datasets/ZefanW/DRIFT-OLMo3-Validation-Rollouts) in their original schema.
 
-Corpus rows preserve all conversation turns:
+Corpus rows keep every conversation turn:
 
 ```json
 {"id":"unique-row-id","messages":[{"role":"user","content":"Question"},{"role":"assistant","content":"Response"}]}
 ```
 
-Validation rows contain the prompt and a verifier. Do not append the reference answer to the generation prompt:
+Validation rows hold the prompt and a verifier. The reference answer goes in the verifier, not in the prompt:
 
 ```json
 {"id":"query-0","task":"math","messages":[{"role":"user","content":"Question"}],"verifier":{"type":"math","answer":"Reference answer"}}
 ```
 
-Supported verifiers are `math`, `choice`, `exact`, and `external`. Use external labels for code execution or benchmark-specific grading, as `{ "id": "query-0:0", "reward": 1 }` (or `-1`) for every generated response requiring external verification. Corpus IDs must be unique; assign row-based IDs when converting a corpus with duplicate source IDs.
+| Verifier | Use |
+|---|---|
+| `math` | Mathematical equivalence with the reference answer |
+| `choice` | Multiple-choice label |
+| `exact` | Exact match after whitespace and Unicode normalization |
+| `external` | Graded outside the pipeline, for code execution or benchmark-specific scoring |
 
-## Generate, attribute, and select
+Corpus IDs must be unique. If your source has duplicate IDs, assign row-based IDs when converting it.
 
-Install `.[models,data,math]` for the Transformers route. `.[rollout]` installs the optional vLLM backend and its compatible PyTorch requirements; use a separate environment from continuation training when versions differ.
+## Generate, attribute and select
+
+Install `.[models,data,math]` for the Transformers backend. `.[rollout]` installs the vLLM backend with its own PyTorch pin, so keep it in a separate environment from training if the versions differ.
+
+When every query uses a built-in verifier, one command runs all stages:
 
 ```bash
-MODEL=allenai/Olmo-3-7B-Instruct-SFT
-CORPUS=data/corpus.jsonl
-QUERIES=data/validation.jsonl
-RUN=runs/olmo3_selection
-
 python scripts/run_method.py --config configs/olmo3.json \
-  --model "$MODEL" --corpus "$CORPUS" --queries "$QUERIES" \
-  --output "$RUN" --gpus 0,1,2,3,4,5,6,7 --backend transformers \
-  --stage prepare
-python scripts/run_method.py --config configs/olmo3.json \
-  --model "$MODEL" --corpus "$CORPUS" --queries "$QUERIES" \
-  --output "$RUN" --gpus 0,1,2,3,4,5,6,7 --backend transformers \
-  --stage rollout
+  --corpus data/corpus.jsonl --queries data/validation.jsonl \
+  --output runs/olmo3_selection --gpus 0,1,2,3,4,5,6,7 --backend transformers
 ```
 
-Evaluate externally graded responses, then continue:
+With `external` verifiers, stop after the rollouts, grade them, and pass the rewards back:
 
 ```bash
-python scripts/run_method.py --config configs/olmo3.json \
-  --model "$MODEL" --corpus "$CORPUS" --queries "$QUERIES" \
-  --output "$RUN" --gpus 0,1,2,3,4,5,6,7 \
-  --stage label --external-labels data/rewards.jsonl
-for STAGE in extract score select; do
+run() {
   python scripts/run_method.py --config configs/olmo3.json \
-    --model "$MODEL" --corpus "$CORPUS" --queries "$QUERIES" \
-    --output "$RUN" --gpus 0,1,2,3,4,5,6,7 --stage "$STAGE"
-done
+    --corpus data/corpus.jsonl --queries data/validation.jsonl \
+    --output runs/olmo3_selection --gpus 0,1,2,3,4,5,6,7 "$@"
+}
+
+run --backend transformers --stage prepare
+run --backend transformers --stage rollout
+
+# grade the generated responses, then:
+run --stage label --external-labels data/rewards.jsonl
+run --stage extract
+run --stage score
+run --stage select
 ```
 
-Omit `--external-labels` when all queries use built-in verifiers. `--stage all` is available for that case. The selected original conversations are written to `$RUN/selection/subset.jsonl`.
+`data/rewards.jsonl` has one line per externally graded response, `{"id":"query-0:0","reward":1}` for a correct response and `-1` for an incorrect one.
 
-The OLMo3 configuration uses 32 responses per query, temperature 0.6, top-p 0.95, all model parameters, and 16,384-dimensional projected gradients. It selects 10% after task-wise norm correction, 1st/99th percentile clipping, and z-scoring. Both extraction passes must use the same checkpoint, tokenizer, parameter subset, and projection. Anchors supervise only the final sampled response and must fit the extraction context in full.
+The selected conversations are written to `runs/olmo3_selection/selection/subset.jsonl`. `--model` overrides the checkpoint in the configuration, and `--dry-run` prints the commands of each stage without running them.
 
-## Implementation notes
+## Configuration
 
-The portable implementation saves its projection and fit diagnostics. Its NumPy PCG64 projection is not the historical dattri random matrix; re-running it therefore need not recover the original selected IDs. `legacy-float32` preserves the earlier float32 fitting convention, while `stable` uses float64 OLS and can change the ranking. The paper’s original scoring additionally grouped 40 subtask columns into 7 MATH, 18 BBH, 1 MBPP, and 14 MMLU-Pro columns before correction. The frozen selection is the authoritative input for reproducing the reported downstream experiment.
+[`configs/olmo3.json`](../configs/olmo3.json) holds the paper's Olmo3 settings.
 
-Feature extraction writes independent GPU shards; merge verifies complete coverage before scoring. For 1.92M examples at dimension 16,384, one float32 feature table is about 126 GB. Retaining shards and the merged table requires roughly twice that, plus validation features. Choose disk space and contexts accordingly; no full-corpus feature computation is needed for the frozen-subset route.
+| Setting | Value |
+|---|---|
+| Rollouts | 32 per query, temperature 0.6, top-p 0.95 |
+| Gradients | All model parameters, projected to 16,384 dimensions |
+| Scoring | Per-task norm correction, clipping at the 1st and 99th percentiles, z-scoring |
+| Selection | Top 10% |
+
+Both extraction passes, over the corpus and over the rollouts, must use the same checkpoint, tokenizer, parameter subset and projection. For a rollout, only the sampled response is supervised, and it has to fit in the extraction context in full.
+
+For another model, copy the file and set `model` and `revision`. The paper's OpenR1-Distill-7B run used 8 rollouts per query and excluded the embedding layer (`exclude_parameters`).
+
+## Disk space
+
+Feature extraction writes one shard per GPU, and the merge step checks that every row is covered before scoring. For 1.92M examples at dimension 16,384, one float32 feature table takes about 126 GB. Keeping the shards and the merged table doubles that, and the rollout features come on top.
+
+## Differences from the paper's run
+
+Recomputing the Olmo3 selection with this code does not return exactly the released subset.
+
+- **Projection.** The paper's run drew its random projection with dattri. This implementation draws it with NumPy's PCG64, so the same seed gives a different matrix.
+- **Regression.** `fit_mode: legacy-float32` keeps the float32 fitting convention of the original run. `stable` uses float64 OLS and can change the ranking.
+- **Task grouping.** The original scoring merged its 40 subtask columns into 7 MATH, 18 BBH, 1 MBPP and 14 MMLU-Pro columns before the norm correction.
+
+The [released subset](../artifacts/) is the one to use when reproducing the paper's downstream numbers. Each run saves its projection settings and fit diagnostics next to the scores.

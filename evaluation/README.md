@@ -1,12 +1,10 @@
-# OLMo3 evaluation
+# Olmo3 evaluation
 
-This entry point evaluates a local OLMo3 checkpoint on the eight tasks used in the paper. It runs three commands sequentially, validates the expected questions and response counts, and writes `summary.json`. Existing output directories are rejected; failures stop without retries or terminating unrelated processes.
-
-The patches preserve the audited task and scoring settings. They passed patch-application and CPU checks, **not a fresh eight-task GPU run**. The original installed-package lock was not archived; the constraints below describe the inspected evaluation environments, not a claim of bitwise historical reproducibility.
+`scripts/evaluate_olmo3.py` evaluates a local Olmo3 checkpoint on the paper's eight benchmarks. It runs OLMES and LightEval in separate environments, checks the question and response counts against [`protocol.json`](protocol.json), and writes `summary.json`.
 
 ## Setup
 
-Use Linux, Python 3.11, CUDA-compatible GPUs, and two separate virtual environments: OLMES requires NumPy 1 / Datasets 3, while LightEval requires NumPy 2 / Datasets 4. From the DRIFT repository root:
+Linux, Python 3.11 and CUDA GPUs. The two harnesses need separate virtual environments, because OLMES requires NumPy 1 and Datasets 3 while LightEval requires NumPy 2 and Datasets 4. From the DRIFT repository root:
 
 ```bash
 git clone https://github.com/allenai/olmes.git vendor/olmes
@@ -22,7 +20,11 @@ python3.11 -m venv .venv-lighteval
 .venv-lighteval/bin/pip install -c evaluation/constraints-lighteval.txt -e 'vendor/lighteval[vllm]'
 ```
 
-Accept the Hugging Face access conditions for `Idavidrein/gpqa` and `allenai/ZebraLogicBench-private`, and authenticate each environment using your own account. The latter is the answer-bearing dataset; `allenai/ZebraLogicBench` has placeholder solutions and is not a substitute. Code benchmarks execute generated programs through the evaluators; run them in the isolated evaluation environment.
+Two datasets are gated. Accept the access conditions of `Idavidrein/gpqa` and `allenai/ZebraLogicBench-private` on Hugging Face and log in from both environments. The public `allenai/ZebraLogicBench` has placeholder solutions and cannot be used for scoring.
+
+MBPP+ and LiveCodeBench execute model-generated code, so run the evaluation in an isolated environment.
+
+## Run
 
 ```bash
 .venv-lighteval/bin/python scripts/evaluate_olmo3.py \
@@ -34,30 +36,49 @@ Accept the Hugging Face access conditions for `Idavidrein/gpqa` and `allenai/Zeb
   --gpus 0,1,2,3,4,5,6,7 --preflight-only
 ```
 
-Remove `--preflight-only` to evaluate. `--dry-run` only prints the three commands and does not check installations. The launcher verifies patched source hashes, records installed package versions and checkpoint metadata, and checks the same fingerprints before and after each stage. Weight provenance remains the responsibility of the checkpoint's training manifest.
+`--preflight-only` checks the patched sources and both environments without evaluating. Remove it to run the three evaluation commands in sequence. `--dry-run` only prints those commands.
+
+The launcher verifies the hashes of the patched sources, records package versions and checkpoint metadata, and checks them again after each stage. It refuses to overwrite an existing output directory and stops at the first failure.
 
 ## Protocol
 
-| Task | Questions | Responses per question | Temperature | Reported metric |
-|---|---:|---:|---:|---|
-| BBH, 18 multiple-choice tasks | 4365 | 1 | 0 | Micro average |
-| MBPP+ | 378 | 8 | 0.6 | Pass@1 |
-| MATH | 5000 | 1 | 0 | Macro average across 7 subjects |
-| MMLU-Pro | 12032 | 1 | 0 | Extractive match |
-| ZebraLogic | 1000 | 4 | 0.6 | Complete-grid accuracy averaged over responses |
-| LiveCodeBench historical snapshot | 1055 | 4 | 0.6 | Pass@1 |
-| OlympiadBench English math | 674 | 4 | 0.6 | Average response accuracy |
-| GPQA Diamond | 198 | 16 | 0.6 | Pass@1 |
+| Benchmark | Harness | Questions | Responses per question | Temperature | Metric |
+|---|---|---:|---:|---:|---|
+| BBH, 18 multiple-choice subtasks | OLMES | 4,365 | 1 | 0 | Micro average |
+| MBPP+ | OLMES | 378 | 8 | 0.6 | Pass@1 |
+| MATH | OLMES | 5,000 | 1 | 0 | Macro average over 7 subjects |
+| MMLU-Pro | LightEval | 12,032 | 1 | 0 | Extractive match |
+| ZebraLogic | OLMES | 1,000 | 4 | 0.6 | Whole-grid accuracy, averaged over responses |
+| LiveCodeBench | OLMES | 1,055 | 4 | 0.6 | Pass@1 |
+| OlympiadBench, English math | LightEval | 674 | 4 | 0.6 | Accuracy, averaged over responses |
+| GPQA Diamond | LightEval | 198 | 16 | 0.6 | Pass@1 |
 
-**LiveCodeBench version correction:** the paper used the label LCBv5, but its local JSON loader ignored `release_v5` and loaded six files totaling 1055 problems. The corresponding public collection is `release_v6`; `release_v5` has 880 problems. This release fixes the public data reconstruction to the actual 1055-problem collection, rather than silently changing the evaluated set. Its dataset commit and six-file evidence are recorded in `olmes_patch_provenance.json`.
+`All` is the unrounded mean of the eight percentages. The first four benchmarks form the validation-source average and the last four the additional average.
 
-OLMES uses a **4096-token prompt-plus-completion window**, with batch size 64; its shared per-batch output budget depends on prompt length. LightEval uses a 32768-token window and up to 4096 new tokens, top-p 0.95, sampling seed 42, and model seed 1234. The default uses eight visible GPUs. OLMES's historical per-request sampling seeds were not archived, so repeated sampled results need not be identical.
+[`protocol.json`](protocol.json) holds these counts and the aggregation rules. [`sources.json`](sources.json) holds the upstream commits and the hashes of the patched files.
 
-`protocol.json` specifies the counts and aggregation. `sources.json` specifies upstream commits and checked source hashes. The final score is the unrounded arithmetic mean of the eight percentages; the first four tasks form the target average.
+### LiveCodeBench version
+
+The paper labels this benchmark LiveCodeBench v5. The loader used for the paper's runs ignored the `release_v5` setting and read six files with 1,055 problems in total, which is the public `release_v6` collection. `release_v5` has 880 problems. The harness here pins the 1,055-problem collection, so it evaluates the same problems as the paper. [`olmes_patch_provenance.json`](olmes_patch_provenance.json) records the dataset commit and the six files.
+
+### Generation settings
+
+| Harness | Context | Sampling |
+|---|---|---|
+| OLMES | 4,096 tokens for prompt plus completion, batch size 64, completion budget set per batch by prompt length | Top-p 0.95 |
+| LightEval | 32,768 tokens, up to 4,096 new tokens | Top-p 0.95, sampling seed 42, model seed 1234 |
+
+The per-request sampling seeds of the original OLMES runs were not saved, so sampled benchmarks will not match the paper run for run.
+
+## Status
+
+The patches apply cleanly to the pinned upstream commits and pass CPU checks. The eight benchmarks have not been re-run end to end on GPU from a fresh install. The package lock of the original environment was not kept, so `constraints-olmes.txt` and `constraints-lighteval.txt` list the versions found in the evaluation environments.
 
 ## Sources and licenses
 
-- [OLMES upstream commit](https://github.com/allenai/olmes/commit/f122a7bad99551ffb3f5feec14169af794926f6b), Apache 2.0; license retained in `licenses/olmes-Apache-2.0.txt`.
-- [LightEval upstream commit](https://github.com/huggingface/lighteval/commit/7c1cd62716b0a198a630c26d781430c54726cd02), MIT; license retained in `licenses/lighteval-MIT.txt`.
+| Harness | Upstream commit | License |
+|---|---|---|
+| OLMES | [`f122a7b`](https://github.com/allenai/olmes/commit/f122a7bad99551ffb3f5feec14169af794926f6b) | Apache 2.0, in [`licenses/olmes-Apache-2.0.txt`](licenses/olmes-Apache-2.0.txt) |
+| LightEval | [`7c1cd62`](https://github.com/huggingface/lighteval/commit/7c1cd62716b0a198a630c26d781430c54726cd02) | MIT, in [`licenses/lighteval-MIT.txt`](licenses/lighteval-MIT.txt) |
 
-Only task, scoring, and required evaluator compatibility changes are included. Dataset licenses and access conditions remain those of their respective providers. A fresh dependency installation and full GPU run remain unverified.
+The patches change task definitions, scoring and the evaluator compatibility needed to run them. Benchmark datasets keep the licenses and access conditions of their providers.

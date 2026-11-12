@@ -9,6 +9,7 @@ dist/
 artifacts/*
 !artifacts/olmo3_selected.jsonl.gz
 !artifacts/olmo3_selection_manifest.json
+!artifacts/README.md
 runs/
 data/
 checkpoints/
